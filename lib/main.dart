@@ -3,7 +3,6 @@ import 'package:myapp/auth/main_page.dart';
 
 import 'package:myapp/utils.dart';
 
-import 'package:myapp/screens/categories.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
