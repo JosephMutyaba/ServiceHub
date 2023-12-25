@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/screens/checkout.dart';
 import 'package:myapp/screens/profile.dart';
-import 'package:myapp/screens/vendors.dart';
 
 
 
