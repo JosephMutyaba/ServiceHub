@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/auth/main_page.dart';
 
 import 'package:myapp/utils.dart';
 
@@ -30,7 +31,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const Scene(),
+      home: const MainPage1(),
     );
   }
 }

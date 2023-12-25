@@ -1,11 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:myapp/utils.dart';
 
 import 'cart.dart';
 
-
-class Profile extends StatelessWidget{
+class Profile extends StatelessWidget {
   const Profile({super.key});
 
   @override
@@ -15,17 +15,26 @@ class Profile extends StatelessWidget{
     double ffem = fem * 0.97;
     return Scaffold(
         appBar: AppBar(
-        title: Text('My Profile',
-
-        style: safeGoogleFont (
-        'SF Pro Display',
-        fontSize: 34*ffem,
-        fontWeight: FontWeight.w700,
-        height: 1.2058823529*ffem/fem,
-        letterSpacing: 0.4099999964*fem,)),
-    backgroundColor: Colors.deepPurple,
-
-    ),
+          title: Text(
+            'My Profile',
+            style: safeGoogleFont(
+              'SF Pro Display',
+              fontSize: 34 * ffem,
+              fontWeight: FontWeight.w700,
+              height: 1.2058823529 * ffem / fem,
+              letterSpacing: 0.4099999964 * fem,
+            ),
+          ),
+          backgroundColor: Colors.deepPurple,
+          actions: [
+          GestureDetector(
+            onTap: () {
+              FirebaseAuth.instance.signOut();
+            },
+            child: Icon(Icons.logout),
+          ),
+        ],
+        ),
         body: const Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -60,16 +69,15 @@ class Profile extends StatelessWidget{
           selectedItemColor: Colors.deepPurple,
           onTap: (index) {
             if (index == 0) {
-              Navigator.of(context).popUntil((route) => route.isFirst);            }
-            else if (index == 1) {
-              Navigator.push(context, MaterialPageRoute(builder: (context)=> const Cart()));
-            }
-            else if(index==2){
-              Navigator.push(context, MaterialPageRoute(builder: (context)=> const Profile()));
+              Navigator.of(context).popUntil((route) => route.isFirst);
+            } else if (index == 1) {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const Cart()));
+            } else if (index == 2) {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const Profile()));
             }
           },
-        )
-    );
+        ));
   }
-
 }

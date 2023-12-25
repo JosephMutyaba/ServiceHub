@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp/screens/profile.dart';
 import 'package:myapp/screens/vendors.dart';
@@ -16,15 +17,25 @@ class Scene extends StatelessWidget {
     double ffem = fem * 0.97;
     return Scaffold(
         appBar: AppBar(
-          title: Text('Categories',
-              style: safeGoogleFont(
-                'SF Pro Display',
-                fontSize: 34 * ffem,
-                fontWeight: FontWeight.w700,
-                height: 1.2058823529 * ffem / fem,
-                letterSpacing: 0.4099999964 * fem,
-              )),
+          title: Text(
+            'Categories',
+            style: safeGoogleFont(
+              'SF Pro Display',
+              fontSize: 34 * ffem,
+              fontWeight: FontWeight.w700,
+              height: 1.2058823529 * ffem / fem,
+              letterSpacing: 0.4099999964 * fem,
+            ),
+          ),
           backgroundColor: Colors.deepPurple,
+          actions: [
+            GestureDetector(
+              onTap: () {
+                FirebaseAuth.instance.signOut();
+              },
+              child: const Icon(Icons.logout),
+            ),
+          ],
         ),
         body: SingleChildScrollView(
           child: SizedBox(
@@ -57,101 +68,100 @@ class Scene extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               GestureDetector(
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                const Vendor()));
-                                  },
-                                  child: Container(
-                                    // itemcardpFa (100:1317)
-                                    margin: EdgeInsets.fromLTRB(
-                                        0 * fem, 0 * fem, 20 * fem, 0 * fem),
-                                    width: 177 * fem,
-                                    height: double.infinity,
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xffffffff),
-                                      borderRadius:
-                                          BorderRadius.circular(8 * fem),
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const Vendor(),
                                     ),
-                                    child: Stack(
-                                      children: [
-                                        Positioned(
-                                          // vegetablestWL (I100:1317;100:1313)
-                                          left: 16 * fem,
-                                          top: 150 * fem,
-                                          child: Align(
-                                            child: SizedBox(
-                                              width: 91 * fem,
-                                              height: 22 * fem,
-                                              child: Text(
-                                                'Plumbing',
-                                                style: safeGoogleFont(
-                                                  'Roboto',
-                                                  fontSize: 18 * ffem,
-                                                  fontWeight: FontWeight.w700,
-                                                  height: 1.1725 * ffem / fem,
-                                                  color:
-                                                      const Color(0xff2d0c57),
-                                                ),
+                                  );
+                                },
+                                child: Container(
+                                  // itemcardpFa (100:1317)
+                                  margin: EdgeInsets.fromLTRB(
+                                      0 * fem, 0 * fem, 20 * fem, 0 * fem),
+                                  width: 177 * fem,
+                                  height: double.infinity,
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xffffffff),
+                                    borderRadius:
+                                        BorderRadius.circular(8 * fem),
+                                  ),
+                                  child: Stack(
+                                    children: [
+                                      Positioned(
+                                        // vegetablestWL (I100:1317;100:1313)
+                                        left: 16 * fem,
+                                        top: 150 * fem,
+                                        child: Align(
+                                          child: SizedBox(
+                                            width: 91 * fem,
+                                            height: 22 * fem,
+                                            child: Text(
+                                              'Plumbing',
+                                              style: safeGoogleFont(
+                                                'Roboto',
+                                                fontSize: 18 * ffem,
+                                                fontWeight: FontWeight.w700,
+                                                height: 1.1725 * ffem / fem,
+                                                color: const Color(0xff2d0c57),
                                               ),
                                             ),
                                           ),
                                         ),
-                                        Positioned(
-                                          // mediaHHa (I100:1317;100:1315)
-                                          left: 0 * fem,
-                                          top: 0 * fem,
-                                          child: Align(
-                                            child: SizedBox(
-                                              width: 177 * fem,
-                                              height: 140 * fem,
-                                              child: Container(
-                                                decoration: BoxDecoration(
-                                                  color:
-                                                      const Color(0xffdbd8dd),
-                                                  borderRadius:
-                                                      BorderRadius.only(
-                                                    topLeft: Radius.circular(
-                                                        8 * fem),
-                                                    topRight: Radius.circular(
-                                                        8 * fem),
-                                                  ),
-                                                  image: const DecorationImage(
-                                                    image: AssetImage(
-                                                      '',
-                                                    ),
+                                      ),
+                                      Positioned(
+                                        // mediaHHa (I100:1317;100:1315)
+                                        left: 0 * fem,
+                                        top: 0 * fem,
+                                        child: Align(
+                                          child: SizedBox(
+                                            width: 177 * fem,
+                                            height: 140 * fem,
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                color: const Color(0xffdbd8dd),
+                                                borderRadius: BorderRadius.only(
+                                                  topLeft:
+                                                      Radius.circular(8 * fem),
+                                                  topRight:
+                                                      Radius.circular(8 * fem),
+                                                ),
+                                                image: const DecorationImage(
+                                                  image: AssetImage(
+                                                    'assets/screens/images/plumbing.jpg',
                                                   ),
                                                 ),
                                               ),
                                             ),
                                           ),
                                         ),
-                                        Positioned(
-                                          // cardborderKEG (I100:1317;100:1316)
-                                          left: 0 * fem,
-                                          top: 0 * fem,
-                                          child: Align(
-                                            child: SizedBox(
-                                              width: 177 * fem,
-                                              height: 211 * fem,
-                                              child: Container(
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          8 * fem),
-                                                  border: Border.all(
-                                                      color: const Color(
-                                                          0xffd8d0e3)),
-                                                ),
+                                      ),
+                                      Positioned(
+                                        // cardborderKEG (I100:1317;100:1316)
+                                        left: 0 * fem,
+                                        top: 0 * fem,
+                                        child: Align(
+                                          child: SizedBox(
+                                            width: 177 * fem,
+                                            height: 211 * fem,
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        8 * fem),
+                                                border: Border.all(
+                                                    color: const Color(
+                                                        0xffd8d0e3)),
                                               ),
                                             ),
                                           ),
                                         ),
-                                      ],
-                                    ),
-                                  )),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
                               Container(
                                 // itemcardpRv (100:1361)
                                 width: 177 * fem,
@@ -202,7 +212,7 @@ class Scene extends StatelessWidget {
                                               ),
                                               image: const DecorationImage(
                                                 image: AssetImage(
-                                                  '',
+                                                  'assets/screens/images/electrician.jpg',
                                                 ),
                                               ),
                                             ),
@@ -299,7 +309,7 @@ class Scene extends StatelessWidget {
                                               image: const DecorationImage(
                                                 fit: BoxFit.cover,
                                                 image: AssetImage(
-                                                  '',
+                                                  'assets/screens/images/mechanic.jpg',
                                                 ),
                                               ),
                                             ),
@@ -382,7 +392,7 @@ class Scene extends StatelessWidget {
                                               image: const DecorationImage(
                                                 fit: BoxFit.cover,
                                                 image: AssetImage(
-                                                  '',
+                                                  'assets/screens/images/key.jpg',
                                                 ),
                                               ),
                                             ),
@@ -500,7 +510,7 @@ class Scene extends StatelessWidget {
                                               image: const DecorationImage(
                                                 fit: BoxFit.cover,
                                                 image: AssetImage(
-                                                  '',
+                                                  'assets/screens/images/carpenter.jpg',
                                                 ),
                                               ),
                                             ),
@@ -604,7 +614,7 @@ class Scene extends StatelessWidget {
                                               image: const DecorationImage(
                                                 fit: BoxFit.cover,
                                                 image: AssetImage(
-                                                  '',
+                                                  'assets/screens/images/transport.jpg',
                                                 ),
                                               ),
                                             ),
