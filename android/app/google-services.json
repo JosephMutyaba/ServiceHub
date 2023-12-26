@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "12901778451",
+    "project_id": "mobnetsproject",
+    "storage_bucket": "mobnetsproject.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:12901778451:android:961ddb18171a4ac4c8abe6",
+        "android_client_info": {
+          "package_name": "com.example.test"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCVe4-gA9KlDSIQDJDy-qC86ffVDlvRhYQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

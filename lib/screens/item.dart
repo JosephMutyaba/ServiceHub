@@ -1,14 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/screens/checkout.dart';
 import 'package:myapp/screens/profile.dart';
-import 'package:myapp/screens/vendors.dart';
-
-
-
-
 
 import 'package:myapp/utils.dart';
-
 import 'cart.dart';
 
 class Item extends StatelessWidget {
@@ -31,15 +24,14 @@ class Item extends StatelessWidget {
               fontSize: 34*ffem,
               fontWeight: FontWeight.w700,
               height: 1.2058823529*ffem/fem,
-              letterSpacing: 0.4099999964*fem,)),
+              letterSpacing: 0.4099999964*fem,),),
           backgroundColor: Colors.deepPurple,
 
 
     ),
     body:
     SingleChildScrollView(
-    child:
-      SizedBox(
+    child: SizedBox(
       width: double.infinity,
       child: Container(
         // itemrfi (33:698)
@@ -163,7 +155,7 @@ class Item extends StatelessWidget {
                           title: Text('To More',
                               style: TextStyle(
                                 color: Colors.black,
-                                fontSize: 20,)),
+                                fontSize: 20,),),
                           subtitle: Text('This is a text styling page.....',),
                           trailing: Icon(Icons.arrow_drop_down),
                           leading: Icon(Icons.person),
@@ -189,7 +181,7 @@ class Item extends StatelessWidget {
                               leading: Icon(Icons.person),
 
                             ),
-                      ]),
+                      ],),
                     ),
 
 
