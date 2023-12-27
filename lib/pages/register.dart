@@ -7,6 +7,10 @@ import 'package:myapp/screens/categories.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:myapp/utils.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
 class RegisterPage extends StatefulWidget {
   final VoidCallback showLoginPage;
@@ -38,6 +42,12 @@ class _RegisterpageState extends State<RegisterPage> {
     _emailController.dispose();
     super.dispose();
   }
+  final _phoneController = TextEditingController();
+  final _addressController = TextEditingController();
+  final _imagePicker = ImagePicker();
+  XFile? _profileImage;
+  bool _passwordVisible = false;
+  bool _agreeToTerms = false;
 
 
   Future<void> register() async {
@@ -51,14 +61,22 @@ class _RegisterpageState extends State<RegisterPage> {
           await FirebaseAuth.instance.createUserWithEmailAndPassword(
             email: _emailController.text.trim(),
             password: _passwordController.text.trim(),
-          );
 
-          await addUser(
-            _fNameController.text.trim(),
-            _lNameController.text.trim(),
-            _emailController.text.trim(),
-            int.parse(_ageController.text.trim()),
-          );
+        String imageUrl =
+            _profileImage != null ? await uploadImage(_profileImage!) : '';
+
+        await addUser(
+          _fNameController.text.trim(),
+          _lNameController.text.trim(),
+          _emailController.text.trim(),
+          int.parse(_ageController.text.trim()),
+          _phoneController.text.trim(),
+          _addressController.text.trim(),
+          _passwordController.text.trim(),
+          imageUrl,
+        );
+      } on FirebaseAuthException catch (e) {
+        
 
           // Uncomment the line below and use it to navigate to the login page
           //widget.showLoginPage();
@@ -91,10 +109,68 @@ class _RegisterpageState extends State<RegisterPage> {
     }
   }
 
-  Future addUser(String fname, String lName, String email, int age) async {
-    await FirebaseFirestore.instance
-        .collection('user')
-        .add({'fname': fname, 'lName': lName, 'email': email, 'age': age});
+  Future addUser(
+    String fname,
+    String lName,
+    String email,
+    int age,
+    String phone,
+    String address,
+    String password,
+    String imageUrl,
+  ) async {
+    await FirebaseFirestore.instance.collection('user').add(
+      {
+        'fname': fname,
+        'lName': lName,
+        'email': email,
+        'age': age,
+        'phone': phone,
+        'address': address,
+        'password': password,
+        'imageUrl': imageUrl,
+      },
+    );
+  }
+
+  Future<String> uploadImage(XFile imageFile) async {
+    File file = File(imageFile.path);
+
+    final Reference ref = FirebaseStorage.instance
+        .ref()
+        .child('user_images')
+        .child('${FirebaseAuth.instance.currentUser!.uid}.jpg');
+
+    final UploadTask uploadTask = ref.putFile(file);
+
+    final TaskSnapshot snapshot = await uploadTask;
+
+    final String downloadUrl = await snapshot.ref.getDownloadURL();
+
+    return downloadUrl;
+  }
+
+  Future selectImage() async {
+    final pickedImage =
+        await _imagePicker.pickImage(source: ImageSource.gallery);
+    if (pickedImage != null) {
+      setState(() {
+        _profileImage = pickedImage;
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _ageController.dispose();
+    _lNameController.dispose();
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
+    _fNameController.dispose();
+    _emailController.dispose();
+    _phoneController.dispose();
+    _addressController.dispose();
+    super.dispose();
   }
 
   @override
@@ -102,6 +178,9 @@ class _RegisterpageState extends State<RegisterPage> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
+        appBar: AppBar(
+          title: Text("Registration"),
+        ),
         backgroundColor: const Color.fromARGB(255, 243, 239, 239),
         body: Center(
           child: FormBuilder(
@@ -112,7 +191,7 @@ class _RegisterpageState extends State<RegisterPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text(
-                    "Hello welcome!",
+                    "Register",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 24,
@@ -121,6 +200,26 @@ class _RegisterpageState extends State<RegisterPage> {
                   const SizedBox(
                     height: 10,
                   ),
+                  _profileImage != null
+                  ? Container(
+                      margin: const EdgeInsets.only(top: 20),
+                      child: CircleAvatar(
+                        radius: 50,
+                        backgroundColor: Colors.grey,
+                        backgroundImage: FileImage(File(_profileImage!.path)),
+                      ),
+                    )
+                  : GestureDetector(
+                      onTap: selectImage,
+                      child: Container(
+                        margin: const EdgeInsets.only(top: 20),
+                        child: const CircleAvatar(
+                          radius: 50,
+                          backgroundColor: Colors.grey,
+                          child: Icon(Icons.add_a_photo),
+                        ),
+                      ),
+                    ),
 
                   Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -206,6 +305,43 @@ class _RegisterpageState extends State<RegisterPage> {
                     ),
                   ),
                   Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  padding: const EdgeInsets.only(left: 10),
+                  decoration: BoxDecoration(
+                    color: const Color.fromARGB(255, 247, 248, 248),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: TextField(
+                    controller: _phoneController,
+                    decoration: const InputDecoration(
+                      hintText: 'Phone Number',
+                      border: InputBorder.none,
+                    ),
+                  ),
+                ),
+              ),
+
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  padding: const EdgeInsets.only(left: 10),
+                  decoration: BoxDecoration(
+                    color: const Color.fromARGB(255, 247, 248, 248),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: TextField(
+                    controller: _addressController,
+                    decoration: const InputDecoration(
+                      // padding: const EdgeInsets.only(left: 10),
+                      //     decoration: const InputDecoration(
+                      hintText: 'Address',
+                      border: InputBorder.none,
+                    ),
+                  ),
+                ),
+              ),
+                  Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Container(
                       padding: const EdgeInsets.only(left: 10),
@@ -253,6 +389,11 @@ class _RegisterpageState extends State<RegisterPage> {
                       ),
                     ),
                   ),
+                  CheckboxListTile(
+                value: _agreeToTerms,
+                onChanged: (value) => setState(() => _agreeToTerms = value!),
+                title: const Text('I agree to the terms and conditions'),
+              ),
                   GestureDetector(
                     onTap: _loading ? null : register,
                     child: Container(
@@ -307,10 +448,12 @@ class _RegisterpageState extends State<RegisterPage> {
                   ),
                 ],
               ),
-            ),
+            ), 
+              ),
+            
           ),
         ),
       ),
-    );
-  }
+    
+}
 }
