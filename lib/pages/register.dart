@@ -8,7 +8,6 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:myapp/utils.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
@@ -32,21 +31,12 @@ class _RegisterpageState extends State<RegisterPage> {
   final _ageController = TextEditingController();
   final _formKey = GlobalKey<FormBuilderState>();
   bool _loading = false;
-  @override
-  void dispose() {
-    _ageController.dispose();
-    _lNameController.dispose();
-    _passwordController.dispose();
-    _confirmPasswordController.dispose();
-    _fNameController.dispose();
-    _emailController.dispose();
-    super.dispose();
-  }
+
   final _phoneController = TextEditingController();
   final _addressController = TextEditingController();
   final _imagePicker = ImagePicker();
   XFile? _profileImage;
-  bool _passwordVisible = false;
+  final bool _passwordVisible = false;
   bool _agreeToTerms = false;
 
 
@@ -61,6 +51,7 @@ class _RegisterpageState extends State<RegisterPage> {
           await FirebaseAuth.instance.createUserWithEmailAndPassword(
             email: _emailController.text.trim(),
             password: _passwordController.text.trim(),
+          );
 
         String imageUrl =
             _profileImage != null ? await uploadImage(_profileImage!) : '';
@@ -75,7 +66,7 @@ class _RegisterpageState extends State<RegisterPage> {
           _passwordController.text.trim(),
           imageUrl,
         );
-      } on FirebaseAuthException catch (e) {
+      }
         
 
           // Uncomment the line below and use it to navigate to the login page
@@ -85,7 +76,7 @@ class _RegisterpageState extends State<RegisterPage> {
           if (!mounted) return;
           Navigator.pushReplacement(
               context, MaterialPageRoute(builder: (context) => const Scene()));
-        }
+
     } catch (e) {
       if (e is FirebaseAuthException) {
         // Handle Firebase Authentication errors
@@ -179,7 +170,7 @@ class _RegisterpageState extends State<RegisterPage> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
-          title: Text("Registration"),
+          title: const Text("Registration"),
         ),
         backgroundColor: const Color.fromARGB(255, 243, 239, 239),
         body: Center(
@@ -312,11 +303,18 @@ class _RegisterpageState extends State<RegisterPage> {
                     color: const Color.fromARGB(255, 247, 248, 248),
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  child: TextField(
+                  child: FormBuilderTextField(
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    validator: FormBuilderValidators.compose(
+                      [FormBuilderValidators.required(errorText: "Enter phone number"),
+                        FormBuilderValidators.numeric(errorText: "Only numbers allowed")
+                      ]
+                    ),
+                    name: "phone",
                     controller: _phoneController,
                     decoration: const InputDecoration(
                       hintText: 'Phone Number',
-                      border: InputBorder.none,
+
                     ),
                   ),
                 ),
@@ -330,13 +328,15 @@ class _RegisterpageState extends State<RegisterPage> {
                     color: const Color.fromARGB(255, 247, 248, 248),
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  child: TextField(
+                  child: FormBuilderTextField(
+                    validator: FormBuilderValidators.required(errorText: "Enter address"),
+                    name: 'address',
                     controller: _addressController,
                     decoration: const InputDecoration(
                       // padding: const EdgeInsets.only(left: 10),
                       //     decoration: const InputDecoration(
                       hintText: 'Address',
-                      border: InputBorder.none,
+
                     ),
                   ),
                 ),
@@ -389,11 +389,13 @@ class _RegisterpageState extends State<RegisterPage> {
                       ),
                     ),
                   ),
-                  CheckboxListTile(
-                value: _agreeToTerms,
-                onChanged: (value) => setState(() => _agreeToTerms = value!),
-                title: const Text('I agree to the terms and conditions'),
-              ),
+
+                  FormBuilderCheckbox(
+                    name: 'agree_to_terms',
+                    title: const Text('I agree to the terms and conditions'),
+                    initialValue: _agreeToTerms,
+                    onChanged: (value) => setState(() => _agreeToTerms = value!),
+                  ),
                   GestureDetector(
                     onTap: _loading ? null : register,
                     child: Container(
@@ -444,8 +446,13 @@ class _RegisterpageState extends State<RegisterPage> {
                           ),
                         ),
                       ),
+
                     ],
                   ),
+                  const SizedBox(
+                    height: 20,)
+
+
                 ],
               ),
             ), 
@@ -453,7 +460,7 @@ class _RegisterpageState extends State<RegisterPage> {
             
           ),
         ),
-      ),
+      );
     
 }
 }
