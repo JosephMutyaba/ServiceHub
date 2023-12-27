@@ -248,7 +248,7 @@ class Item extends StatelessWidget {
                 Navigator.push(context, MaterialPageRoute(builder: (context)=> const Cart()));
               }
               else if(index==2){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=> const Profile()));
+                Navigator.push(context, MaterialPageRoute(builder: (context)=> const ProfilePage()));
               }
             },
           )
