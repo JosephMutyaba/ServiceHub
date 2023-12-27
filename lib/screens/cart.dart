@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:myapp/auth/auth_page.dart';
 import 'package:myapp/screens/checkout.dart';
 import 'package:myapp/screens/profile.dart';
 import 'package:myapp/utils.dart';
@@ -29,6 +30,13 @@ class Cart extends StatelessWidget {
           GestureDetector(
             onTap: () {
               FirebaseAuth.instance.signOut();
+              // ignore: use_build_context_synchronously
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const AuthPage(),
+                ),
+              );
             },
             child: const Icon(Icons.logout),
           ),

@@ -48,6 +48,9 @@ class _homePageState extends State<LoginPage> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
+         appBar: AppBar(
+          title: Text("Login"),
+        ),
         backgroundColor: const Color.fromARGB(255, 243, 239, 239),
         body: Center(
           child: SingleChildScrollView(

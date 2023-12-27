@@ -5,6 +5,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:myapp/auth/auth_page.dart';
+import 'package:myapp/pages/sign_in.dart';
 import 'package:myapp/screens/cart.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -57,6 +59,14 @@ class _ProfilePageState extends State<ProfilePage> {
     });
   }
 
+  bool showAuthPage = true;
+
+  // void togglePage() {
+  //   setState(() {
+  //     showAuthPage = !showAuthPage;
+  //   });
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,6 +81,13 @@ class _ProfilePageState extends State<ProfilePage> {
             icon: const Icon(Icons.exit_to_app),
             onPressed: () async {
               await FirebaseAuth.instance.signOut();
+              // ignore: use_build_context_synchronously
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const AuthPage(),
+                ),
+              );
             },
           ),
         ],
@@ -135,7 +152,6 @@ class _ProfilePageState extends State<ProfilePage> {
           }
         },
       ),
-
     );
   }
 }
@@ -304,7 +320,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
           ),
         ),
       ),
-
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
@@ -334,7 +349,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
           }
         },
       ),
-
     );
   }
 

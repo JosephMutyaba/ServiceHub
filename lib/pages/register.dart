@@ -152,6 +152,9 @@ class _RegisterpageState extends State<RegisterPage> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
+        appBar: AppBar(
+          title: Text("Registration"),
+        ),
         backgroundColor: const Color.fromARGB(255, 243, 239, 239),
         body: SingleChildScrollView(
           child: Column(
