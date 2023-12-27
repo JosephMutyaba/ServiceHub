@@ -1,5 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:myapp/utils.dart';
 
 class ResetPasswordPage extends StatefulWidget {
   const ResetPasswordPage({super.key});
@@ -17,15 +20,10 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
           .sendPasswordResetEmail(email: _emailController.text.trim());
 
       // ignore: use_build_context_synchronously
-      showDialog(
-        context: context,
-        builder: (context) {
-          return const AlertDialog(
-            content:
-                Text("Reset link sent. Check your email to reset password"),
-          );
-        },
-      );
+      Utils.toast("Link sent to Email");
+      if(!mounted) return;
+      Navigator.pop(context);
+
     } on FirebaseAuthException catch (e) {
       // ignore: use_build_context_synchronously
       showDialog(
@@ -51,14 +49,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
       backgroundColor: const Color.fromARGB(255, 243, 239, 239),
       appBar: AppBar(
         title: const Text("Reset password"),
-        leading: IconButton(
-          // ignore: prefer_const_constructors
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            // Navigate back to the previous screen
-            Navigator.of(context).pop();
-          },
-        ),
+       automaticallyImplyLeading: true,
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -83,13 +74,19 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                 color: const Color.fromARGB(255, 247, 248, 248),
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: TextField(
-                controller: _emailController,
-                decoration: const InputDecoration(
-                  hintText: 'Email',
-                  border: InputBorder.none,
-                ),
-              ),
+              child: FormBuilderTextField(
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  name: 'email',
+                  controller: _emailController,
+                  decoration: const InputDecoration(
+                    hintText: 'Email',
+                  ),
+                  validator: FormBuilderValidators.compose([
+                    FormBuilderValidators.email(errorText: "Enter valid email"),
+
+                  ])
+              )
+
             ),
           ),
           MaterialButton(
