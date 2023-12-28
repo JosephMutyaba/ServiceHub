@@ -6,7 +6,6 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:myapp/auth/auth_page.dart';
-import 'package:myapp/pages/sign_in.dart';
 import 'package:myapp/screens/cart.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -114,8 +113,6 @@ class _ProfilePageState extends State<ProfilePage> {
               const SizedBox(height: 8),
               Text('Email: ${_userData['email']}'),
               const SizedBox(height: 8),
-              Text('Age: ${_userData['age']}'),
-              const SizedBox(height: 8),
               Text('Phone: ${_userData['phone']}'),
               const SizedBox(height: 8),
               Text('Address: ${_userData['address']}'),
@@ -168,7 +165,6 @@ class EditProfilePage extends StatefulWidget {
 class _EditProfilePageState extends State<EditProfilePage> {
   late TextEditingController _fnameController;
   late TextEditingController _lNameController;
-  late TextEditingController _ageController;
   late TextEditingController _phoneController;
   late TextEditingController _addressController;
 
@@ -179,8 +175,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
     super.initState();
     _fnameController = TextEditingController(text: widget.userData['fname']);
     _lNameController = TextEditingController(text: widget.userData['lName']);
-    _ageController =
-        TextEditingController(text: widget.userData['age'].toString());
     _phoneController = TextEditingController(text: widget.userData['phone']);
     _addressController =
         TextEditingController(text: widget.userData['address']);
@@ -207,7 +201,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
         await userSnapshot.docs.first.reference.update({
           'fname': _fnameController.text.trim(),
           'lName': _lNameController.text.trim(),
-          'age': int.parse(_ageController.text.trim()),
           'phone': _phoneController.text.trim(),
           'address': _addressController.text.trim(),
           'imageUrl': _profileImage != null
@@ -303,11 +296,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 controller: _lNameController,
                 decoration: const InputDecoration(labelText: 'Last Name'),
               ),
-              TextField(
-                controller: _ageController,
-                keyboardType: TextInputType.number,
-                decoration: const InputDecoration(labelText: 'Age'),
-              ),
+              
               TextField(
                 controller: _phoneController,
                 decoration: const InputDecoration(labelText: 'Phone'),
@@ -356,7 +345,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
   void dispose() {
     _fnameController.dispose();
     _lNameController.dispose();
-    _ageController.dispose();
     _phoneController.dispose();
     _addressController.dispose();
     super.dispose();
