@@ -6,7 +6,6 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:myapp/auth/auth_page.dart';
-import 'package:myapp/pages/sign_in.dart';
 import 'package:myapp/screens/cart.dart';
 
 class ProfilePage extends StatefulWidget {
