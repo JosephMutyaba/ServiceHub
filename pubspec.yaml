@@ -41,10 +41,7 @@ dependencies:
   firebase_core: ^2.24.2
   firebase_auth: ^4.15.3
   cloud_firestore: ^4.13.6
-  flutter_form_builder: ^9.1.1
-  form_builder_validators: ^9.1.0
-  fluttertoast: ^8.2.4
-  image_picker: ^1.0.5
+  image_picker: ^0.8.4+3
   firebase_storage: ^11.5.6
   path: ^1.8.3
   

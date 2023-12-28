@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:ui';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -9,20 +8,6 @@ class MyCustomScrollBehavior extends MaterialScrollBehavior {
         PointerDeviceKind.touch,
         PointerDeviceKind.mouse,
       };
-}
-
-class Utils {
-
-
-  static toast(String message, {bool success = true}) {
-    Fluttertoast.showToast(
-        msg: message,
-        toastLength: Toast.LENGTH_LONG,
-        gravity: ToastGravity.BOTTOM,
-        backgroundColor: success ? Colors.green : Colors.red,
-        textColor: Colors.black,
-        fontSize: 16.0);
-  }
 }
 
 TextStyle safeGoogleFont(

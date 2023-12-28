@@ -11,18 +11,14 @@ class GetData extends StatelessWidget {
 
     return FutureBuilder<DocumentSnapshot>(
       future: users.doc(documentId).get(),
-      builder: (context, snapShot) {
-        if (snapShot.connectionState == ConnectionState.waiting) {
-          return const Text("loading...");
-        } else if (snapShot.hasError) {
-          return Text("Error: ${snapShot.error}");
-        } else if (snapShot.hasData && snapShot.data != null) {
-          Map<String, dynamic> data = snapShot.data!.data() as Map<String, dynamic>;
+      builder: ((context, snapShot) {
+        Map<String, dynamic> data =
+            snapShot.data!.data() as Map<String, dynamic>;
+        if (snapShot.connectionState == ConnectionState.done) {
           return Text('${data['fname']} ${data['lName']}, ${data['age']} years old');
-        } else {
-          return const Text("No data available");
         }
-      },
+        return const Text("loading...");
+      }),
     );
   }
 }
