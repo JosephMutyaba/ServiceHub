@@ -1,5 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:myapp/utils.dart';
 
 class ResetPasswordPage extends StatefulWidget {
   const ResetPasswordPage({super.key});
@@ -10,6 +13,8 @@ class ResetPasswordPage extends StatefulWidget {
 
 class _ResetPasswordPageState extends State<ResetPasswordPage> {
   final _emailController = TextEditingController();
+  final _formKey = GlobalKey<FormBuilderState>();
+
 
   Future sendResetLink() async {
     try {
@@ -17,15 +22,10 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
           .sendPasswordResetEmail(email: _emailController.text.trim());
 
       // ignore: use_build_context_synchronously
-      showDialog(
-        context: context,
-        builder: (context) {
-          return const AlertDialog(
-            content:
-                Text("Reset link sent. Check your email to reset password"),
-          );
-        },
-      );
+      Utils.toast("Reset link sent. Check your email to reset password");
+      if(!mounted) return;
+      Navigator.of(context).pop();
+
     } on FirebaseAuthException catch (e) {
       // ignore: use_build_context_synchronously
       showDialog(
@@ -60,49 +60,63 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
           },
         ),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          // ignore: prefer_const_constructors
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: const Text(
-              "Type below your registered email to which password reset link should be sent",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                // fontWeight: FontWeight.bold,
-                fontSize: 20,
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              padding: const EdgeInsets.only(left: 10),
-              decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 247, 248, 248),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: TextField(
-                controller: _emailController,
-                decoration: const InputDecoration(
-                  hintText: 'Email',
-                  border: InputBorder.none,
+      body: FormBuilder(
+        key: _formKey,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // ignore: prefer_const_constructors
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: const Text(
+                "Type below your registered email to which password reset link should be sent",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  // fontWeight: FontWeight.bold,
+                  fontSize: 20,
                 ),
               ),
             ),
-          ),
-          MaterialButton(
-            color: Colors.blue,
-            onPressed: sendResetLink,
-            child: const Text(
-              "Send Reset Link",
-              style: TextStyle(
-                color: Colors.white,
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                padding: const EdgeInsets.only(left: 10),
+                decoration: BoxDecoration(
+                  color: const Color.fromARGB(255, 247, 248, 248),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: FormBuilderTextField(
+                  validator: FormBuilderValidators.compose([
+                    FormBuilderValidators.required(),
+                    FormBuilderValidators.email(),
+                  ]),
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  keyboardType: TextInputType.emailAddress,
+                  name: 'email',
+                  controller: _emailController,
+                  decoration: const InputDecoration(
+                    hintText: 'Email',
+                    border: InputBorder.none,
+                  ),
+                ),
               ),
             ),
-          ),
-        ],
+            MaterialButton(
+              color: Colors.blue,
+              onPressed: (){
+                if(_formKey.currentState!.saveAndValidate()){
+                  sendResetLink();
+                }
+              },
+              child: const Text(
+                "Send Reset Link",
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
