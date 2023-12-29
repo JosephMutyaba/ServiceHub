@@ -95,10 +95,11 @@ class _RegisterpageState extends State<RegisterPage> {
           _emailController.text.trim(),
           _phoneController.text.trim(),
           _addressController.text.trim(),
-          _passwordController.text.trim(),
           imageUrl,
           _professionController.text.trim(),
           _offerService,
+          0, //Initially 0 likes
+          0, //Initially 0 rating
         );
       } on FirebaseAuthException catch (e) {
         // ignore: use_build_context_synchronously
@@ -129,10 +130,11 @@ class _RegisterpageState extends State<RegisterPage> {
       String email,
       String phone,
       String address,
-      String password,
       String imageUrl,
       String profession,
-      bool serviceType) async {
+      bool serviceType,
+      int likes,
+      int rating) async {
     await FirebaseFirestore.instance.collection('user').add(
       {
         'fname': fname,
@@ -140,10 +142,11 @@ class _RegisterpageState extends State<RegisterPage> {
         'email': email,
         'phone': phone,
         'address': address,
-        'password': password,
         'imageUrl': imageUrl,
         'profession': profession,
         'offer_servive': serviceType,
+        'likes': likes,
+        'rating': rating,
       },
     );
   }
@@ -195,10 +198,10 @@ class _RegisterpageState extends State<RegisterPage> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
-          title:const Text("Register",
-            textAlign: TextAlign.center,
-          )
-        ),
+            title: const Text(
+          "Register",
+          textAlign: TextAlign.center,
+        )),
         backgroundColor: const Color.fromARGB(255, 243, 239, 239),
         body: FormBuilder(
           key: _formKey,
@@ -247,7 +250,6 @@ class _RegisterpageState extends State<RegisterPage> {
                         border: InputBorder.none,
                       ),
                       validator: FormBuilderValidators.required(),
-
                     ),
                   ),
                 ),
@@ -307,10 +309,12 @@ class _RegisterpageState extends State<RegisterPage> {
                       _offerService = value!;
                     });
                   },
-                  title: const Text('I want to offer a service'
-                    ,style: TextStyle(
+                  title: const Text(
+                    'I want to offer a service',
+                    style: TextStyle(
                       fontSize: 15,
-                    ),),
+                    ),
+                  ),
                 ),
                 // Replace this part of the code for the dropdown
                 Padding(
@@ -321,28 +325,31 @@ class _RegisterpageState extends State<RegisterPage> {
                       color: const Color.fromARGB(255, 247, 248, 248),
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child:_offerService ? FormBuilderDropdown(
-                      name: 'profession',
-                      initialValue: _professionController.text.isNotEmpty
-                          ? _professionController.text
-                          : null,
-                      items: professions.map((profession) {
-                        return DropdownMenuItem(
-                          value: profession,
-                          child: Text(profession),
-                        );
-                      }).toList(),
-                      onChanged: (value) {
-                        setState(() {
-                          _professionController.text = value.toString();
-                        });
-                      },
-                      validator: FormBuilderValidators.required(errorText: 'Required'),
-                      decoration: const InputDecoration(
-                        hintText: 'Profession',
-                        border: InputBorder.none,
-                      ),
-                    ) : const SizedBox.shrink(),
+                    child: _offerService
+                        ? FormBuilderDropdown(
+                            name: 'profession',
+                            initialValue: _professionController.text.isNotEmpty
+                                ? _professionController.text
+                                : null,
+                            items: professions.map((profession) {
+                              return DropdownMenuItem(
+                                value: profession,
+                                child: Text(profession),
+                              );
+                            }).toList(),
+                            onChanged: (value) {
+                              setState(() {
+                                _professionController.text = value.toString();
+                              });
+                            },
+                            validator: FormBuilderValidators.required(
+                                errorText: 'Required'),
+                            decoration: const InputDecoration(
+                              hintText: 'Profession',
+                              border: InputBorder.none,
+                            ),
+                          )
+                        : const SizedBox.shrink(),
                   ),
                 ),
 
@@ -356,7 +363,8 @@ class _RegisterpageState extends State<RegisterPage> {
                     ),
                     child: FormBuilderTextField(
                       autovalidateMode: AutovalidateMode.onUserInteraction,
-                      validator: FormBuilderValidators.required(errorText: 'Enter your contact'),
+                      validator: FormBuilderValidators.required(
+                          errorText: 'Enter your contact'),
                       keyboardType: TextInputType.phone,
                       name: 'phone',
                       controller: _phoneController,
@@ -378,7 +386,8 @@ class _RegisterpageState extends State<RegisterPage> {
                     ),
                     child: FormBuilderTextField(
                       autovalidateMode: AutovalidateMode.onUserInteraction,
-                      validator: FormBuilderValidators.required(errorText: 'Enter your address'),
+                      validator: FormBuilderValidators.required(
+                          errorText: 'Enter your address'),
                       keyboardType: TextInputType.streetAddress,
                       name: 'address',
                       controller: _addressController,
@@ -401,7 +410,8 @@ class _RegisterpageState extends State<RegisterPage> {
                     child: FormBuilderTextField(
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       validator: FormBuilderValidators.compose([
-                      FormBuilderValidators.required(errorText: 'Enter your password'),
+                        FormBuilderValidators.required(
+                            errorText: 'Enter your password'),
                         FormBuilderValidators.minLength(8),
                       ]),
                       name: 'password',
@@ -438,7 +448,8 @@ class _RegisterpageState extends State<RegisterPage> {
                     child: FormBuilderTextField(
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       validator: FormBuilderValidators.compose([
-                        FormBuilderValidators.required(errorText: 'Confirm your password'),
+                        FormBuilderValidators.required(
+                            errorText: 'Confirm your password'),
                         (value) {
                           if (value != _passwordController.text) {
                             return 'Passwords do not match';
@@ -460,7 +471,8 @@ class _RegisterpageState extends State<RegisterPage> {
                           ),
                           onPressed: () {
                             setState(() {
-                              _confirmPasswordVisible = !_confirmPasswordVisible;
+                              _confirmPasswordVisible =
+                                  !_confirmPasswordVisible;
                             });
                           },
                         ),
@@ -474,26 +486,25 @@ class _RegisterpageState extends State<RegisterPage> {
                   initialValue: _agreeToTerms,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   validator: FormBuilderValidators.compose([
-                    FormBuilderValidators.required(errorText: 'Agree to continue!')
+                    FormBuilderValidators.required(
+                        errorText: 'Agree to continue!')
                   ]),
-
                   onChanged: (value) {
-                      setState(() {
-                        _agreeToTerms = value!;
-                        if (value != true) {
-                          Utils.toast("Agree to proceed");
-                        }
-                      });
-                      },
-                  title: const Text('I agree to the terms and conditions',
-                  style: TextStyle(
-                    fontSize: 15
-                  ),
+                    setState(() {
+                      _agreeToTerms = value!;
+                      if (value != true) {
+                        Utils.toast("Agree to proceed");
+                      }
+                    });
+                  },
+                  title: const Text(
+                    'I agree to the terms and conditions',
+                    style: TextStyle(fontSize: 15),
                   ),
                 ),
 
                 GestureDetector(
-                  onTap: (){
+                  onTap: () {
                     if (_formKey.currentState!.saveAndValidate()) {
                       if (kDebugMode) {
                         print(_formKey.currentState!.value);
@@ -506,8 +517,7 @@ class _RegisterpageState extends State<RegisterPage> {
                       }
                       Utils.toast("Validation Failed");
                     }
-                  }
-                  ,
+                  },
                   child: Container(
                     padding: const EdgeInsets.only(
                       left: 135,
@@ -565,4 +575,3 @@ class _RegisterpageState extends State<RegisterPage> {
     );
   }
 }
-
