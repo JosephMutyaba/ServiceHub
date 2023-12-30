@@ -22,6 +22,8 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterpageState extends State<RegisterPage> {
+  final _professionDescriptionController = TextEditingController();
+  final _hourlyRateController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -97,9 +99,11 @@ class _RegisterpageState extends State<RegisterPage> {
           _addressController.text.trim(),
           imageUrl,
           _professionController.text.trim(),
-          "",// description is to be filled in the profile page
+          _professionDescriptionController.text
+              .trim(), // description is to be filled in the profile page
           _offerService,
-          0, //hourlyRate is filled in at the edit profile page
+          int.parse(_hourlyRateController.text
+              .trim()), //hourlyRate is filled in at the edit profile page
           0, //Initially 0 likes
           0, //Initially 0 rating
         );
@@ -148,9 +152,9 @@ class _RegisterpageState extends State<RegisterPage> {
         'address': address,
         'imageUrl': imageUrl,
         'profession': profession,
-        'description':decsription,
+        'description': decsription,
         'offer_servive': serviceType,
-        'hourlyRate':hourlyRate,
+        'hourlyRate': hourlyRate,
         'likes': likes,
         'rating': rating,
       },
@@ -195,6 +199,8 @@ class _RegisterpageState extends State<RegisterPage> {
     _phoneController.dispose();
     _addressController.dispose();
     _professionController.dispose();
+    _professionDescriptionController.dispose();
+    _hourlyRateController.dispose();
     super.dispose();
   }
 
@@ -356,6 +362,52 @@ class _RegisterpageState extends State<RegisterPage> {
                             ),
                           )
                         : const SizedBox.shrink(),
+                  ),
+                ),
+
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    padding: const EdgeInsets.only(left: 10),
+                    decoration: BoxDecoration(
+                      color: const Color.fromARGB(255, 247, 248, 248),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: FormBuilderTextField(
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      validator: FormBuilderValidators.required(
+                          errorText: 'Describe your professional experience'),
+                      keyboardType: TextInputType.streetAddress,
+                      name: 'professional experience',
+                      controller: _professionDescriptionController,
+                      decoration: const InputDecoration(
+                        hintText: 'Describe your professional experience',
+                        border: InputBorder.none,
+                      ),
+                    ),
+                  ),
+                ),
+
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    padding: const EdgeInsets.only(left: 10),
+                    decoration: BoxDecoration(
+                      color: const Color.fromARGB(255, 247, 248, 248),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: FormBuilderTextField(
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      validator: FormBuilderValidators.required(
+                          errorText: 'Enter your hourly rate in UGX'),
+                      keyboardType: TextInputType.streetAddress,
+                      name: 'hourly rate',
+                      controller: _hourlyRateController,
+                      decoration: const InputDecoration(
+                        hintText: 'Hourly Rate',
+                        border: InputBorder.none,
+                      ),
+                    ),
                   ),
                 ),
 
