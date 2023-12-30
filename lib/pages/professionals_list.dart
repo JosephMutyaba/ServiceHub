@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:myapp/pages/professional_details_page.dart';
 
 class ProfessionalListPage extends StatelessWidget {
   final String selectedProfession;
@@ -29,11 +30,7 @@ class ProfessionalListPage extends StatelessWidget {
                 final professional = professionals[index];
 
                 return GestureDetector(
-                  onTap: () {
-                    // Implement the connection logic or navigate to a detailed professional page
-                    // For now, it just prints the professional's name
-                    print('Connect with ${professional['name']}');
-                  },
+                  onTap: () {},
                   child: Container(
                     margin: const EdgeInsets.all(8.0),
                     padding: const EdgeInsets.all(8.0),
@@ -59,7 +56,8 @@ class ProfessionalListPage extends StatelessWidget {
                             borderRadius: BorderRadius.circular(8.0),
                             image: professional['imageUrl'] != null
                                 ? DecorationImage(
-                                    image: NetworkImage(professional['imageUrl']),
+                                    image:
+                                        NetworkImage(professional['imageUrl']),
                                     fit: BoxFit.cover,
                                   )
                                 : null,
@@ -78,7 +76,9 @@ class ProfessionalListPage extends StatelessWidget {
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                const SizedBox(width: 5,),
+                                const SizedBox(
+                                  width: 5,
+                                ),
                                 Text(
                                   professional['lName'] ?? '',
                                   style: const TextStyle(
@@ -92,9 +92,15 @@ class ProfessionalListPage extends StatelessWidget {
                             Text(professional['phone'] ?? ''),
                             ElevatedButton(
                               onPressed: () {
-                                // Implement the connection logic or navigate to a detailed professional page
-                                // For now, it just prints the professional's name
-                                print('Connect with ${professional['name']}');
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        ProfessionalDetailsPage(
+                                            professionalData: professional),
+                                    // Item()
+                                  ),
+                                );
                               },
                               child: const Text('Connect'),
                             ),
