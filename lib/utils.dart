@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:ui';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:myapp/screens/cart.dart';
+import 'package:myapp/screens/profile.dart';
+import 'package:myapp/screens/profilePage.dart';
 
 class MyCustomScrollBehavior extends MaterialScrollBehavior {
   @override
@@ -94,3 +98,46 @@ class Utils {
         fontSize: 16.0);
   }
 }
+
+pickImage(ImageSource source) async {
+  final ImagePicker _picker = ImagePicker();
+  XFile? file = await _picker.pickImage(source: source);
+  if(file != null) {
+    return await file.readAsBytes();
+  }
+  return Utils.toast("No image selected");
+}
+
+BottomNavigationBar bottomNavbar(BuildContext context) {
+  return BottomNavigationBar(
+    items: const <BottomNavigationBarItem>[
+      BottomNavigationBarItem(
+        icon: Icon(Icons.home, color: Colors.deepPurple),
+        label: 'Home',
+      ),
+      BottomNavigationBarItem(
+        icon: Icon(Icons.shopping_cart, color: Colors.deepPurple),
+        label: 'Cart',
+      ),
+      BottomNavigationBarItem(
+        icon: Icon(Icons.person, color: Colors.deepPurple),
+        label: 'Profile',
+      ),
+    ],
+    currentIndex: 0,
+    selectedItemColor: Colors.deepPurple,
+    unselectedItemColor: Colors.grey,
+    onTap: (index) {
+      if (index == 0) {
+        Navigator.of(context).popUntil((route) => route.isFirst);
+      } else if (index == 1) {
+        if (ModalRoute.of(context)?.settings.arguments is! Cart) {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => const Cart()));
+        }
+      } else if (index == 2) {
+        if (ModalRoute.of(context)?.settings.arguments is! ProfileScreen) {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => const ProfileScreen()));
+        }
+      }
+    },
+  );}

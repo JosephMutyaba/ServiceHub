@@ -9,7 +9,7 @@ import 'package:myapp/auth/auth_page.dart';
 import 'package:myapp/screens/cart.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({Key? key}) : super(key: key);
+  const ProfilePage({super.key});
 
   @override
   _ProfilePageState createState() => _ProfilePageState();
