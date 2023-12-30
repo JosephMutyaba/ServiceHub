@@ -1,120 +1,54 @@
-// import 'package:flutter/material.dart';
-
-// class ProfessionalDetailsPage extends StatelessWidget {
-//   final Map<String, dynamic> professionalData;
-
-//   const ProfessionalDetailsPage({Key? key, required this.professionalData})
-//       : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title:
-//             Text('${professionalData['fname']} ${professionalData['lName']}'),
-//         backgroundColor: Colors.deepPurple,
-//       ),
-//       body: SingleChildScrollView(
-//         child: SizedBox(
-//           width: double.infinity,
-//           child: Container(
-//             width: double.infinity,
-//             height: 896,
-//             decoration: BoxDecoration(
-//               color: const Color(0xfff6f5f5),
-//             ),
-//             child: Stack(
-//               children: [
-//                 Positioned(
-//                   left: 0,
-//                   top: 281,
-//                   child: Container(
-//                     padding: EdgeInsets.fromLTRB(20, 37, 20, 65),
-//                     width: 414,
-//                     height: 615,
-//                     decoration: BoxDecoration(
-//                       color: const Color(0xfff6f5f5),
-//                       borderRadius: BorderRadius.only(
-//                         topLeft: Radius.circular(30),
-//                         topRight: Radius.circular(30),
-//                       ),
-//                     ),
-//                     child: Column(
-//                       crossAxisAlignment: CrossAxisAlignment.start,
-//                       children: [
-//                         Container(
-//                           margin: EdgeInsets.fromLTRB(0, 0, 90, 8),
-//                           width: double.infinity,
-//                           child: Row(
-//                             crossAxisAlignment: CrossAxisAlignment.center,
-//                             children: [
-//                               Container(
-//                                 margin: EdgeInsets.fromLTRB(0, 0, 16, 0),
-//                                 child: Text(
-//                                   'Labour:  UGX ${professionalData['hourlyRate']}',
-//                                   style: TextStyle(
-//                                     fontSize: 32,
-//                                     fontWeight: FontWeight.w700,
-//                                     color: const Color(0xff2d0c57),
-//                                   ),
-//                                 ),
-//                               ),
-//                             ],
-//                           ),
-//                         ),
-//                         // Display other details dynamically
-//                         // ...
-
-//                         SizedBox(
-//                           width: double.infinity,
-//                           height: 56,
-//                           child: Row(
-//                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-//                             crossAxisAlignment: CrossAxisAlignment.center,
-//                             children: [
-//                               ElevatedButton.icon(
-//                                 onPressed: () {
-//                                   // Implement like functionality
-//                                 },
-//                                 icon: const Icon(Icons.favorite_border),
-//                                 label: const Text('Like'),
-//                               ),
-//                               ElevatedButton.icon(
-//                                 onPressed: () {
-//                                   // Implement add to cart functionality
-//                                 },
-//                                 icon: const Icon(Icons.shopping_cart),
-//                                 label: const Text('Add to cart'),
-//                               ),
-//                             ],
-//                           ),
-//                         ),
-//                       ],
-//                     ),
-//                   ),
-//                 ),
-//               ],
-//             ),
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:myapp/pages/send_work_request_page.dart';
+import 'package:myapp/utils.dart';
 
-class ProfessionalDetailsPage extends StatelessWidget {
+class ProfessionalDetailsPage extends StatefulWidget {
+  // final Map<String, dynamic> professionalData;
+
+  // const ProfessionalDetailsPage({super.key, required this.professionalData});
+
   final Map<String, dynamic> professionalData;
 
-  const ProfessionalDetailsPage({Key? key, required this.professionalData})
-      : super(key: key);
+  const ProfessionalDetailsPage({
+    super.key,
+    required this.professionalData,
+  });
+
+  @override
+  State<ProfessionalDetailsPage> createState() =>
+      _ProfessionalDetailsPageState();
+}
+
+class _ProfessionalDetailsPageState extends State<ProfessionalDetailsPage> {
+  late int likes;
+  bool toggle = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialize likes count when the page is loaded
+    likes = widget.professionalData['likes'] ?? 0;
+  }
 
   @override
   Widget build(BuildContext context) {
+    double baseWidth = 414;
+    double fem = MediaQuery.of(context).size.width / baseWidth;
+    double ffem = fem * 0.97;
+
     return Scaffold(
       appBar: AppBar(
-        title: Text('${professionalData['fname']} ${professionalData['lName']}'),
+        title: Text(
+          '${widget.professionalData['fname']} ${widget.professionalData['lName']}',
+          style: safeGoogleFont(
+            'SF Pro Display',
+            fontSize: 34 * ffem,
+            fontWeight: FontWeight.w700,
+            height: 1.2058823529 * ffem / fem,
+            letterSpacing: 0.4099999964 * fem,
+          ),
+        ),
         backgroundColor: Colors.deepPurple,
       ),
       body: SingleChildScrollView(
@@ -122,105 +56,249 @@ class ProfessionalDetailsPage extends StatelessWidget {
           width: double.infinity,
           child: Container(
             width: double.infinity,
-            height: 896,
-            decoration: BoxDecoration(
-              color: const Color(0xfff6f5f5),
+            height: 896 * fem,
+            decoration: const BoxDecoration(
+              color: Color(0xfff6f5f5),
             ),
             child: Stack(
               children: [
                 Positioned(
-                  left: 0,
-                  top: 281,
+                  left: 0 * fem,
+                  top: 0 * fem,
+                  child: Align(
+                    child: SizedBox(
+                      width: 414 * fem,
+                      height: 358 * fem,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: const Color(0xffdbd8dd),
+                          gradient: const LinearGradient(
+                            begin: Alignment(0, -1),
+                            end: Alignment(0, 1),
+                            colors: <Color>[
+                              Color(0x35000000),
+                              Color(0x33000000),
+                              Color(0x59000000),
+                              Color(0x7f000000),
+                              Color(0x99000000)
+                            ],
+                            stops: <double>[0, 0.587, 0.673, 0.859, 1],
+                          ),
+                          image: DecorationImage(
+                            image: NetworkImage(
+                                widget.professionalData['imageUrl']),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Positioned(
+                  left: 0 * fem,
+                  top: 281 * fem,
                   child: Container(
-                    padding: EdgeInsets.fromLTRB(20, 37, 20, 65),
-                    width: 414,
-                    height: 615,
+                    padding: EdgeInsets.fromLTRB(
+                        20 * fem, 37 * fem, 20 * fem, 65 * fem),
+                    width: 414 * fem,
+                    height: 615 * fem,
                     decoration: BoxDecoration(
                       color: const Color(0xfff6f5f5),
                       borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(30),
-                        topRight: Radius.circular(30),
+                        topLeft: Radius.circular(30 * fem),
+                        topRight: Radius.circular(30 * fem),
                       ),
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
-                          margin: EdgeInsets.fromLTRB(0, 0, 90, 8),
+                          margin: EdgeInsets.fromLTRB(
+                              0 * fem, 0 * fem, 90 * fem, 8 * fem),
                           width: double.infinity,
                           child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
+                            // crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Container(
-                                margin: EdgeInsets.fromLTRB(0, 0, 16, 0),
-                                child: Text(
-                                  'Labour:  UGX ${professionalData['hourlyRate']}',
-                                  style: TextStyle(
-                                    fontSize: 32,
-                                    fontWeight: FontWeight.w700,
-                                    color: const Color(0xff2d0c57),
-                                  ),
+                              Text(
+                                'Hourly Rate: ',
+                                style: safeGoogleFont(
+                                  'SF Pro Text',
+                                  fontSize: 30 * ffem,
+                                  fontWeight: FontWeight.w700,
+                                  height: 1.3463542461 * ffem / fem,
+                                  letterSpacing: -0.8029167056 * fem,
+                                  color: const Color(0xff2d0c57),
                                 ),
                               ),
-                            ],
-                          ),
-                        ),
-                        // Display other details dynamically
-                        Container(
-                          margin: EdgeInsets.fromLTRB(0, 0, 0, 20),
-                          child: Row(
-                            children: [
-                              Icon(
-                                Icons.star_border,
-                                semanticLabel: '5.0 Rating',
-                                color: Colors.amber,
-                              ),
                               Text(
-                                '${professionalData['rating']} Rating',
-                                style: TextStyle(
-                                  fontSize: 18,
+                                'UGX ${widget.professionalData['hourlyRate']}',
+                                style: safeGoogleFont(
+                                  'SF Pro Text',
+                                  fontSize: 30 * ffem,
+                                  fontWeight: FontWeight.w500,
+                                  height: 1.3463542461 * ffem / fem,
+                                  letterSpacing: -0.8029167056 * fem,
                                   color: const Color(0xff2d0c57),
                                 ),
                               ),
                             ],
                           ),
                         ),
-                        // Add more widgets to display other dynamic data
-                        // Example: Displaying a description
                         Container(
-                          margin: EdgeInsets.fromLTRB(0, 0, 0, 20),
-                          child: Text(
-                            professionalData['description'] ?? '',
-                            style: TextStyle(
-                              fontSize: 18,
-                              color: const Color(0xff2d0c57),
-                            ),
+                          margin: EdgeInsets.fromLTRB(
+                              0 * fem, 0 * fem, 0 * fem, 20 * fem),
+                          child: const Icon(Icons.star_border,
+                              semanticLabel: '5.0 Rating', color: Colors.amber),
+                        ),
+                        Container(
+                          margin: EdgeInsets.fromLTRB(
+                              0 * fem, 0 * fem, 0 * fem, 18 * fem),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Description:',
+                                style: safeGoogleFont(
+                                  'SF Pro Text',
+                                  fontSize: 27 * ffem,
+                                  fontWeight: FontWeight.w700,
+                                  height: 1 * ffem / fem,
+                                  letterSpacing: -0.4099999964 * fem,
+                                  color: const Color(0xff2d0c57),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 6,
+                              ),
+                              Text(
+                                '${widget.professionalData['description']}',
+                                style: safeGoogleFont(
+                                  'SF Pro Text',
+                                  fontSize: 22 * ffem,
+                                  fontWeight: FontWeight.w400,
+                                  height: 1 * ffem / fem,
+                                  letterSpacing: -0.4099999964 * fem,
+                                  color: const Color(0xff2d0c57),
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              Row(
+                                children: [
+                                  Text(
+                                    'Likes: ',
+                                    style: safeGoogleFont(
+                                      'SF Pro Text',
+                                      fontSize: 27 * ffem,
+                                      fontWeight: FontWeight.w700,
+                                      height: 1 * ffem / fem,
+                                      letterSpacing: -0.4099999964 * fem,
+                                      color: const Color(0xff2d0c57),
+                                    ),
+                                  ),
+                                  Text(
+                                    '$likes',
+                                    style: safeGoogleFont(
+                                      'SF Pro Text',
+                                      fontSize: 22 * ffem,
+                                      fontWeight: FontWeight.w400,
+                                      height: 1 * ffem / fem,
+                                      letterSpacing: -0.4099999964 * fem,
+                                      color: const Color(0xff2d0c57),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
                         ),
-                        // Add more widgets as needed
-                        // ...
-
                         SizedBox(
                           width: double.infinity,
-                          height: 56,
+                          height: 56 * fem,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
+                              Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  ElevatedButton.icon(
+                                    onPressed: () async {
+                                      // Fetch the professional document based on email
+                                      QuerySnapshot<Map<String, dynamic>>
+                                          snapshot = await FirebaseFirestore
+                                              .instance
+                                              .collection('user')
+                                              .where('email',
+                                                  isEqualTo:
+                                                      widget.professionalData[
+                                                          'email'])
+                                              .limit(1) // Limit to one document
+                                              .get();
+
+                                      if (snapshot.docs.isNotEmpty) {
+                                        // Get the professional document
+                                        DocumentSnapshot<Map<String, dynamic>>
+                                            professionalDoc =
+                                            snapshot.docs.first;
+
+                                        // Toggle likes (increment if currently 0, decrement if currently 1)
+                                        toggle = !toggle;
+                                        int newLikes = 0;
+                                        int currentLikes =
+                                            professionalDoc['likes'] ?? 0;
+
+                                        if (toggle) {
+                                          newLikes = currentLikes + 1;
+                                        } else {
+                                          newLikes = currentLikes - 1;
+                                        }
+
+                                        // Update the likes field in Firestore
+                                        await FirebaseFirestore.instance
+                                            .collection('user')
+                                            .doc(professionalDoc.id)
+                                            .update({'likes': newLikes});
+
+                                        // Update the likes count in the UI
+                                        setState(() {
+                                          likes = newLikes;
+                                        });
+                                      }
+                                    },
+                                    icon: const Icon(Icons.favorite_border),
+
+                                    label: Text(!toggle
+                                        ? 'Like'
+                                        : 'Unlike'), // Display Like or Unlike
+                                  ),
+                                ],
+                              ),
+                              // ElevatedButton.icon(
+                              //   onPressed: () {
+                              //     Navigator.push(
+                              //         context,
+                              //         MaterialPageRoute(
+                              //             builder: (context) => const Cart()));
+                              //   },
+                              //   icon: const Icon(Icons.shopping_cart),
+                              //   label: const Text('Add to cart'),
+                              // ),
                               ElevatedButton.icon(
                                 onPressed: () {
-                                  // Implement like functionality
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => SendWorkRequestPage(
+                                          professionalData:
+                                              widget.professionalData),
+                                    ),
+                                  );
                                 },
-                                icon: const Icon(Icons.favorite_border),
-                                label: const Text('Like'),
-                              ),
-                              ElevatedButton.icon(
-                                onPressed: () {
-                                  // Implement add to cart functionality
-                                },
-                                icon: const Icon(Icons.shopping_cart),
-                                label: const Text('Add to cart'),
-                              ),
+                                icon: const Icon(Icons.work),
+                                label: const Text('Send Work Request'),
+                              )
                             ],
                           ),
                         ),

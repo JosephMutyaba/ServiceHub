@@ -97,8 +97,8 @@ class ProfessionalListPage extends StatelessWidget {
                                   MaterialPageRoute(
                                     builder: (context) =>
                                         ProfessionalDetailsPage(
-                                      professionalData: professional,
-                                    ),
+                                            professionalData: professional),
+                                    // Item()
                                   ),
                                 );
                               },

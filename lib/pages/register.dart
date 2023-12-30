@@ -97,7 +97,9 @@ class _RegisterpageState extends State<RegisterPage> {
           _addressController.text.trim(),
           imageUrl,
           _professionController.text.trim(),
+          "",// description is to be filled in the profile page
           _offerService,
+          0, //hourlyRate is filled in at the edit profile page
           0, //Initially 0 likes
           0, //Initially 0 rating
         );
@@ -132,7 +134,9 @@ class _RegisterpageState extends State<RegisterPage> {
       String address,
       String imageUrl,
       String profession,
+      String decsription,
       bool serviceType,
+      int hourlyRate,
       int likes,
       int rating) async {
     await FirebaseFirestore.instance.collection('user').add(
@@ -144,7 +148,9 @@ class _RegisterpageState extends State<RegisterPage> {
         'address': address,
         'imageUrl': imageUrl,
         'profession': profession,
+        'description':decsription,
         'offer_servive': serviceType,
+        'hourlyRate':hourlyRate,
         'likes': likes,
         'rating': rating,
       },
