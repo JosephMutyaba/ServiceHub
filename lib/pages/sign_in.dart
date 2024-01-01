@@ -41,6 +41,7 @@ class _homePageState extends State<LoginPage> {
     //dismiss the circular progress indicator
     // ignore: use_build_context_synchronously
     Navigator.of(context).pop();
+    Utils.toast("Login Successful");
   }
 
   @override

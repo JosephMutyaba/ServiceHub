@@ -96,8 +96,7 @@ class _EditProfilePageState extends State<UpdateProfileScreen> {
   }
 
   Future<String> uploadImage(String childName, Uint8List file) async {
-    // File file = File(imageFile.path);
-    //
+
     final Reference ref = _storage
         .ref()
         .child(childName);
@@ -106,14 +105,6 @@ class _EditProfilePageState extends State<UpdateProfileScreen> {
     final String downloadUrl = await snapshot.ref.getDownloadURL();
     return downloadUrl;
 
-
-    // final UploadTask uploadTask = ref.putFile(file);
-    //
-    // final TaskSnapshot snapshot = await uploadTask;
-    //
-    // final String downloadUrl = await snapshot.ref.getDownloadURL();
-    //
-    // return downloadUrl;
   }
 
   Future selectImage() async {
@@ -155,11 +146,14 @@ class _EditProfilePageState extends State<UpdateProfileScreen> {
                     height: 120,
                     child: CircleAvatar(
                         radius: 60,
-                        backgroundImage: _image != null
-                              ? MemoryImage(_image!)
-                              : NetworkImage(_imageUrl)
-                          as ImageProvider<Object>,
-                  )),
+                      backgroundImage: _image != null
+                          ? MemoryImage(_image!)
+                          : (_imageUrl.isNotEmpty
+                          ? NetworkImage(_imageUrl)
+                          : const AssetImage('assets/screens/profile.png')) as ImageProvider<Object>,
+
+
+                    )),
                   Positioned(
                     bottom: 0,
                     right: 0,
