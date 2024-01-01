@@ -73,35 +73,188 @@ class _ProfilePageState extends State<ProfilePage> {
         ],
       ),
       body: _userData.isNotEmpty
-          ? Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    CircleAvatar(
-                      radius: 50,
-                      backgroundImage: _userData['imageUrl'] != null
+          ? Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15.0),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * .5,
+                    child: Stack(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 40.0),
+                          child: Container(
+                            height: MediaQuery.of(context).size.height,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.elliptical(
+                                    MediaQuery.of(context).size.width * 0.5,
+                                    100.0),
+                                bottomRight: Radius.elliptical(
+                                    MediaQuery.of(context).size.width * 0.5,
+                                    100.0),
+                              ),
+                              image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image:_userData['imageUrl'] != null
+                          ? NetworkImage(_userData['imageUrl']!)
+                          : const AssetImage('assets/screens/images/Writer.jpg')
+                              as ImageProvider<Object>,
+                              ),
+                            ),
+                          ),
+                        ),
+                         Align(
+                          alignment: Alignment.bottomCenter,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              CircleAvatar(
+                                radius: 70,
+                                backgroundImage:_userData['imageUrl'] != null
                           ? NetworkImage(_userData['imageUrl']!)
                           : const AssetImage('assets/default_profile_image.jpg')
                               as ImageProvider<Object>,
+                              ),
+                            ],
+                          ),
+                        ),
+
+                      ],
                     ),
-                    const SizedBox(height: 16),
-                    Text(
-                      'Name: ${_userData['fname']} ${_userData['lName']}',
-                      style: const TextStyle(
-                          fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  
+                  Card(
+                    child: SizedBox(
+                      height: MediaQuery.of(context).size.height * .3,
+                      child:  Column(
+                        
+                        children: [
+                    Container(
+                            height: MediaQuery.of(context).size.height * .08,
+                           
+                            
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Icon(Icons.article),
+                                const  Padding(
+                                    padding: EdgeInsets.only(left: 30),
+                                    child: Text(
+                                      'Artist Name :',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        color: Color.fromARGB(255, 23, 21, 21),
+                                        fontSize: 20,
+                                
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  
+                                ),
+                                Padding(
+                              padding: EdgeInsets.only(left: 30),
+                              child: Text(
+                                '${_userData['fname']} ${_userData['lName']}',
+                                style: TextStyle(
+                                  color: Color.fromARGB(255, 23, 21, 21),
+                                  fontSize: 20,
+                                ),
+                              ),
+                            ),
+                                      
+                              ],
+                            ),
+                            
+                          ),
+                          Divider(thickness: 3,),
+                          Container(
+                            height: MediaQuery.of(context).size.height * .08,
+                           
+                            
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Icon(Icons.email),
+                                const  Padding(
+                                    padding: EdgeInsets.only(left: 30),
+                                    child: Text(
+                                      'Email :',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        color: Color.fromARGB(255, 23, 21, 21),
+                                        fontSize: 20,
+                                
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  
+                                ),
+                                Padding(
+                              padding: EdgeInsets.only(left: 30),
+                              child: Text(
+                                '${_userData['email']}',
+                                style: TextStyle(
+                                  color: Color.fromARGB(255, 23, 21, 21),
+                                  fontSize: 20,
+                                ),
+                              ),
+                            ),
+                                      
+                              ],
+                            ),
+                            
+                          ),
+                           Divider(thickness: 3,),
+                          Container(
+                            height: MediaQuery.of(context).size.height * .08,
+                           
+                            
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Icon(Icons.phone),
+                                const  Padding(
+                                    padding: EdgeInsets.only(left: 30),
+                                    child: Text(
+                                      'Phone :',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        color: Color.fromARGB(255, 23, 21, 21),
+                                        fontSize: 20,
+                                
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  
+                                ),
+                                Padding(
+                              padding: EdgeInsets.only(left: 30),
+                              child: Text(
+                                '${_userData['phone']}',
+                                style: TextStyle(
+                                  color: Color.fromARGB(255, 23, 21, 21),
+                                  fontSize: 20,
+                                ),
+                              ),
+                            ),
+                                      
+                              ],
+                            ),
+                            
+                          )
+                                 
+                        ],
+                      ),
                     ),
-                    const SizedBox(height: 8),
-                    Text('Email: ${_userData['email']}'),
-                    const SizedBox(height: 8),
-                    Text('Phone: ${_userData['phone']}'),
-                    const SizedBox(height: 8),
-                    Text('Address: ${_userData['address']}'),
-                  ],
-                ),
-              ),
-            )
+                  )
+                ],
+              )
+              )
           : const Center(
               child: CircularProgressIndicator(),
             ),
@@ -121,7 +274,6 @@ class _ProfilePageState extends State<ProfilePage> {
     });
   }
 }
-
 
 class EditProfilePage extends StatefulWidget {
   final Map<String, dynamic> userData;
@@ -269,7 +421,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 controller: _lNameController,
                 decoration: const InputDecoration(labelText: 'Last Name'),
               ),
-              
               TextField(
                 controller: _phoneController,
                 decoration: const InputDecoration(labelText: 'Phone'),
