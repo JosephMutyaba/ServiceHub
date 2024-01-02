@@ -2,7 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp/auth/auth_page.dart';
 import 'package:myapp/screens/checkout.dart';
+import 'package:myapp/screens/messaging.dart';
 import 'package:myapp/screens/profile.dart';
+import 'package:myapp/screens/vendors.dart';
 import 'package:myapp/utils.dart';
 
 class Cart extends StatelessWidget {
@@ -49,10 +51,23 @@ class Cart extends StatelessWidget {
               children: <Widget>[
                 CartItem(title: 'Item 1', price: 10.99),
                 CartItem(title: 'Item 2', price: 19.99),
+                
+                Align(
+            alignment: Alignment.bottomRight,
+            
+            child: Padding(
+              padding: const EdgeInsets.only(top: 20, right:20.0),
+              child: FloatingActionButton(onPressed: () { Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => const Vendor())); }, child: Icon(Icons.add),),
+            )
+          ),
                 // Add more CartItems as needed
               ],
             ),
           ),
+
+          
+
           BottomAppBar(
             child: ListTile(
               title: const Text('Total: \$30.98'), // Calculate the total price
@@ -70,6 +85,7 @@ class Cart extends StatelessWidget {
           ),
         ],
       ),
+
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
@@ -84,6 +100,10 @@ class Cart extends StatelessWidget {
             icon: Icon(Icons.person, color: Colors.deepPurple),
             label: 'Profile',
           ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.mail, color: Colors.deepPurple),
+            label: 'Chat',
+          ),
         ],
         currentIndex: 0,
         selectedItemColor: Colors.deepPurple,
@@ -96,6 +116,9 @@ class Cart extends StatelessWidget {
           } else if (index == 2) {
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => const ProfilePage()));
+          } else if (index == 3) {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const ChatRoute()));
           }
         },
       ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:myapp/screens/item.dart';
+import 'package:myapp/screens/messaging.dart';
 import 'package:myapp/screens/profile.dart';
 import 'package:myapp/utils.dart';
 
@@ -269,33 +270,40 @@ class Vendor extends StatelessWidget {
           ),
         ),
         bottomNavigationBar: BottomNavigationBar(
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home, color: Colors.deepPurple),
-              label: 'Home',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.shopping_cart, color: Colors.deepPurple),
-              label: 'Cart',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person, color: Colors.deepPurple),
-              label: 'Profile',
-            ),
-          ],
-          currentIndex: 0,
-          selectedItemColor: Colors.deepPurple,
-          onTap: (index) {
-            if (index == 0) {
-              Navigator.of(context).popUntil((route) => route.isFirst);
-            } else if (index == 1) {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const Cart()));
-            } else if (index == 2) {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const ProfilePage()));
-            }
-          },
-        ));
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home, color: Colors.deepPurple),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.shopping_cart, color: Colors.deepPurple),
+            label: 'Cart',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person, color: Colors.deepPurple),
+            label: 'Profile',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.mail, color: Colors.deepPurple),
+            label: 'Chat',
+          ),
+        ],
+        currentIndex: 0,
+        selectedItemColor: Colors.deepPurple,
+        onTap: (index) {
+          if (index == 0) {
+            Navigator.of(context).popUntil((route) => route.isFirst);
+          } else if (index == 1) {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => const Cart()));
+          } else if (index == 2) {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const ProfilePage()));
+          } else if (index == 3) {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const ChatRoute()));
+          }
+        },
+      ),);
   }
 }

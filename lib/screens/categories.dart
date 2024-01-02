@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:myapp/screens/messaging.dart';
 import 'package:myapp/screens/profile.dart';
 import 'package:myapp/screens/vendors.dart';
 
@@ -641,7 +642,7 @@ class Scene extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
+ bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home, color: Colors.deepPurple),
@@ -655,6 +656,10 @@ class Scene extends StatelessWidget {
             icon: Icon(Icons.person, color: Colors.deepPurple),
             label: 'Profile',
           ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.mail, color: Colors.deepPurple),
+            label: 'Chat',
+          ),
         ],
         currentIndex: 0,
         selectedItemColor: Colors.deepPurple,
@@ -667,6 +672,9 @@ class Scene extends StatelessWidget {
           } else if (index == 2) {
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => const ProfilePage()));
+          } else if (index == 3) {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const ChatRoute()));
           }
         },
       ),

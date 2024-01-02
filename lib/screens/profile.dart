@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:myapp/auth/auth_page.dart';
 import 'package:myapp/screens/cart.dart';
+import 'package:myapp/screens/messaging.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -100,164 +101,184 @@ class _ProfilePageState extends State<ProfilePage> {
                               ),
                               image: DecorationImage(
                                 fit: BoxFit.cover,
-                                image:_userData['imageUrl'] != null
-                          ? NetworkImage(_userData['imageUrl']!)
-                          : const AssetImage('assets/screens/images/Writer.jpg')
-                              as ImageProvider<Object>,
+                                image: _userData['imageUrl'] != null
+                                    ? NetworkImage(_userData['imageUrl']!)
+                                    :  Image.network(
+                                            'https://picsum.photos/250?image=9')
+                                        as ImageProvider<Object>,
                               ),
                             ),
                           ),
                         ),
-                         Align(
+                        Align(
                           alignment: Alignment.bottomCenter,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               CircleAvatar(
                                 radius: 70,
-                                backgroundImage:_userData['imageUrl'] != null
-                          ? NetworkImage(_userData['imageUrl']!)
-                          : const AssetImage('assets/default_profile_image.jpg')
-                              as ImageProvider<Object>,
+                                backgroundImage: _userData['imageUrl'] != null
+                                    ? NetworkImage(_userData['imageUrl']!)
+                                    :  Image.asset(
+                                            'https://picsum.photos/250?image=9')
+                                        as ImageProvider<Object>,
                               ),
                             ],
                           ),
                         ),
-
                       ],
                     ),
                   ),
-                  
                   Card(
                     child: SizedBox(
                       height: MediaQuery.of(context).size.height * .3,
-                      child:  Column(
-                        
+                      child: Column(
                         children: [
-                    Container(
+                          Container(
                             height: MediaQuery.of(context).size.height * .08,
-                           
-                            
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Icon(Icons.article),
-                                const  Padding(
-                                    padding: EdgeInsets.only(left: 30),
-                                    child: Text(
-                                      'Artist Name :',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        color: Color.fromARGB(255, 23, 21, 21),
-                                        fontSize: 20,
-                                
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                                const Padding(
+                                  padding: EdgeInsets.only(left: 30),
+                                  child: Text(
+                                    'Name :',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: Color.fromARGB(255, 23, 21, 21),
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
                                     ),
-                                  
+                                  ),
                                 ),
                                 Padding(
-                              padding: EdgeInsets.only(left: 30),
-                              child: Text(
-                                '${_userData['fname']} ${_userData['lName']}',
-                                style: TextStyle(
-                                  color: Color.fromARGB(255, 23, 21, 21),
-                                  fontSize: 20,
+                                  padding: EdgeInsets.only(left: 30),
+                                  child: Text(
+                                    '${_userData['fname']} ${_userData['lName']}',
+                                    style: TextStyle(
+                                      color: Color.fromARGB(255, 23, 21, 21),
+                                      fontSize: 20,
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ),
-                                      
                               ],
                             ),
-                            
                           ),
-                          Divider(thickness: 3,),
+                          Divider(
+                            thickness: 3,
+                          ),
                           Container(
                             height: MediaQuery.of(context).size.height * .08,
-                           
-                            
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Icon(Icons.email),
-                                const  Padding(
-                                    padding: EdgeInsets.only(left: 30),
-                                    child: Text(
-                                      'Email :',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        color: Color.fromARGB(255, 23, 21, 21),
-                                        fontSize: 20,
-                                
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                                const Padding(
+                                  padding: EdgeInsets.only(left: 30),
+                                  child: Text(
+                                    'Email :',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: Color.fromARGB(255, 23, 21, 21),
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
                                     ),
-                                  
+                                  ),
                                 ),
                                 Padding(
-                              padding: EdgeInsets.only(left: 30),
-                              child: Text(
-                                '${_userData['email']}',
-                                style: TextStyle(
-                                  color: Color.fromARGB(255, 23, 21, 21),
-                                  fontSize: 20,
+                                  padding: EdgeInsets.only(left: 30),
+                                  child: Text(
+                                    '${_userData['email']}',
+                                    style: TextStyle(
+                                      color: Color.fromARGB(255, 23, 21, 21),
+                                      fontSize: 20,
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ),
-                                      
                               ],
                             ),
-                            
                           ),
-                           Divider(thickness: 3,),
+                          Divider(
+                            thickness: 3,
+                          ),
                           Container(
                             height: MediaQuery.of(context).size.height * .08,
-                           
-                            
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Icon(Icons.phone),
-                                const  Padding(
-                                    padding: EdgeInsets.only(left: 30),
-                                    child: Text(
-                                      'Phone :',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        color: Color.fromARGB(255, 23, 21, 21),
-                                        fontSize: 20,
-                                
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                                const Padding(
+                                  padding: EdgeInsets.only(left: 30),
+                                  child: Text(
+                                    'Phone :',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: Color.fromARGB(255, 23, 21, 21),
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
                                     ),
-                                  
+                                  ),
                                 ),
                                 Padding(
-                              padding: EdgeInsets.only(left: 30),
-                              child: Text(
-                                '${_userData['phone']}',
-                                style: TextStyle(
-                                  color: Color.fromARGB(255, 23, 21, 21),
-                                  fontSize: 20,
+                                  padding: EdgeInsets.only(left: 30),
+                                  child: Text(
+                                    '${_userData['phone']}',
+                                    style: TextStyle(
+                                      color: Color.fromARGB(255, 23, 21, 21),
+                                      fontSize: 20,
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ),
-                                      
                               ],
                             ),
-                            
                           )
-                                 
                         ],
                       ),
                     ),
                   )
                 ],
-              )
-              )
+              ))
           : const Center(
               child: CircularProgressIndicator(),
             ),
+             bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home, color: Colors.deepPurple),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.shopping_cart, color: Colors.deepPurple, ),
+            label: 'Cart',
+           
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person, color: Colors.deepPurple),
+            label: 'Profile',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.mail, color: Colors.deepPurple),
+            label: 'Chat',
+          ),
+        ],
+        currentIndex: 0,
+        selectedItemColor: Colors.deepPurple,
+        onTap: (index) {
+          if (index == 0) {
+            Navigator.of(context).popUntil((route) => route.isFirst);
+          } else if (index == 1) {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => const Cart()));
+          } else if (index == 2) {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const ProfilePage()));
+          } else if (index == 3) {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const ChatRoute()));
+          }
+        },
+      ),
     );
   }
 
@@ -407,8 +428,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   backgroundColor: Colors.grey,
                   // ignore: unnecessary_null_comparison
                   backgroundImage: _profileImage != null
-                      ? FileImage(File(_profileImage!.path))
-                      : const AssetImage('assets/default_profile_image.jpg')
+                      ? FileImage(File(_profileImage.path))
+                      : const NetworkImage('https://images.unsplash.com/1/irish-hands.jpg?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')
                           as ImageProvider<Object>,
                 ),
               ),
@@ -433,19 +454,23 @@ class _EditProfilePageState extends State<EditProfilePage> {
           ),
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
+       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home, color: Colors.deepPurple),
-            label: 'Home',
+            label: 'Homwe',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_cart, color: Colors.deepPurple),
+            icon: Icon(Icons.shopping_cart, size: 3, color: Colors.deepPurple),
             label: 'Cart',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person, color: Colors.deepPurple),
             label: 'Profile',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.mail, color: Colors.deepPurple),
+            label: 'Chat',
           ),
         ],
         currentIndex: 0,
@@ -459,6 +484,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
           } else if (index == 2) {
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => const ProfilePage()));
+          } else if (index == 3) {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const ChatRoute()));
           }
         },
       ),
