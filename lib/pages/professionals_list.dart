@@ -63,7 +63,7 @@ class ProfessionalListPage extends StatelessWidget {
                                 : null,
                           ),
                         ),
-                        const SizedBox(width: 8.0),
+
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -89,24 +89,26 @@ class ProfessionalListPage extends StatelessWidget {
                               ],
                             ),
                             Text(professional['address'] ?? ''),
-                            Text(professional['phone'] ?? ''),
-                            ElevatedButton(
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        ProfessionalDetailsPage(
-                                            professionalData: professional),
-                                    // Item()
-                                  ),
-                                );
-                              },
-                              child: const Text('Connect'),
-                            ),
+                            // Text(professional['phone'] ?? ''),
+
                           ],
                         ),
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    ProfessionalDetailsPage(
+                                        professionalData: professional),
+                                // Item()
+                              ),
+                            );
+                          },
+                          child: const Text('Connect'),
+                        ),
                       ],
+
                     ),
                   ),
                 );
@@ -128,7 +130,7 @@ class ProfessionalListPage extends StatelessWidget {
           .where('offer_servive', isEqualTo: true)
           .get();
 
-      return snapshot.docs.map((doc) => doc.data()!).toList();
+      return snapshot.docs.map((doc) => doc.data()).toList();
     } catch (error) {
       print('Error fetching professional data: $error');
       throw error;

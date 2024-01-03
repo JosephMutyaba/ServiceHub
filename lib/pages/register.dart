@@ -83,6 +83,12 @@ class _RegisterpageState extends State<RegisterPage> {
   Future register() async {
     if (passwordEqual()) {
       try {
+        showDialog(
+          context: context,
+          builder: ((context) {
+            return const Center(child: CircularProgressIndicator());
+          }),
+        );
         await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: _emailController.text.trim(),
           password: _passwordController.text.trim(),
@@ -107,6 +113,9 @@ class _RegisterpageState extends State<RegisterPage> {
           0, //Initially 0 likes
           0, //Initially 0 rating
         );
+        if(!mounted) return;
+        Navigator.of(context).pop();
+        Utils.toast("Registration Successful");
       } on FirebaseAuthException catch (e) {
         // ignore: use_build_context_synchronously
         showDialog(
@@ -221,28 +230,58 @@ class _RegisterpageState extends State<RegisterPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                //const SizedBox(height: 10),
-                // ... the icon or welcome message, if desired
-                _profileImage != null
-                    ? Container(
-                        margin: const EdgeInsets.only(top: 20),
+                Stack(
+                  children: [
+                    SizedBox(
+                        width: 120,
+                        height: 120,
                         child: CircleAvatar(
                           radius: 50,
-                          backgroundColor: Colors.grey,
-                          backgroundImage: FileImage(File(_profileImage!.path)),
-                        ),
-                      )
-                    : GestureDetector(
-                        onTap: selectImage,
-                        child: Container(
-                          margin: const EdgeInsets.only(top: 20),
-                          child: const CircleAvatar(
-                            radius: 50,
-                            backgroundColor: Colors.grey,
-                            child: Icon(Icons.add_a_photo),
-                          ),
-                        ),
+                          backgroundImage: _profileImage != null
+                              ? FileImage(File(_profileImage!.path))
+                              : const AssetImage('assets/screens/profile.png')
+                          as ImageProvider<Object>,
+                        )),
+                    Positioned(
+                      bottom: 0,
+                      right: 0,
+                      child: Container(
+                        width: 35,
+                        height: 35,
+                        decoration:
+                        BoxDecoration(borderRadius: BorderRadius.circular(100), color: Colors.deepPurple),
+                        child:  IconButton(
+                          icon: const Icon(Icons.camera_alt),
+                          color: Colors.black,
+                          onPressed: () {
+                            selectImage();
+                          },),
                       ),
+                    ),
+                  ],
+                ),
+                //const SizedBox(height: 10),
+                // ... the icon or welcome message, if desired
+                // _profileImage != null
+                //     ? Container(
+                //         margin: const EdgeInsets.only(top: 20),
+                //         child: CircleAvatar(
+                //           radius: 50,
+                //           backgroundColor: Colors.grey,
+                //           backgroundImage: FileImage(File(_profileImage!.path)),
+                //         ),
+                //       )
+                //     : GestureDetector(
+                //         onTap: selectImage,
+                //         child: Container(
+                //           margin: const EdgeInsets.only(top: 20),
+                //           child: const CircleAvatar(
+                //             radius: 50,
+                //             backgroundColor: Colors.grey,
+                //             child: Icon(Icons.add_a_photo),
+                //           ),
+                //         ),
+                //       ),
 
                 Padding(
                   padding: const EdgeInsets.all(8.0),

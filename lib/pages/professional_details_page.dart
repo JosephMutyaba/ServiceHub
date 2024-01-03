@@ -42,14 +42,15 @@ class _ProfessionalDetailsPageState extends State<ProfessionalDetailsPage> {
         title: Text(
           '${widget.professionalData['fname']} ${widget.professionalData['lName']}',
           style: safeGoogleFont(
+
             'SF Pro Display',
-            fontSize: 34 * ffem,
-            fontWeight: FontWeight.w700,
+            fontSize: 30 * ffem,
+            fontWeight: FontWeight.w500,
             height: 1.2058823529 * ffem / fem,
             letterSpacing: 0.4099999964 * fem,
           ),
         ),
-        backgroundColor: Colors.deepPurple,
+
       ),
       body: SingleChildScrollView(
         child: SizedBox(
@@ -118,13 +119,14 @@ class _ProfessionalDetailsPageState extends State<ProfessionalDetailsPage> {
                           width: double.infinity,
                           child: Row(
                             // crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
                                 'Hourly Rate: ',
                                 style: safeGoogleFont(
                                   'SF Pro Text',
-                                  fontSize: 30 * ffem,
-                                  fontWeight: FontWeight.w700,
+                                  fontSize: 27 * ffem,
+                                  fontWeight: FontWeight.w500,
                                   height: 1.3463542461 * ffem / fem,
                                   letterSpacing: -0.8029167056 * fem,
                                   color: const Color(0xff2d0c57),
@@ -134,8 +136,8 @@ class _ProfessionalDetailsPageState extends State<ProfessionalDetailsPage> {
                                 'UGX ${widget.professionalData['hourlyRate']}',
                                 style: safeGoogleFont(
                                   'SF Pro Text',
-                                  fontSize: 30 * ffem,
-                                  fontWeight: FontWeight.w500,
+                                  fontSize: 27 * ffem,
+                                  fontWeight: FontWeight.w400,
                                   height: 1.3463542461 * ffem / fem,
                                   letterSpacing: -0.8029167056 * fem,
                                   color: const Color(0xff2d0c57),
@@ -161,7 +163,7 @@ class _ProfessionalDetailsPageState extends State<ProfessionalDetailsPage> {
                                 style: safeGoogleFont(
                                   'SF Pro Text',
                                   fontSize: 27 * ffem,
-                                  fontWeight: FontWeight.w700,
+                                  fontWeight: FontWeight.w500,
                                   height: 1 * ffem / fem,
                                   letterSpacing: -0.4099999964 * fem,
                                   color: const Color(0xff2d0c57),
@@ -183,13 +185,14 @@ class _ProfessionalDetailsPageState extends State<ProfessionalDetailsPage> {
                               ),
                               const SizedBox(height: 8),
                               Row(
+
                                 children: [
                                   Text(
                                     'Likes: ',
                                     style: safeGoogleFont(
                                       'SF Pro Text',
                                       fontSize: 27 * ffem,
-                                      fontWeight: FontWeight.w700,
+                                      fontWeight: FontWeight.w500,
                                       height: 1 * ffem / fem,
                                       letterSpacing: -0.4099999964 * fem,
                                       color: const Color(0xff2d0c57),
@@ -275,16 +278,6 @@ class _ProfessionalDetailsPageState extends State<ProfessionalDetailsPage> {
                                   ),
                                 ],
                               ),
-                              // ElevatedButton.icon(
-                              //   onPressed: () {
-                              //     Navigator.push(
-                              //         context,
-                              //         MaterialPageRoute(
-                              //             builder: (context) => const Cart()));
-                              //   },
-                              //   icon: const Icon(Icons.shopping_cart),
-                              //   label: const Text('Add to cart'),
-                              // ),
                               ElevatedButton.icon(
                                 onPressed: () {
                                   Navigator.push(

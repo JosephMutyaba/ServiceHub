@@ -66,7 +66,7 @@ class ProfileScreen extends StatefulWidget {
   _ProfilePageState createState() => _ProfilePageState();
 }
 class _ProfilePageState extends State<ProfileScreen> {
-  late User _user= FirebaseAuth.instance.currentUser!;
+  late User _user;
   late Map<String, dynamic> _userData = {};
 
   @override
@@ -189,11 +189,12 @@ class _ProfilePageState extends State<ProfileScreen> {
                     height: 120,
                     child: CircleAvatar(
                         radius: 50,
-                        backgroundImage: _userData['imageUrl'] != null
-                                ? NetworkImage(_userData['imageUrl']!)
-                                : const AssetImage('assets/screens/profile.png')
-                            as ImageProvider<Object>,
-                        )
+                      backgroundImage: _userData['imageUrl'] != null && _userData['imageUrl']!.isNotEmpty
+                          ? NetworkImage(_userData['imageUrl']!)
+                          : const AssetImage('assets/screens/profile.png') as ImageProvider<Object>,
+
+
+                    )
                     ),
 
                   Positioned(
