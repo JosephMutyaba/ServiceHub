@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:myapp/auth/auth_page.dart';
 import 'package:myapp/screens/checkout.dart';
 import 'package:myapp/screens/profile.dart';
+import 'package:myapp/screens/vendors.dart';
 import 'package:myapp/utils.dart';
 
 class Cart extends StatelessWidget {
@@ -49,7 +50,20 @@ class Cart extends StatelessWidget {
               children: <Widget>[
                 CartItem(title: 'Item 1', price: 10.99),
                 CartItem(title: 'Item 2', price: 19.99),
-                // Add more CartItems as needed
+                Align(
+                    alignment: Alignment.bottomRight,
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 20, right: 20.0),
+                      child: FloatingActionButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const Vendor()));
+                        },
+                        child: Icon(Icons.add),
+                      ),
+                    )),
               ],
             ),
           ),
@@ -73,10 +87,7 @@ class Cart extends StatelessWidget {
       bottomNavigationBar: bottomNavbar(context),
     );
   }
-
-
-  }
-
+}
 
 class CartItem extends StatelessWidget {
   final String title;
