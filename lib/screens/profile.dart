@@ -303,8 +303,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
           if (index == 0) {
             Navigator.of(context).popUntil((route) => route.isFirst);
           } else if (index == 1) {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => const Cart()));
+            // Navigator.push(
+            //     context, MaterialPageRoute(builder: (context) => const Cart()));
           } else if (index == 2) {
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => const ProfilePage()));

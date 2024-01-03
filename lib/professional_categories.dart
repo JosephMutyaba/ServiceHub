@@ -27,10 +27,12 @@ class MyApp24 extends StatelessWidget {
           ],
         ),
         body: ProfessionsGrid(),
-        bottomNavigationBar: bottomNavbar(context)
+          bottomNavigationBar: buildFutureBuilder(context)
+
       ),
     );
   }
+
 }
 
 class ProfessionsGrid extends StatelessWidget {

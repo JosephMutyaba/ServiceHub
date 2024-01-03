@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:myapp/auth/auth_page.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp/professional_categories.dart';
-import 'package:myapp/screens/categories.dart';
+
 
 class MainPage1 extends StatefulWidget {
   const MainPage1({super.key});
@@ -19,7 +19,7 @@ class _MainPage1State extends State<MainPage1> {
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapShot) {
           if (snapShot.hasData) {
-            // return const Scene();
+
             return const MyApp24();
           } else {
             return const AuthPage();

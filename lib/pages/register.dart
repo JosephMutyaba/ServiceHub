@@ -10,6 +10,7 @@ import 'dart:io';
 
 import '../utils.dart';
 
+
 class RegisterPage extends StatefulWidget {
   final VoidCallback showLoginPage;
   const RegisterPage({
@@ -18,10 +19,10 @@ class RegisterPage extends StatefulWidget {
   });
 
   @override
-  State<RegisterPage> createState() => _RegisterpageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _RegisterpageState extends State<RegisterPage> {
+class _RegisterPageState extends State<RegisterPage> {
   final _professionDescriptionController = TextEditingController();
   final _hourlyRateController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
@@ -96,8 +97,16 @@ class _RegisterpageState extends State<RegisterPage> {
 
         String imageUrl =
             _profileImage != null ? await uploadImage(_profileImage!) : '';
+        if (!_offerService) {
+          _professionDescriptionController.text = '';
+        }
 
-        addUser(
+        int hourlyRate = _offerService ? int.parse(_hourlyRateController.text.trim()) : 0;
+        String role = _offerService ? 'service_provider' : 'common_user';
+
+
+        await addUser(
+          role,
           _fNameController.text.trim(),
           _lNameController.text.trim(),
           _emailController.text.trim(),
@@ -108,8 +117,7 @@ class _RegisterpageState extends State<RegisterPage> {
           _professionDescriptionController.text
               .trim(), // description is to be filled in the profile page
           _offerService,
-          int.parse(_hourlyRateController.text
-              .trim()), //hourlyRate is filled in at the edit profile page
+          hourlyRate, //hourlyRate is filled in at the edit profile page
           0, //Initially 0 likes
           0, //Initially 0 rating
         );
@@ -139,7 +147,8 @@ class _RegisterpageState extends State<RegisterPage> {
     }
   }
 
-  Future addUser(
+  Future<void> addUser(
+      String role,
       String fname,
       String lName,
       String email,
@@ -147,13 +156,14 @@ class _RegisterpageState extends State<RegisterPage> {
       String address,
       String imageUrl,
       String profession,
-      String decsription,
+      String description,
       bool serviceType,
       int hourlyRate,
       int likes,
       int rating) async {
     await FirebaseFirestore.instance.collection('user').add(
       {
+        'role': role,
         'fname': fname,
         'lName': lName,
         'email': email,
@@ -161,8 +171,8 @@ class _RegisterpageState extends State<RegisterPage> {
         'address': address,
         'imageUrl': imageUrl,
         'profession': profession,
-        'description': decsription,
-        'offer_servive': serviceType,
+        'description': description,
+        'offer_service': serviceType,
         'hourlyRate': hourlyRate,
         'likes': likes,
         'rating': rating,
@@ -260,28 +270,6 @@ class _RegisterpageState extends State<RegisterPage> {
                     ),
                   ],
                 ),
-                //const SizedBox(height: 10),
-                // ... the icon or welcome message, if desired
-                // _profileImage != null
-                //     ? Container(
-                //         margin: const EdgeInsets.only(top: 20),
-                //         child: CircleAvatar(
-                //           radius: 50,
-                //           backgroundColor: Colors.grey,
-                //           backgroundImage: FileImage(File(_profileImage!.path)),
-                //         ),
-                //       )
-                //     : GestureDetector(
-                //         onTap: selectImage,
-                //         child: Container(
-                //           margin: const EdgeInsets.only(top: 20),
-                //           child: const CircleAvatar(
-                //             radius: 50,
-                //             backgroundColor: Colors.grey,
-                //             child: Icon(Icons.add_a_photo),
-                //           ),
-                //         ),
-                //       ),
 
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -327,6 +315,9 @@ class _RegisterpageState extends State<RegisterPage> {
                   ),
                 ),
 
+
+
+
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Container(
@@ -367,88 +358,98 @@ class _RegisterpageState extends State<RegisterPage> {
                     ),
                   ),
                 ),
-                // Replace this part of the code for the dropdown
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    padding: const EdgeInsets.only(left: 10),
-                    decoration: BoxDecoration(
-                      color: const Color.fromARGB(255, 247, 248, 248),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: _offerService
-                        ? FormBuilderDropdown(
-                            name: 'profession',
-                            initialValue: _professionController.text.isNotEmpty
-                                ? _professionController.text
-                                : null,
-                            items: professions.map((profession) {
-                              return DropdownMenuItem(
-                                value: profession,
-                                child: Text(profession),
-                              );
-                            }).toList(),
-                            onChanged: (value) {
-                              setState(() {
-                                _professionController.text = value.toString();
-                              });
-                            },
-                            validator: FormBuilderValidators.required(
-                                errorText: 'Required'),
-                            decoration: const InputDecoration(
-                              hintText: 'Profession',
-                              border: InputBorder.none,
+
+                Visibility(
+                    visible: _offerService,
+                    child: Column(
+                      children: [
+
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            padding: const EdgeInsets.only(left: 10),
+                            decoration: BoxDecoration(
+                              color: const Color.fromARGB(255, 247, 248, 248),
+                              borderRadius: BorderRadius.circular(10),
                             ),
-                          )
-                        : const SizedBox.shrink(),
-                  ),
-                ),
+                            child: FormBuilderDropdown(
+                              name: 'profession',
+                              initialValue: _professionController.text.isNotEmpty
+                                  ? _professionController.text
+                                  : null,
+                              items: professions.map((profession) {
+                                return DropdownMenuItem(
+                                  value: profession,
+                                  child: Text(profession),
+                                );
+                              }).toList(),
+                              onChanged: (value) {
+                                setState(() {
+                                  _professionController.text = value.toString();
+                                });
+                              },
+                              validator: FormBuilderValidators.required(
+                                  errorText: 'Required'),
+                              decoration: const InputDecoration(
+                                hintText: 'Profession',
+                                border: InputBorder.none,
+                              ),
+                            ),
 
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    padding: const EdgeInsets.only(left: 10),
-                    decoration: BoxDecoration(
-                      color: const Color.fromARGB(255, 247, 248, 248),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: FormBuilderTextField(
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      validator: FormBuilderValidators.required(
-                          errorText: 'Describe your professional experience'),
-                      keyboardType: TextInputType.streetAddress,
-                      name: 'professional experience',
-                      controller: _professionDescriptionController,
-                      decoration: const InputDecoration(
-                        hintText: 'Describe your professional experience',
-                        border: InputBorder.none,
-                      ),
-                    ),
-                  ),
-                ),
+                          ),
+                        ),
 
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    padding: const EdgeInsets.only(left: 10),
-                    decoration: BoxDecoration(
-                      color: const Color.fromARGB(255, 247, 248, 248),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: FormBuilderTextField(
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      validator: FormBuilderValidators.required(
-                          errorText: 'Enter your hourly rate in UGX'),
-                      keyboardType: TextInputType.streetAddress,
-                      name: 'hourly rate',
-                      controller: _hourlyRateController,
-                      decoration: const InputDecoration(
-                        hintText: 'Hourly Rate',
-                        border: InputBorder.none,
-                      ),
-                    ),
-                  ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            padding: const EdgeInsets.only(left: 10),
+                            decoration: BoxDecoration(
+                              color: const Color.fromARGB(255, 247, 248, 248),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: FormBuilderTextField(
+                              autovalidateMode: AutovalidateMode.onUserInteraction,
+                              validator: FormBuilderValidators.required(
+                                  errorText: 'Describe your professional experience'),
+                              keyboardType: TextInputType.streetAddress,
+                              name: 'professional experience',
+                              controller: _professionDescriptionController,
+                              decoration: const InputDecoration(
+                                hintText: 'Describe your professional experience',
+                                border: InputBorder.none,
+                              ),
+                            ),
+                          ),
+                        ),
+
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            padding: const EdgeInsets.only(left: 10),
+                            decoration: BoxDecoration(
+                              color: const Color.fromARGB(255, 247, 248, 248),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: FormBuilderTextField(
+                              autovalidateMode: AutovalidateMode.onUserInteraction,
+                              validator: FormBuilderValidators.required(
+                                  errorText: 'Enter your hourly rate in UGX'),
+                              keyboardType: TextInputType.streetAddress,
+                              name: 'hourly rate',
+                              controller: _hourlyRateController,
+                              decoration: const InputDecoration(
+                                hintText: 'Hourly Rate',
+                                border: InputBorder.none,
+                              ),
+                            ),
+                          ),
+                        ),
+
+                      ],
+                    )
                 ),
+                // Replace this part of the code for the dropdown
+
 
                 Padding(
                   padding: const EdgeInsets.all(8.0),

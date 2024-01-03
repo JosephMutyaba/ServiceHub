@@ -192,8 +192,6 @@ class _ProfilePageState extends State<ProfileScreen> {
                       backgroundImage: _userData['imageUrl'] != null && _userData['imageUrl']!.isNotEmpty
                           ? NetworkImage(_userData['imageUrl']!)
                           : const AssetImage('assets/screens/profile.png') as ImageProvider<Object>,
-
-
                     )
                     ),
 
@@ -220,6 +218,8 @@ class _ProfilePageState extends State<ProfileScreen> {
               Text(' ${_userData['fname']} ${_userData['lName']}',
                   style: Theme.of(context).textTheme.headlineMedium),
               Text('Email: ${_userData['email']}', style: Theme.of(context).textTheme.bodyMedium),
+              const SizedBox(height: 10),
+              Text('Role: ${_userData['role']}', style: Theme.of(context).textTheme.bodyMedium),
               const SizedBox(height: 20),
 
               /// -- BUTTON
@@ -259,7 +259,7 @@ class _ProfilePageState extends State<ProfileScreen> {
       ): const Center(
     child: CircularProgressIndicator(),
     ),
-      bottomNavigationBar: bottomNavbar(context),
+        bottomNavigationBar: buildFutureBuilder(context)
     );
   }
 }

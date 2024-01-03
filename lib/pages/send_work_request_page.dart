@@ -1,6 +1,11 @@
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+
+import '../screens/cart.dart';
+import '../screens/providersCart.dart';
+import '../utils.dart';
 
 class SendWorkRequestPage extends StatefulWidget {
   final Map<String, dynamic> professionalData;
@@ -14,6 +19,8 @@ class SendWorkRequestPage extends StatefulWidget {
 class _SendWorkRequestPageState extends State<SendWorkRequestPage> {
   final TextEditingController descriptionController = TextEditingController();
   final TextEditingController budgetController = TextEditingController();
+  List<Map<String, dynamic>> requestList = [];
+
 
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
@@ -33,6 +40,7 @@ class _SendWorkRequestPageState extends State<SendWorkRequestPage> {
 
     flutterLocalNotificationsPlugin.initialize(initializationSettings);
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +62,7 @@ class _SendWorkRequestPageState extends State<SendWorkRequestPage> {
             ElevatedButton(
               onPressed: () {
                 // Step 3: Send the work request
-                sendWorkRequest();
+                 sendWorkRequest();
               },
               child: const Text('Send Request'),
             ),
@@ -64,37 +72,64 @@ class _SendWorkRequestPageState extends State<SendWorkRequestPage> {
     );
   }
 
-  void sendWorkRequest() {
-    // Validate and send the work request
-    final String description = descriptionController.text.trim();
-    final double budget = double.tryParse(budgetController.text.trim()) ?? 0;
+  Future<void> sendWorkRequest() async {
+    Map<String, dynamic>? userData = await load();
 
-    if (description.isNotEmpty && budget > 0) {
-      // Step 4: Notify the professional about the work request
-      notifyProfessional(description, budget);
+    if (userData != null) {
+      // Access userData here and perform your actions
+      if (userData['role'] == 'common_user') {
+        // Validate and send the work request
+        final String description = descriptionController.text.trim();
+        final double budget = double.tryParse(budgetController.text.trim()) ?? 0;
 
-      // TODO: Implement navigation to the next page or handle success
-      // Navigator.pop(context); // Go back to the previous page
+        if (description.isNotEmpty && budget > 0) {
+          requestList.add({'description': description, 'budget': budget});
+          // Pass the request data to the Cart screen
+          if(!mounted) return;
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Cart(
+                requestList: requestList,
+              ),
+            ),
+          );
 
-      // Optionally, you can show a success message or navigate to another screen
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Work request sent successfully!'),
-          dismissDirection: DismissDirection.up,
-          backgroundColor: Colors.green,
-        ),
-      );
+          // Notify the professional about the work request
+          notifyProfessional(description, budget);
+
+          // Show a success message to the user
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Work request sent successfully!'),
+              dismissDirection: DismissDirection.up,
+              backgroundColor: Colors.green,
+            ),
+          );
+        } else {
+          // Show an error message to the user if the input is invalid
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Please provide a valid description and budget.'),
+              backgroundColor: Colors.red,
+              dismissDirection: DismissDirection.up,
+            ),
+          );
+        }
+      } else {
+        if (!mounted) return;
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const ProvidersCart()),
+        );
+      }
     } else {
-      // Show an error message to the user if the input is invalid
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Please provide a valid description and budget.'),
-          backgroundColor: Colors.red,
-          dismissDirection: DismissDirection.up,
-        ),
-      );
+      if (kDebugMode) {
+        print("User data is not available");
+      }
     }
   }
+
 
   Future<void> notifyProfessional(String description, double budget) async {
     const AndroidNotificationDetails androidPlatformChannelSpecifics =

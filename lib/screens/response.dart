@@ -1,14 +1,8 @@
 import 'package:flutter/material.dart';
-
-import 'package:myapp/screens/payment.dart';
-import 'package:myapp/screens/profile.dart';
-
 import 'package:myapp/utils.dart';
 
-import 'cart.dart';
-
-class CheckOut extends StatelessWidget {
-  const CheckOut({super.key});
+class Response extends StatelessWidget {
+  const Response({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -66,12 +60,12 @@ class CheckOut extends StatelessWidget {
                             ),
                           ),
                           GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => const Payment()));
-                            },
+                            // onTap: () {
+                            //   Navigator.push(
+                            //       context,
+                            //       MaterialPageRoute(
+                            //           builder: (context) => const Payment()));
+                            // },
                             child: Container(
                               // changehuA (I102:4276;102:3868)
                               margin: EdgeInsets.fromLTRB(
@@ -228,6 +222,7 @@ class CheckOut extends StatelessWidget {
             ),
           ),
         ),
-        bottomNavigationBar: bottomNavbar(context));
+        bottomNavigationBar: buildFutureBuilder(context)
+    );
   }
 }
