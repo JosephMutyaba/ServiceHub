@@ -1,9 +1,10 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:myapp/messaging/auth_service.dart';
 import 'package:myapp/pages/reset_pwd.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../utils.dart';
 
@@ -33,10 +34,19 @@ class _homePageState extends State<LoginPage> {
       }),
     );
 
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
-      email: _emailController.text.trim(),
-      password: _passwordController.text.trim(),
-    );
+    // await FirebaseAuth.instance.signInWithEmailAndPassword(
+    //   email: _emailController.text.trim(),
+    //   password: _passwordController.text.trim(),
+    // );
+    final authService = Provider.of<AuthService>(context, listen: false);
+    //use of state manager provider
+    try {
+      authService.signInWithEmailAndPassword(
+          _emailController.text.trim(), _passwordController.text.trim());
+    } catch (e) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(e.toString())));
+    }
 
     //dismiss the circular progress indicator
     // ignore: use_build_context_synchronously

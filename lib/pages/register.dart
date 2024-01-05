@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
@@ -6,9 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:myapp/messaging/auth_service.dart';
+import 'package:myapp/utils.dart';
+import 'package:provider/provider.dart';
 import 'dart:io';
-
-import '../utils.dart';
 
 class RegisterPage extends StatefulWidget {
   final VoidCallback showLoginPage;
@@ -89,15 +89,19 @@ class _RegisterpageState extends State<RegisterPage> {
             return const Center(child: CircularProgressIndicator());
           }),
         );
-        await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: _emailController.text.trim(),
-          password: _passwordController.text.trim(),
+
+        final authService = Provider.of<AuthService>(context, listen: false);
+
+        User? signedUpUser = await authService.signUpWithEmailAndPassword(
+          _passwordController.text.trim(),
+          _emailController.text.trim(),
         );
 
         String imageUrl =
             _profileImage != null ? await uploadImage(_profileImage!) : '';
 
-        addUser(
+        authService.addUser(
+          signedUpUser!,
           _fNameController.text.trim(),
           _lNameController.text.trim(),
           _emailController.text.trim(),
@@ -113,7 +117,8 @@ class _RegisterpageState extends State<RegisterPage> {
           0, //Initially 0 likes
           0, //Initially 0 rating
         );
-        if(!mounted) return;
+
+        if (!mounted) return;
         Navigator.of(context).pop();
         Utils.toast("Registration Successful");
       } on FirebaseAuthException catch (e) {
@@ -139,37 +144,6 @@ class _RegisterpageState extends State<RegisterPage> {
     }
   }
 
-  Future addUser(
-      String fname,
-      String lName,
-      String email,
-      String phone,
-      String address,
-      String imageUrl,
-      String profession,
-      String decsription,
-      bool serviceType,
-      int hourlyRate,
-      int likes,
-      int rating) async {
-    await FirebaseFirestore.instance.collection('user').add(
-      {
-        'fname': fname,
-        'lName': lName,
-        'email': email,
-        'phone': phone,
-        'address': address,
-        'imageUrl': imageUrl,
-        'profession': profession,
-        'description': decsription,
-        'offer_servive': serviceType,
-        'hourlyRate': hourlyRate,
-        'likes': likes,
-        'rating': rating,
-      },
-    );
-  }
-
   Future<String> uploadImage(XFile imageFile) async {
     File file = File(imageFile.path);
 
@@ -188,12 +162,20 @@ class _RegisterpageState extends State<RegisterPage> {
   }
 
   Future selectImage() async {
-    final pickedImage =
-        await _imagePicker.pickImage(source: ImageSource.gallery);
-    if (pickedImage != null) {
-      setState(() {
-        _profileImage = pickedImage;
-      });
+    //print("Selecting image...");
+    try {
+      final pickedImage =
+          await _imagePicker.pickImage(source: ImageSource.gallery);
+      if (pickedImage != null) {
+        //print("Image selected: ${pickedImage.path}");
+        setState(() {
+          _profileImage = pickedImage;
+        });
+      } else {
+        //print("Image selection canceled");
+      }
+    } catch (e) {
+      //print("Error selecting image: $e");
     }
   }
 
@@ -240,7 +222,7 @@ class _RegisterpageState extends State<RegisterPage> {
                           backgroundImage: _profileImage != null
                               ? FileImage(File(_profileImage!.path))
                               : const AssetImage('assets/screens/profile.png')
-                          as ImageProvider<Object>,
+                                  as ImageProvider<Object>,
                         )),
                     Positioned(
                       bottom: 0,
@@ -248,14 +230,16 @@ class _RegisterpageState extends State<RegisterPage> {
                       child: Container(
                         width: 35,
                         height: 35,
-                        decoration:
-                        BoxDecoration(borderRadius: BorderRadius.circular(100), color: Colors.deepPurple),
-                        child:  IconButton(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(100),
+                            color: Colors.deepPurple),
+                        child: IconButton(
                           icon: const Icon(Icons.camera_alt),
                           color: Colors.black,
                           onPressed: () {
                             selectImage();
-                          },),
+                          },
+                        ),
                       ),
                     ),
                   ],

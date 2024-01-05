@@ -47,7 +47,7 @@ class ProfessionalListPage extends StatelessWidget {
                       ],
                     ),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Container(
                           width: 80.0,
@@ -63,7 +63,7 @@ class ProfessionalListPage extends StatelessWidget {
                                 : null,
                           ),
                         ),
-
+                        const SizedBox(width: 20),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -89,26 +89,32 @@ class ProfessionalListPage extends StatelessWidget {
                               ],
                             ),
                             Text(professional['address'] ?? ''),
-                            // Text(professional['phone'] ?? ''),
-
+                            Row(
+                              children: [
+                                const Text(
+                                  "Likes: ",
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                Text(professional['likes'].toString() ?? ''),
+                              ],
+                            ),
+                            ElevatedButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        ProfessionalDetailsPage(
+                                            professionalData: professional),
+                                    // Item()
+                                  ),
+                                );
+                              },
+                              child: const Text('Connect'),
+                            ),
                           ],
                         ),
-                        ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    ProfessionalDetailsPage(
-                                        professionalData: professional),
-                                // Item()
-                              ),
-                            );
-                          },
-                          child: const Text('Connect'),
-                        ),
                       ],
-
                     ),
                   ),
                 );
