@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp/auth/auth_page.dart';
 import 'package:myapp/screens/checkout.dart';
-import 'package:myapp/screens/profile.dart';
 import 'package:myapp/utils.dart';
 
 class Cart extends StatelessWidget {
@@ -73,10 +72,7 @@ class Cart extends StatelessWidget {
       bottomNavigationBar: bottomNavbar(context),
     );
   }
-
-
-  }
-
+}
 
 class CartItem extends StatelessWidget {
   final String title;

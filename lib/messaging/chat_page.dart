@@ -71,12 +71,17 @@ class _ChatPageState extends State<ChatPage> {
           }
 
           return ListView(
+            reverse: true,
             children: snapshot.data!.docs
                 .map((document) => _buildMessageItem(document))
                 .toList(),
           );
         });
   }
+
+
+  
+
 
   //build message item
   Widget _buildMessageItem(DocumentSnapshot document) {
@@ -88,7 +93,7 @@ class _ChatPageState extends State<ChatPage> {
         : Alignment.centerLeft;
 
     return Padding(
-      padding: const EdgeInsets.all(10.0),
+      padding: const EdgeInsets.all(2.0),
       child: Container(      
         alignment: alignment,
         child: Column(
@@ -111,7 +116,7 @@ class _ChatPageState extends State<ChatPage> {
                   data['message'],
                   style: const TextStyle(
                     color: Colors.white,
-                    fontSize: 20,
+                    fontSize: 15,
                   ),
                 ),
               ),

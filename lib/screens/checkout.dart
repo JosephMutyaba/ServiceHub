@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 
 import 'package:myapp/screens/payment.dart';
-import 'package:myapp/screens/profile.dart';
 
 import 'package:myapp/utils.dart';
 
-import 'cart.dart';
 
 class CheckOut extends StatelessWidget {
   const CheckOut({super.key});
