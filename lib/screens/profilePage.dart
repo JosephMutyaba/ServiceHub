@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:myapp/auth/auth_page.dart';
 
 import 'package:myapp/screens/updateProfile.dart';
 

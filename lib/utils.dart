@@ -3,8 +3,9 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:ui';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:myapp/messaging/users_page.dart';
 import 'package:myapp/screens/cart.dart';
-import 'package:myapp/screens/profile.dart';
+
 import 'package:myapp/screens/profilePage.dart';
 
 class MyCustomScrollBehavior extends MaterialScrollBehavior {
@@ -123,6 +124,10 @@ BottomNavigationBar bottomNavbar(BuildContext context) {
         icon: Icon(Icons.person, color: Colors.deepPurple),
         label: 'Profile',
       ),
+      BottomNavigationBarItem(
+        icon: Icon(Icons.message_sharp, color: Colors.deepPurple),
+        label: 'Chat',
+      ),
     ],
     currentIndex: 0,
     selectedItemColor: Colors.deepPurple,
@@ -137,6 +142,10 @@ BottomNavigationBar bottomNavbar(BuildContext context) {
       } else if (index == 2) {
         if (ModalRoute.of(context)?.settings.arguments is! ProfileScreen) {
           Navigator.push(context, MaterialPageRoute(builder: (context) => const ProfileScreen()));
+        }
+      }else if (index == 3) {
+        if (ModalRoute.of(context)?.settings.arguments is! UserPage) {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => const UserPage()));
         }
       }
     },

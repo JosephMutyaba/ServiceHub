@@ -1,9 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp/pages/professionals_list.dart';
-import 'package:myapp/screens/cart.dart';
-import 'package:myapp/screens/profile.dart';
-import 'package:myapp/screens/profilePage.dart';
 import 'package:myapp/utils.dart';
 
 class MyApp24 extends StatelessWidget {
