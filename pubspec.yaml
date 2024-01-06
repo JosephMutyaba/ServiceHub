@@ -48,7 +48,7 @@ dependencies:
   flutter_form_builder: ^9.1.1
   form_builder_validators: ^9.1.0
   fluttertoast: ^8.2.4
-  firebase_messaging: ^14.7.9
+  provider: 
   
 
 dev_dependencies:
