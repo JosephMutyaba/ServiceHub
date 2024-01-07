@@ -99,7 +99,7 @@ class ProfessionCard extends StatelessWidget {
           MaterialPageRoute(
             builder: (context) => ProfessionalListPage(
                 selectedProfession:
-                    profession), // Replace with your destination page
+                    profession), 
           ),
         );
       },

@@ -20,7 +20,7 @@ class _UserPageState extends State<UserPage> {
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 201, 186, 186),
       appBar: AppBar(
-        title: const Text("Users"),
+        title: const Text("Chats"),
         actions: [
           IconButton(
             icon: const Icon(Icons.logout),

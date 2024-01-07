@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:myapp/pages/professional_details_page.dart';
@@ -29,95 +30,99 @@ class ProfessionalListPage extends StatelessWidget {
               itemBuilder: (context, index) {
                 final professional = professionals[index];
 
-                return GestureDetector(
-                  onTap: () {},
-                  child: Container(
-                    margin: const EdgeInsets.all(8.0),
-                    padding: const EdgeInsets.all(8.0),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(8.0),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 2,
-                          blurRadius: 5,
-                          offset: const Offset(0, 2),
-                        ),
-                      ],
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Container(
-                          width: 80.0,
-                          height: 80.0,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8.0),
-                            image: professional['imageUrl'] != null
-                                ? DecorationImage(
-                                    image:
-                                        NetworkImage(professional['imageUrl']),
-                                    fit: BoxFit.cover,
-                                  )
-                                : null,
+                if (FirebaseAuth.instance.currentUser!.uid !=
+                    professional['uid']) {
+                  return GestureDetector(
+                    onTap: () {},
+                    child: Container(
+                      margin: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(8.0),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(8.0),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 2,
+                            blurRadius: 5,
+                            offset: const Offset(0, 2),
                           ),
-                        ),
-                        const SizedBox(width: 20),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                Text(
-                                  professional['fname'] ?? '',
-                                  style: const TextStyle(
-                                    fontSize: 18.0,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 5,
-                                ),
-                                Text(
-                                  professional['lName'] ?? '',
-                                  style: const TextStyle(
-                                    fontSize: 18.0,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ],
+                        ],
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Container(
+                            width: 80.0,
+                            height: 80.0,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8.0),
+                              image: professional['imageUrl'] != null
+                                  ? DecorationImage(
+                                      image: NetworkImage(
+                                          professional['imageUrl']),
+                                      fit: BoxFit.cover,
+                                    )
+                                  : null,
                             ),
-                            Text(professional['address'] ?? ''),
-                            Row(
-                              children: [
-                                const Text(
-                                  "Likes: ",
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                                Text(professional['likes'].toString() ?? ''),
-                              ],
-                            ),
-                            ElevatedButton(
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        ProfessionalDetailsPage(
-                                            professionalData: professional),
-                                    // Item()
+                          ),
+                          const SizedBox(width: 20),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Text(
+                                    professional['fname'] ?? '',
+                                    style: const TextStyle(
+                                      fontSize: 18.0,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
-                                );
-                              },
-                              child: const Text('Connect'),
-                            ),
-                          ],
-                        ),
-                      ],
+                                  const SizedBox(
+                                    width: 5,
+                                  ),
+                                  Text(
+                                    professional['lName'] ?? '',
+                                    style: const TextStyle(
+                                      fontSize: 18.0,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Text(professional['address'] ?? ''),
+                              Row(
+                                children: [
+                                  const Text(
+                                    "Likes: ",
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                  Text(professional['likes'].toString() ?? ''),
+                                ],
+                              ),
+                              ElevatedButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          ProfessionalDetailsPage(
+                                              professionalData: professional),
+                                      // Item()
+                                    ),
+                                  );
+                                },
+                                child: const Text('Connect'),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                );
+                  );
+                }
               },
             );
           }
@@ -138,7 +143,7 @@ class ProfessionalListPage extends StatelessWidget {
 
       return snapshot.docs.map((doc) => doc.data()).toList();
     } catch (error) {
-      print('Error fetching professional data: $error');
+      //print('Error fetching professional data: $error');
       throw error;
     }
   }
