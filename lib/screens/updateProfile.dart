@@ -1,4 +1,5 @@
-import 'dart:io';
+// ignore_for_file: use_build_context_synchronously
+
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -72,6 +73,7 @@ class _EditProfilePageState extends State<UpdateProfileScreen> {
         });
 
         // Show a success message or handle it as needed
+       
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Profile updated successfully'),
             backgroundColor: Colors.green,
