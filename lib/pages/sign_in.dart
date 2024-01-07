@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:myapp/auth/auth_service.dart';
 import 'package:myapp/auth/reset_pwd.dart';
@@ -68,9 +69,11 @@ class _homePageState extends State<LoginPage> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
          appBar: AppBar(
-          title: const Text("Login",
+          title:  Text("Login",
             textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.headlineMedium,
           ),
+
         ),
         backgroundColor: const Color.fromARGB(255, 243, 239, 239),
         body: Center(
@@ -80,17 +83,31 @@ class _homePageState extends State<LoginPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Icon(
-                    Icons.android,
-                    size: 60,
+                  // const Icon(
+                  //   Icons.android,
+                  //   size: 60,
+                  // ),
+                  Center(
+                    child: Image.asset(
+                      "assets/screens/images/logo-no-background.png",
+                      height: 100,
+                      width: 300,
+                      scale: 0.5,
+                    ),
                   ),
-                  const SafeArea(
+
+                   SafeArea(
                       child: Text(
                     "Hello welcome!",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 24,
-                    ),
+                        style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                          color: Colors.deepPurple.shade900,
+                          fontWeight: FontWeight.bold,
+                        ),
+
+                    // style: TextStyle(
+                    //   fontWeight: FontWeight.bold,
+                    //   fontSize: 24,
+                    // ),
                   )),
                   const SizedBox(
                     height: 10,
@@ -167,10 +184,10 @@ class _homePageState extends State<LoginPage> {
                               return const ResetPasswordPage();
                             }));
                           },
-                          child: const Text(
+                          child:  Text(
                             "Forgot your password?",
                             style: TextStyle(
-                              color: Colors.blue,
+                              color: Colors.deepPurple.shade900,
                               fontSize: 15,
                               fontWeight: FontWeight.bold,
                             ),
@@ -201,7 +218,7 @@ class _homePageState extends State<LoginPage> {
                       padding: const EdgeInsets.only(
                           left: 135, right: 135, top: 10, bottom: 10),
                       decoration: BoxDecoration(
-                        color: Colors.blue,
+                        color: Colors.deepPurple.shade900,
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: const Text(
@@ -229,10 +246,10 @@ class _homePageState extends State<LoginPage> {
                       ),
                       GestureDetector(
                         onTap: widget.showRegisterPage,
-                        child: const Text(
+                        child:  Text(
                           " Register here",
                           style: TextStyle(
-                            color: Colors.blue,
+                            color: Colors.deepPurple.shade900,
                             fontSize: 15,
                             fontWeight: FontWeight.bold,
                           ),

@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
 import 'package:flutter/material.dart';
 import 'package:myapp/messaging/chat_page.dart';
 import 'package:myapp/utils.dart';
@@ -18,9 +17,13 @@ class _UserPageState extends State<UserPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 201, 186, 186),
       appBar: AppBar(
-        title: const Text("Chats"),
+        title: Text("Chats",
+            style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+            )
+        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.logout),
@@ -28,8 +31,12 @@ class _UserPageState extends State<UserPage> {
             onPressed: () async {
               await FirebaseAuth.instance.signOut();
             },
-          ),
+          )
         ],
+        backgroundColor: Colors.deepPurple.shade700,
+        iconTheme: const IconThemeData(
+          color: Colors.white,
+        ),
       ),
       body: _userList(),
       bottomNavigationBar: bottomNavbar(context),
@@ -46,20 +53,40 @@ class _UserPageState extends State<UserPage> {
         }
 
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Text("Loading...");
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
         }
 
         return FutureBuilder<List<DocumentSnapshot>>(
           future: _filterUsers(snapshot.data!.docs),
           builder: (context, userSnapshot) {
             if (userSnapshot.connectionState == ConnectionState.waiting) {
-              return const Text("Loading...");
+              return const Center(
+              child: CircularProgressIndicator(),
+              );
             }
 
             return ListView(
               children: userSnapshot.data!
-                  .map<Widget>((doc) => _userListItem(doc))
-                  .toList(),
+                    .map<Widget>((doc) => Container(
+              margin: const EdgeInsets.all(3.0),
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 2,
+                    blurRadius: 5,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
+              ),
+              child: _userListItem(doc),
+            )
+              ).toList(),
             );
           },
         );
@@ -91,35 +118,19 @@ class _UserPageState extends State<UserPage> {
       }
     }
 
-    return ListTile(
-      // title: Text(data["email"]),
-      title: Container(
-        decoration: BoxDecoration(
-          color: Color.fromARGB(255, 52, 118, 180),
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            children: [
-              // Display an image
-              CircleAvatar(
-                backgroundImage: NetworkImage(data["imageUrl"] ?? ''),
-                radius: 29.0,
-              ),
-              const SizedBox(width: 16),
-              // Display the user's name
-              Text("${data['fname']} ${data['lName']}",style: const TextStyle(
-                fontSize: 20,
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-              ),),
-            ],
-          ),
-        ),
-      ),
-      onTap: navigateToChat,
-    );
+     return ListTile(
+       visualDensity: VisualDensity.compact,
+        onTap: navigateToChat,
+       title: Text("${data['fname']} ${data['lName']}",style: const TextStyle(
+                     fontSize: 20,
+
+                    fontWeight: FontWeight.bold,
+                   ),),
+       leading: CircleAvatar(
+                 backgroundImage: NetworkImage(data["imageUrl"] ?? 'assets/images/screens/profile.png'),
+                 radius: 29.0,
+               ),
+     );
   }
 
   Future<List<DocumentSnapshot>> _filterUsers(
@@ -133,7 +144,6 @@ class _UserPageState extends State<UserPage> {
         filteredUsers.add(user);
       }
     }
-
     return filteredUsers;
   }
 

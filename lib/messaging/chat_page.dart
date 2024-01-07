@@ -35,9 +35,15 @@ class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 122, 124, 122),
+
       appBar: AppBar(
-        title: Text(widget.receiverUserEmail),
+        title: Text(widget.receiverUserEmail,
+            style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            )),
+        backgroundColor: Colors.deepPurple.shade700,
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -140,10 +146,11 @@ class _ChatPageState extends State<ChatPage> {
               decoration: BoxDecoration(
                 color: const Color.fromARGB(255, 247, 248, 248),
                 borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: Colors.deepPurple.shade100)
               ),
               child: TextField(
                 controller: _messageController,
-                decoration: const InputDecoration(
+                decoration:  const InputDecoration(
                   hintText: 'type message...',
                   border: InputBorder.none,
                 ),
@@ -153,7 +160,7 @@ class _ChatPageState extends State<ChatPage> {
         ),
         //icon button
         Container(
-          decoration: BoxDecoration(color: Colors.green[900],
+          decoration: BoxDecoration(color: Colors.blue[900],
           borderRadius: BorderRadius.circular(10),
           ),
           child: IconButton(
