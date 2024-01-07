@@ -30,99 +30,95 @@ class ProfessionalListPage extends StatelessWidget {
               itemBuilder: (context, index) {
                 final professional = professionals[index];
 
-                if (FirebaseAuth.instance.currentUser!.uid !=
-                    professional['uid']) {
-                  return GestureDetector(
-                    onTap: () {},
-                    child: Container(
-                      margin: const EdgeInsets.all(8.0),
-                      padding: const EdgeInsets.all(8.0),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(8.0),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 2,
-                            blurRadius: 5,
-                            offset: const Offset(0, 2),
-                          ),
-                        ],
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Container(
-                            width: 80.0,
-                            height: 80.0,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8.0),
-                              image: professional['imageUrl'] != null
-                                  ? DecorationImage(
-                                      image: NetworkImage(
-                                          professional['imageUrl']),
-                                      fit: BoxFit.cover,
-                                    )
-                                  : null,
-                            ),
-                          ),
-                          const SizedBox(width: 20),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Text(
-                                    professional['fname'] ?? '',
-                                    style: const TextStyle(
-                                      fontSize: 18.0,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    width: 5,
-                                  ),
-                                  Text(
-                                    professional['lName'] ?? '',
-                                    style: const TextStyle(
-                                      fontSize: 18.0,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Text(professional['address'] ?? ''),
-                              Row(
-                                children: [
-                                  const Text(
-                                    "Likes: ",
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
-                                  ),
-                                  Text(professional['likes'].toString() ?? ''),
-                                ],
-                              ),
-                              ElevatedButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          ProfessionalDetailsPage(
-                                              professionalData: professional),
-                                      // Item()
-                                    ),
-                                  );
-                                },
-                                child: const Text('Connect'),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
+                return GestureDetector(
+                  onTap: () {},
+                  child: Container(
+                    margin: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(8.0),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(8.0),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 2,
+                          blurRadius: 5,
+                          offset: const Offset(0, 2),
+                        ),
+                      ],
                     ),
-                  );
-                }
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Container(
+                          width: 80.0,
+                          height: 80.0,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8.0),
+                            image: professional['imageUrl'] != null
+                                ? DecorationImage(
+                                    image:
+                                        NetworkImage(professional['imageUrl']),
+                                    fit: BoxFit.cover,
+                                  )
+                                : null,
+                          ),
+                        ),
+                        const SizedBox(width: 20),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  professional['fname'] ?? '',
+                                  style: const TextStyle(
+                                    fontSize: 18.0,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                const SizedBox(
+                                  width: 5,
+                                ),
+                                Text(
+                                  professional['lName'] ?? '',
+                                  style: const TextStyle(
+                                    fontSize: 18.0,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Text(professional['address'] ?? ''),
+                            Row(
+                              children: [
+                                const Text(
+                                  "Likes: ",
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                Text(professional['likes'].toString() ?? ''),
+                              ],
+                            ),
+                            ElevatedButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        ProfessionalDetailsPage(
+                                            professionalData: professional),
+                                    // Item()
+                                  ),
+                                );
+                              },
+                              child: const Text('Connect'),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                );
               },
             );
           }
@@ -139,6 +135,7 @@ class ProfessionalListPage extends StatelessWidget {
           .collection('user')
           .where('profession', isEqualTo: selectedProfession)
           .where('offer_servive', isEqualTo: true)
+          .where('uid', isNotEqualTo: FirebaseAuth.instance.currentUser!.uid)
           .get();
 
       return snapshot.docs.map((doc) => doc.data()).toList();
