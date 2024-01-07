@@ -111,15 +111,13 @@ pickImage(ImageSource source) async {
 
 BottomNavigationBar bottomNavbar(BuildContext context) {
   return BottomNavigationBar(
+    type: BottomNavigationBarType.fixed,
     items: const <BottomNavigationBarItem>[
       BottomNavigationBarItem(
         icon: Icon(Icons.home, color: Colors.deepPurple),
         label: 'Home',
       ),
-      BottomNavigationBarItem(
-        icon: Icon(Icons.shopping_cart, color: Colors.deepPurple),
-        label: 'Cart',
-      ),
+
       BottomNavigationBarItem(
         icon: Icon(Icons.person, color: Colors.deepPurple),
         label: 'Profile',
@@ -128,25 +126,32 @@ BottomNavigationBar bottomNavbar(BuildContext context) {
         icon: Icon(Icons.message_sharp, color: Colors.deepPurple),
         label: 'Chat',
       ),
+      // BottomNavigationBarItem(
+      //   icon: Icon(Icons.shopping_cart, color: Colors.deepPurple),
+      //   label: 'Cart',
+      // ),
     ],
     currentIndex: 0,
     selectedItemColor: Colors.deepPurple,
-    unselectedItemColor: Colors.grey,
+    unselectedItemColor: Colors.grey, // Color for unselected items
+     // Set unselected label color
     onTap: (index) {
       if (index == 0) {
         Navigator.of(context).popUntil((route) => route.isFirst);
-      } else if (index == 1) {
-        if (ModalRoute.of(context)?.settings.arguments is! Cart) {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => const Cart()));
-        }
-      } else if (index == 2) {
-        if (ModalRoute.of(context)?.settings.arguments is! ProfileScreen) {
+      }  else if (index == 1) {
+
           Navigator.push(context, MaterialPageRoute(builder: (context) => const ProfileScreen()));
-        }
-      }else if (index == 3) {
+
+      } else if (index == 2) {
         if (ModalRoute.of(context)?.settings.arguments is! UserPage) {
           Navigator.push(context, MaterialPageRoute(builder: (context) => const UserPage()));
         }
-      }
+       }
+  // else if (index == 3) {
+      //   if (ModalRoute.of(context)?.settings.arguments is! Cart) {
+      //     Navigator.push(context, MaterialPageRoute(builder: (context) => const Cart()));
+      //   }
+      // }
     },
-  );}
+  );
+}

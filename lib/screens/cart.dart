@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp/auth/auth_page.dart';
-import 'package:myapp/screens/checkout.dart';
 import 'package:myapp/utils.dart';
 
 class Cart extends StatelessWidget {
@@ -57,11 +56,11 @@ class Cart extends StatelessWidget {
               title: const Text('Total: \$30.98'), // Calculate the total price
               trailing: ElevatedButton(
                 onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const CheckOut()));
-                  // Implement checkout functionality
+                  // Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //         builder: (context) => const CheckOut()));
+                  // // Implement checkout functionality
                 },
                 child: const Text('Checkout'),
               ),

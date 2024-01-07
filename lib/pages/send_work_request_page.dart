@@ -3,6 +3,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:myapp/messaging/chat/chat_service.dart';
 import 'package:myapp/messaging/chat_page.dart';
 
+
 class SendWorkRequestPage extends StatefulWidget {
   final Map<String, dynamic> professionalData;
 
@@ -15,6 +16,8 @@ class SendWorkRequestPage extends StatefulWidget {
 class _SendWorkRequestPageState extends State<SendWorkRequestPage> {
   final TextEditingController descriptionController = TextEditingController();
   final TextEditingController budgetController = TextEditingController();
+  List<Map<String, dynamic>> requestList = [];
+
 
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
@@ -35,11 +38,19 @@ class _SendWorkRequestPageState extends State<SendWorkRequestPage> {
     flutterLocalNotificationsPlugin.initialize(initializationSettings);
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Send Work Request'),
+        title: Text('Send Work Request',
+            style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            )
+        ),
+        backgroundColor: Colors.deepPurple.shade700,
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -47,15 +58,30 @@ class _SendWorkRequestPageState extends State<SendWorkRequestPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text('Describe the work:'),
-            TextField(controller: descriptionController),
+            TextField(controller: descriptionController,
+              maxLines: null,
+              keyboardType: TextInputType.multiline,
+              decoration: const InputDecoration(
+                hintText: 'Enter a description of the work',
+              ),
+              textInputAction: TextInputAction.newline,
+
+            ),
             const SizedBox(height: 16),
             const Text('Budget:'),
-            TextField(controller: budgetController),
+            TextField(controller: budgetController,
+              keyboardType: TextInputType.number,
+              decoration: const InputDecoration(
+                hintText: 'UGX 0',
+              ),
+
+
+            ),
             const SizedBox(height: 16),
             ElevatedButton(
               onPressed: () {
                 // Step 3: Send the work request
-                sendWorkRequest();
+                 sendWorkRequest();
               },
               child: const Text('Send Request'),
             ),
@@ -65,7 +91,6 @@ class _SendWorkRequestPageState extends State<SendWorkRequestPage> {
     );
   }
 
-  
 void sendWorkRequest() async {
   final String description = descriptionController.text.trim();
   final double budget = double.tryParse(budgetController.text.trim()) ?? 0;
