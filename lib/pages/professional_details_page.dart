@@ -41,16 +41,13 @@ class _ProfessionalDetailsPageState extends State<ProfessionalDetailsPage> {
       appBar: AppBar(
         title: Text(
           '${widget.professionalData['fname']} ${widget.professionalData['lName']}',
-          style: safeGoogleFont(
-
-            'SF Pro Display',
-            fontSize: 30 * ffem,
-            fontWeight: FontWeight.w500,
-            height: 1.2058823529 * ffem / fem,
-            letterSpacing: 0.4099999964 * fem,
-          ),
+            style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            )
         ),
-
+        backgroundColor: Colors.deepPurple.shade700,
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: SingleChildScrollView(
         child: SizedBox(
@@ -270,7 +267,8 @@ class _ProfessionalDetailsPageState extends State<ProfessionalDetailsPage> {
                                         });
                                       }
                                     },
-                                    icon: const Icon(Icons.favorite_border),
+                                    icon:  Icon(!toggle ? Icons.favorite_border :
+                                    Icons.favorite),
 
                                     label: Text(!toggle
                                         ? 'Like'

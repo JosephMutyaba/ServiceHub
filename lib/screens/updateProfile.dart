@@ -1,6 +1,5 @@
 // ignore_for_file: use_build_context_synchronously
 
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -25,7 +24,10 @@ class _EditProfilePageState extends State<UpdateProfileScreen> {
   late TextEditingController _lNameController;
   late TextEditingController _phoneController;
   late TextEditingController _addressController;
+  late TextEditingController _descriptionController;
+  late TextEditingController _hourlyRateController;
   final _formKey = GlobalKey<FormBuilderState>();
+  late bool offerService = false;
   final FirebaseStorage _storage = FirebaseStorage.instance;
   Uint8List? _image;
 
@@ -39,6 +41,9 @@ class _EditProfilePageState extends State<UpdateProfileScreen> {
     _lNameController = TextEditingController(text: widget.userData['lName']);
     _phoneController = TextEditingController(text: widget.userData['phone']);
     _addressController = TextEditingController(text: widget.userData['address']);
+    _descriptionController = TextEditingController(text: widget.userData['description']);
+    _hourlyRateController = TextEditingController(text: widget.userData['hourlyRate'].toString());
+    offerService = widget.userData['offer_servive'];
     _imageUrl = widget.userData['imageUrl'] ?? '';
 
     // Initialize _profileImage with the current user image URL
@@ -54,22 +59,27 @@ class _EditProfilePageState extends State<UpdateProfileScreen> {
       QuerySnapshot<Map<String, dynamic>> userSnapshot = await FirebaseFirestore
           .instance
           .collection('user')
+          .where('uid', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
           .where('email', isEqualTo: currentUserEmail)
           .limit(1)
           .get();
 
       if (userSnapshot.docs.isNotEmpty) {
         // Update the document with the new data
+        int hourlyRate = int.parse(_hourlyRateController.text.trim());
+        // ignore: unnecessary_null_comparison
+        String profileImageUrl = _imageUrl != null
+            ? await uploadImage('user_images', _image!)
+            : widget.userData['imageUrl'];
+
         await userSnapshot.docs.first.reference.update({
           'fname': _fnameController.text.trim(),
           'lName': _lNameController.text.trim(),
           'phone': _phoneController.text.trim(),
           'address': _addressController.text.trim(),
-          // ignore: unnecessary_null_comparison
-          'imageUrl': _imageUrl != null
-              ? await uploadImage('user_images', _image!)
-              : widget
-              .userData['imageUrl'], // Keep existing image if not changed
+          'description': _descriptionController.text.trim(),
+          'hourlyRate': hourlyRate,
+          'imageUrl': profileImageUrl, // Keep existing image if not changed
         });
 
         // Show a success message or handle it as needed
@@ -101,7 +111,8 @@ class _EditProfilePageState extends State<UpdateProfileScreen> {
 
     final Reference ref = _storage
         .ref()
-        .child(childName);
+        .child(childName)
+        .child(FirebaseAuth.instance.currentUser!.uid);
     final UploadTask uploadTask = ref.putData(file);
     final TaskSnapshot snapshot = await uploadTask;
     final String downloadUrl = await snapshot.ref.getDownloadURL();
@@ -123,6 +134,9 @@ class _EditProfilePageState extends State<UpdateProfileScreen> {
     _lNameController.dispose();
     _phoneController.dispose();
     _addressController.dispose();
+    _descriptionController.dispose();
+    _hourlyRateController.dispose();
+    offerService = false;
     super.dispose();
   }
   @override
@@ -163,10 +177,11 @@ class _EditProfilePageState extends State<UpdateProfileScreen> {
                       width: 35,
                       height: 35,
                       decoration:
-                      BoxDecoration(borderRadius: BorderRadius.circular(100), color: Colors.deepPurple),
+                      BoxDecoration(borderRadius: BorderRadius.circular(100),
+                          color: Colors.black.withOpacity(0.5)),
                       child:  IconButton(
                         icon: const Icon(Icons.camera_alt),
-                        color: Colors.black,
+                        color: Colors.white,
                         onPressed: () {
                           selectImage();
                         },),
@@ -181,57 +196,155 @@ class _EditProfilePageState extends State<UpdateProfileScreen> {
                 key: _formKey,
                 child: Column(
                   children: [
-                    FormBuilderTextField(
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      keyboardType: TextInputType.name,
-                      validator: FormBuilderValidators.required(),
-                      name: 'fname',
-                      controller: _fnameController,
-                      decoration: const InputDecoration(
-                          label: Text("FirstName"),
-                          prefixIcon: Icon(Icons.person),
-                        border: InputBorder.none
+                    Container(
+                      decoration: BoxDecoration(
+                          // color: const Color.fromARGB(255, 247, 248, 248),
+                          borderRadius: BorderRadius.circular(5),
+                          border: Border.all(color: Colors.deepPurple.shade200)
                       ),
-                    ),
-                    FormBuilderTextField(
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      keyboardType: TextInputType.name,
-                      name: 'lName',
-                      validator: FormBuilderValidators.required(),
-                      controller: _lNameController,
-                      decoration: const InputDecoration(
-                          label: Text("LastName"),
-                          prefixIcon: Icon(Icons.person_outline),
+                      child: FormBuilderTextField(
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        keyboardType: TextInputType.name,
+                        validator: FormBuilderValidators.required(),
+                        name: 'fname',
+                        controller: _fnameController,
+                        decoration:  InputDecoration(
+                            labelText: "FirstName",
+                            floatingLabelStyle: TextStyle(
+                              color: Colors.deepPurple.shade900
+                            ),
+                            prefixIcon: const Icon(Icons.person),
                           border: InputBorder.none
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    FormBuilderTextField(
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      keyboardType: TextInputType.phone,
-                      name: 'phone',
-                      validator: FormBuilderValidators.compose([
-                        FormBuilderValidators.required(),
-                        FormBuilderValidators.numeric(),
-                      ]),
-                      controller: _phoneController,
-                      decoration: const InputDecoration(
-                          label: Text("Phone"),
-                          prefixIcon: Icon(Icons.phone),
-                          border: InputBorder.none
+                        ),
                       ),
                     ),
                     const SizedBox(height: 10),
-                    FormBuilderTextField(
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      validator: FormBuilderValidators.required(),
-                      keyboardType: TextInputType.streetAddress,
-                      name: 'address',
-                      controller: _addressController,
-                      decoration: const InputDecoration(
-                          label: Text("Address"),
-                          prefixIcon: Icon(Icons.home),
-                          border: InputBorder.none
+                    Container(
+                      decoration: BoxDecoration(
+                        // color: const Color.fromARGB(255, 247, 248, 248),
+                          borderRadius: BorderRadius.circular(5),
+                          border: Border.all(color: Colors.deepPurple.shade200)
+                      ),
+                      child: FormBuilderTextField(
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        keyboardType: TextInputType.name,
+                        name: 'lName',
+                        validator: FormBuilderValidators.required(),
+                        controller: _lNameController,
+                        decoration: InputDecoration(
+                            labelText: "LastName",
+                            floatingLabelStyle: TextStyle(
+                              color: Colors.deepPurple.shade900
+                            ),
+                            prefixIcon: const Icon(Icons.person_outline),
+                            border: InputBorder.none
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    Visibility(
+                      visible: offerService,
+                      child: Column(
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              // color: const Color.fromARGB(255, 247, 248, 248),
+                                borderRadius: BorderRadius.circular(5),
+                                border: Border.all(color: Colors.deepPurple.shade200)
+                            ),
+                            child: FormBuilderTextField(
+                              autovalidateMode: AutovalidateMode.onUserInteraction,
+                              keyboardType: TextInputType.multiline,
+                              name: 'description',
+                              validator: FormBuilderValidators.compose([
+                                FormBuilderValidators.required(),
+                              ]),
+                              controller: _descriptionController,
+                              decoration:  InputDecoration(
+                                  labelText: "Description",
+                                  floatingLabelStyle: TextStyle(
+                                      color: Colors.deepPurple.shade900
+                                  ),
+                                  prefixIcon: const Icon(Icons.description),
+                                  border: InputBorder.none
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          Container(
+                            decoration: BoxDecoration(
+                              // color: const Color.fromARGB(255, 247, 248, 248),
+                                borderRadius: BorderRadius.circular(5),
+                                border: Border.all(color: Colors.deepPurple.shade200)
+                            ),
+                            child: FormBuilderTextField(
+                              autovalidateMode: AutovalidateMode.onUserInteraction,
+                              keyboardType: TextInputType.multiline,
+                              name: 'hourlyRate',
+                              validator: FormBuilderValidators.compose([
+                                FormBuilderValidators.required(),
+                                FormBuilderValidators.numeric(),
+                              ]),
+                              controller: _hourlyRateController,
+                              decoration:  InputDecoration(
+                                  labelText: "Hourly Rate",
+                                  floatingLabelStyle: TextStyle(
+                                      color: Colors.deepPurple.shade900
+                                  ),
+                                  prefixText: "UGX ",
+                                  prefixIcon: const Icon(Icons.monetization_on),
+                                  border: InputBorder.none
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 10)
+                        ])),
+                    Container(
+                      decoration: BoxDecoration(
+                        // color: const Color.fromARGB(255, 247, 248, 248),
+                          borderRadius: BorderRadius.circular(5),
+                          border: Border.all(color: Colors.deepPurple.shade200)
+                      ),
+                      child: FormBuilderTextField(
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        keyboardType: TextInputType.multiline,
+                        name: 'phone',
+                        validator: FormBuilderValidators.compose([
+                          FormBuilderValidators.required(),
+                          FormBuilderValidators.numeric(),
+                        ]),
+                        controller: _phoneController,
+                        decoration:  InputDecoration(
+                            labelText: "Phone",
+                            floatingLabelStyle: TextStyle(
+                                color: Colors.deepPurple.shade900
+                            ),
+                            prefixIcon: const Icon(Icons.phone),
+                            border: InputBorder.none
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    Container(
+                      decoration: BoxDecoration(
+                        // color: const Color.fromARGB(255, 247, 248, 248),
+                          borderRadius: BorderRadius.circular(5),
+                          border: Border.all(color: Colors.deepPurple.shade200)
+                      ),
+                      child: FormBuilderTextField(
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        validator: FormBuilderValidators.required(),
+                        keyboardType: TextInputType.streetAddress,
+                        name: 'address',
+                        controller: _addressController,
+                        decoration: InputDecoration(
+                            labelText:"Address",
+                            floatingLabelStyle: TextStyle(
+                              color: Colors.deepPurple.shade900
+                            ),
+                            prefixIcon: const Icon(Icons.home),
+                            border: InputBorder.none
+                        ),
                       ),
                     ),
                     const SizedBox(height: 10),

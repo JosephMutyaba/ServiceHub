@@ -125,14 +125,6 @@ class _ProfilePageState extends State<ProfileScreen> {
             ElevatedButton(
               onPressed: () async {
                 await FirebaseAuth.instance.signOut();
-                // ignore: use_build_context_synchronously
-                // Navigator.pushAndRemoveUntil(
-                //   context,
-                //   MaterialPageRoute(
-                //     builder: (context) => const AuthPage(),
-                //   ),
-                //       (route) => false,
-                //   );
                 if(!mounted) return;
                 Navigator.of(context).popUntil((route) => route.isFirst);
 
@@ -154,111 +146,103 @@ class _ProfilePageState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var isDark = MediaQuery.of(context).platformBrightness == Brightness.dark;
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: const Icon(Icons.arrow_back_ios)),
         title: Text(
             "Profile",
             textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.headlineMedium),
-        actions: [
-          IconButton(
-              onPressed: () {},
-              icon: Icon(isDark ? Icons.dark_mode  : Icons.light_mode)
-          )
-        ],
+            style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            )
+        ),
+        backgroundColor: Colors.deepPurple.shade700,
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
 
       body:_userData.isNotEmpty
           ? SingleChildScrollView(
-        child: Container(
+            child: Container(
 
-          padding: const EdgeInsets.all(30),
-          child: Column(
-            children: [
-              Stack(
+              padding: const EdgeInsets.all(30),
+              child: Column(
                 children: [
-                  SizedBox(
-                    width: 120,
-                    height: 120,
-                    child: CircleAvatar(
-                        radius: 50,
-                      backgroundImage: _userData['imageUrl'] != null && _userData['imageUrl']!.isNotEmpty
-                          ? NetworkImage(_userData['imageUrl']!)
-                          : const AssetImage('assets/screens/profile.png') as ImageProvider<Object>,
-                    )
-                    ),
+                  Stack(
+                    children: [
+                      SizedBox(
+                        width: 120,
+                        height: 120,
+                        child: CircleAvatar(
+                            radius: 50,
+                          backgroundImage: _userData['imageUrl'] != null && _userData['imageUrl']!.isNotEmpty
+                              ? NetworkImage(_userData['imageUrl']!)
+                              : const AssetImage('assets/screens/profile.png') as ImageProvider<Object>,
+                        )
+                        ),
 
-                  Positioned(
-                    bottom: 0,
-                    right: 0,
-                    child: Container(
-                      width: 35,
-                      height: 35,
-                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(100),
-                          color: Colors.purple,
-                      ),
-                      child: const IconButton(
-                        icon:Icon(Icons.edit),
-                        onPressed: null,
-                        color: Colors.black,
-                        iconSize: 20,
-                      ),
+                      // Positioned(
+                      //   bottom: 0,
+                      //   right: 0,
+                      //   child: Container(
+                      //     width: 35,
+                      //     height: 35,
+                      //     decoration: BoxDecoration(borderRadius: BorderRadius.circular(100),
+                      //         color: Colors.purple,
+                      //     ),
+                      //     child: const IconButton(
+                      //       icon:Icon(Icons.edit),
+                      //       onPressed: null,
+                      //       color: Colors.black,
+                      //       iconSize: 20,
+                      //     ),
+                      //   ),
+                      // ),
+                    ],
+                  ),
+                  const SizedBox(height: 10),
+                  Text(' ${_userData['fname']} ${_userData['lName']}',
+                      style: Theme.of(context).textTheme.headlineMedium),
+                  Text('Email: ${_userData['email']}', style: Theme.of(context).textTheme.bodyMedium),
+                  const SizedBox(height: 10),
+
+                  /// -- BUTTON
+                  SizedBox(
+                    width: 180,
+                    child: ElevatedButton(
+                      onPressed: () {
+                          _editProfile();
+                        },
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.deepPurple, side: BorderSide.none, shape: const StadiumBorder()),
+                      child: const Text("Edit Profile", style: TextStyle(color: Colors.white)),
                     ),
                   ),
+                  const SizedBox(height: 30),
+                  const Divider(),
+                  const SizedBox(height: 10),
+
+                  /// -- MENU
+                  ProfileMenuWidget(title: "Settings", icon: Icons.settings, onPress: () {}),
+                  ProfileMenuWidget(title: "Billing Details", icon: Icons.wallet, onPress: () {}),
+                  ProfileMenuWidget(title: "User Management", icon: Icons.manage_accounts, onPress: () {}),
+                  const Divider(),
+                  const SizedBox(height: 10),
+                  ProfileMenuWidget(title: "Information", icon: Icons.info, onPress: () {}),
+                  ProfileMenuWidget(
+                      title: "Logout",
+                      icon: Icons.logout,
+                      textColor: Colors.red,
+                      endIcon: false,
+                      onPress: () {
+                        _logout();
+                      }),
                 ],
               ),
-              const SizedBox(height: 10),
-              Text(' ${_userData['fname']} ${_userData['lName']}',
-                  style: Theme.of(context).textTheme.headlineMedium),
-              Text('Email: ${_userData['email']}', style: Theme.of(context).textTheme.bodyMedium),
-              const SizedBox(height: 10),
-              Text('Role: ${_userData['role']}', style: Theme.of(context).textTheme.bodyMedium),
-              const SizedBox(height: 20),
-
-              /// -- BUTTON
-              SizedBox(
-                width: 180,
-                child: ElevatedButton(
-                  onPressed: () {
-                      _editProfile();
-                    },
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.deepPurple, side: BorderSide.none, shape: const StadiumBorder()),
-                  child: const Text("Edit Profile", style: TextStyle(color: Colors.white)),
-                ),
+            ),
+          ): const Center(
+              child: CircularProgressIndicator(),
               ),
-              const SizedBox(height: 30),
-              const Divider(),
-              const SizedBox(height: 10),
-
-              /// -- MENU
-              ProfileMenuWidget(title: "Settings", icon: Icons.settings, onPress: () {}),
-              ProfileMenuWidget(title: "Billing Details", icon: Icons.wallet, onPress: () {}),
-              ProfileMenuWidget(title: "User Management", icon: Icons.manage_accounts, onPress: () {}),
-              const Divider(),
-              const SizedBox(height: 10),
-              ProfileMenuWidget(title: "Information", icon: Icons.info, onPress: () {}),
-              ProfileMenuWidget(
-                  title: "Logout",
-                  icon: Icons.logout,
-                  textColor: Colors.red,
-                  endIcon: false,
-                  onPress: () {
-                    _logout();
-                  }),
-            ],
-          ),
-        ),
-      ): const Center(
-    child: CircularProgressIndicator(),
-    ),
-        bottomNavigationBar: buildFutureBuilder(context)
+        bottomNavigationBar: bottomNavbar(context)
     );
   }
 }

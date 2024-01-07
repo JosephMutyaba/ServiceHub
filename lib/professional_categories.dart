@@ -12,19 +12,25 @@ class MyApp24 extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Profession Categories'),
+          title:  Text('Profession Categories',
+              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+              )
+          ),
           actions: [
             IconButton(
-              icon: const Icon(Icons.exit_to_app),
+              icon: const Icon(Icons.exit_to_app,
+                  color: Colors.white),
               onPressed: () async {
                 await FirebaseAuth.instance.signOut();
-                
               },
             ),
           ],
+          backgroundColor: Colors.deepPurple.shade700,
         ),
         body: ProfessionsGrid(),
-          bottomNavigationBar: buildFutureBuilder(context)
+          bottomNavigationBar: bottomNavbar(context)
 
       ),
     );

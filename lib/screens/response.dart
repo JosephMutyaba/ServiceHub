@@ -222,7 +222,7 @@ class Response extends StatelessWidget {
             ),
           ),
         ),
-        bottomNavigationBar: buildFutureBuilder(context)
+        bottomNavigationBar: bottomNavbar(context)
     );
   }
 }

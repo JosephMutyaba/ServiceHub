@@ -12,7 +12,13 @@ class ProfessionalListPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Professionals in $selectedProfession'),
+        title: Text('Professionals in $selectedProfession',
+            style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                )),
+        backgroundColor: Colors.deepPurple.shade700,
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: FutureBuilder(
         future: _fetchProfessionalData(),
@@ -144,7 +150,7 @@ class ProfessionalListPage extends StatelessWidget {
       return snapshot.docs.map((doc) => doc.data()).toList();
     } catch (error) {
       //print('Error fetching professional data: $error');
-      throw error;
+      rethrow;
     }
   }
 }

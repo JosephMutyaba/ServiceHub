@@ -49,6 +49,7 @@ dependencies:
   form_builder_validators: ^9.1.0
   fluttertoast: ^8.2.4
   provider: 
+  flutter_svg: ^2.0.9
   
 
 dev_dependencies:

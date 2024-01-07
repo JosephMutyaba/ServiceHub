@@ -102,6 +102,8 @@ class _RegisterPageState extends State<RegisterPage> {
         if (!_offerService) {
           _professionDescriptionController.text = '';
         }
+        int hourlyRate = _offerService ? int.parse(_hourlyRateController.text.trim()) : 0;
+
 
         authService.addUser(
           signedUpUser!,
@@ -234,10 +236,10 @@ class _RegisterPageState extends State<RegisterPage> {
                         height: 35,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(100),
-                            color: Colors.deepPurple),
+                            color: Colors.black.withOpacity(0.5)),
                         child: IconButton(
                           icon: const Icon(Icons.camera_alt),
-                          color: Colors.black,
+                          color: Colors.white,
                           onPressed: () {
                             selectImage();
                           },
@@ -600,7 +602,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       bottom: 10,
                     ),
                     decoration: BoxDecoration(
-                      color: Colors.blue,
+                      color: Colors.deepPurple.shade900,
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: const Text(
@@ -629,10 +631,10 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                     GestureDetector(
                       onTap: widget.showLoginPage,
-                      child: const Text(
+                      child: Text(
                         " Login here",
                         style: TextStyle(
-                          color: Colors.blue,
+                          color: Colors.deepPurple.shade900,
                           fontSize: 15,
                           fontWeight: FontWeight.bold,
                         ),
