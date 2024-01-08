@@ -50,6 +50,7 @@ dependencies:
   fluttertoast: ^8.2.4
   provider: 
   flutter_svg: ^2.0.9
+  flutter_launcher_icons: ^0.13.1
   
 
 dev_dependencies:
@@ -93,17 +94,16 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
+  fonts:
+      - family: Poppins
+        fonts:
+          - asset: assets/fonts/Poppins-Regular.ttf
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+flutter_launcher_icons:
+  remove_alpha_ios: true
+  resize_behavior: cover
+  android: true
+  ios: true
+  image_path: "assets/screens/images/logo.png"

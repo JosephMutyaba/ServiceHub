@@ -46,10 +46,12 @@ class _SendWorkRequestPageState extends State<SendWorkRequestPage> {
         title: Text('Send Work Request',
             style: Theme.of(context).textTheme.headlineMedium?.copyWith(
               color: Colors.white,
-              fontWeight: FontWeight.bold,
+              fontWeight: FontWeight.w600,
+              fontFamily: 'Poppins',
+              fontSize: 23,
             )
         ),
-        backgroundColor: Colors.deepPurple.shade700,
+        backgroundColor: const Color(0xff755dc1),
         iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: Padding(
@@ -57,7 +59,13 @@ class _SendWorkRequestPageState extends State<SendWorkRequestPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('Describe the work:'),
+            const Text('Describe the work:',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontFamily: 'Poppins',
+                  fontWeight: FontWeight.w600,
+                )
+            ),
             TextField(controller: descriptionController,
               maxLines: null,
               keyboardType: TextInputType.multiline,
@@ -65,15 +73,31 @@ class _SendWorkRequestPageState extends State<SendWorkRequestPage> {
                 hintText: 'Enter a description of the work',
               ),
               textInputAction: TextInputAction.newline,
+              style: const TextStyle(
+                fontSize: 16,
+                fontFamily: 'Poppins',
+                fontWeight: FontWeight.w500,
+              ),
 
             ),
             const SizedBox(height: 16),
-            const Text('Budget:'),
+            const Text('Budget:',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontFamily: 'Poppins',
+                  fontWeight: FontWeight.w600,
+                ),),
             TextField(controller: budgetController,
               keyboardType: TextInputType.number,
               decoration: const InputDecoration(
-                hintText: 'UGX 0',
+                prefixText: 'UGX ',
+                hintText: 'Enter your budget',
               ),
+              style: const TextStyle(
+                fontSize: 16,
+                fontFamily: 'Poppins',
+                fontWeight: FontWeight.w500,
+              )
 
 
             ),
@@ -83,9 +107,22 @@ class _SendWorkRequestPageState extends State<SendWorkRequestPage> {
                 // Step 3: Send the work request
                  sendWorkRequest();
               },
-              child: const Text('Send Request'),
+              style: ElevatedButton.styleFrom(
+                foregroundColor: const Color(0xff755dc1),
+                backgroundColor: Colors.deepPurple[50],
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(50),
+                ),
+
+              ),
+              child: const Text('Send Request',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.w600,
+                  )
             ),
-          ],
+            )],
         ),
       ),
     );
@@ -100,6 +137,7 @@ void sendWorkRequest() async {
     await notifyProfessional(description, budget);
 
     // Navigate to the ChatPage
+    if(!mounted) return;
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(

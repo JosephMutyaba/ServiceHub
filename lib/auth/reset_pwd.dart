@@ -50,7 +50,14 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 243, 239, 239),
       appBar: AppBar(
-        title: const Text("Reset password"),
+        title: const Text("Reset password",
+          style: TextStyle(
+            color: Colors.white,
+            fontFamily: 'Poppins',
+            fontWeight: FontWeight.w500,
+            fontSize: 25,
+          ),
+        ),
         leading: IconButton(
           // ignore: prefer_const_constructors
           icon: Icon(Icons.arrow_back),
@@ -59,63 +66,80 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
             Navigator.of(context).pop();
           },
         ),
+        backgroundColor: const Color(0xFF755DC1),
+        iconTheme: const IconThemeData(
+          color: Colors.white,
+        )
       ),
-      body: FormBuilder(
-        key: _formKey,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // ignore: prefer_const_constructors
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: const Text(
-                "Type below your registered email to which password reset link should be sent",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  // fontWeight: FontWeight.bold,
-                  fontSize: 20,
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                padding: const EdgeInsets.only(left: 10),
-                decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 247, 248, 248),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: FormBuilderTextField(
-                  validator: FormBuilderValidators.compose([
-                    FormBuilderValidators.required(),
-                    FormBuilderValidators.email(),
-                  ]),
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  keyboardType: TextInputType.emailAddress,
-                  name: 'email',
-                  controller: _emailController,
-                  decoration: const InputDecoration(
-                    hintText: 'Email',
-                    border: InputBorder.none,
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/screens/images/vector-3.png"), // Replace with your image path
+            // fit: BoxFit.fill,
+            scale: 0.5,
+            alignment: Alignment.topCenter,
+            opacity: 0.9,
+          ),
+
+        ),
+        child: FormBuilder(
+          key: _formKey,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              // ignore: prefer_const_constructors
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: const Text(
+                  "Type below your registered email to which password reset link should be sent",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 20,
                   ),
                 ),
               ),
-            ),
-            MaterialButton(
-              color: Colors.blue,
-              onPressed: (){
-                if(_formKey.currentState!.saveAndValidate()){
-                  sendResetLink();
-                }
-              },
-              child: const Text(
-                "Send Reset Link",
-                style: TextStyle(
-                  color: Colors.white,
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  padding: const EdgeInsets.only(left: 10),
+                  decoration: BoxDecoration(
+                    color: const Color.fromARGB(255, 247, 248, 248),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: FormBuilderTextField(
+                    validator: FormBuilderValidators.compose([
+                      FormBuilderValidators.required(),
+                      FormBuilderValidators.email(),
+                    ]),
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    keyboardType: TextInputType.emailAddress,
+                    name: 'email',
+                    controller: _emailController,
+                    decoration: const InputDecoration(
+                      hintText: 'Email',
+                      border: InputBorder.none,
+                    ),
+                  ),
                 ),
               ),
-            ),
-          ],
+              const SizedBox(height: 20),
+              MaterialButton(
+                color: const Color(0xFF755DC1),
+                onPressed: (){
+                  if(_formKey.currentState!.saveAndValidate()){
+                    sendResetLink();
+                  }
+                },
+                child: const Text(
+                  "Send Reset Link",
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

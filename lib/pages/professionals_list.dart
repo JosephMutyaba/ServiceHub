@@ -12,12 +12,14 @@ class ProfessionalListPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Professionals in $selectedProfession',
+        title: Text('${selectedProfession}s',
             style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                   color: Colors.white,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w600,
+              fontFamily: 'Poppins',
+              fontSize: 23,
                 )),
-        backgroundColor: Colors.deepPurple.shade700,
+        backgroundColor: const Color(0xFF755DC1),
         iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: FutureBuilder(
@@ -80,7 +82,8 @@ class ProfessionalListPage extends StatelessWidget {
                                   professional['fname'] ?? '',
                                   style: const TextStyle(
                                     fontSize: 18.0,
-                                    fontWeight: FontWeight.bold,
+                                    fontWeight: FontWeight.w600,
+                                    fontFamily: 'Poppins',
                                   ),
                                 ),
                                 const SizedBox(
@@ -90,21 +93,43 @@ class ProfessionalListPage extends StatelessWidget {
                                   professional['lName'] ?? '',
                                   style: const TextStyle(
                                     fontSize: 18.0,
-                                    fontWeight: FontWeight.bold,
+                                    fontWeight: FontWeight.w600,
+                                    fontFamily: 'Poppins',
                                   ),
                                 ),
                               ],
                             ),
-                            Text(professional['address'] ?? ''),
+                            const SizedBox(height: 5),
                             Row(
                               children: [
-                                const Text(
-                                  "Likes: ",
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                                Text(professional['likes'].toString() ?? ''),
-                              ],
-                            ),
+                              Text(professional['address'] ?? '',
+                                  style: const TextStyle(
+                                    fontSize: 13.0,
+                                    fontWeight: FontWeight.w400,
+                                    fontFamily: 'Poppins',
+                                  )
+                              ),
+                              const SizedBox(width: 15),
+                              Row(
+                                children: [
+                                  const Text(
+                                    "Likes: ",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      fontFamily: 'Poppins',),
+                                  ),
+                                  Text(professional['likes'].toString() ?? ''
+                                      ,
+                                      style: const TextStyle(
+                                        fontSize: 13.0,
+                                        fontWeight: FontWeight.w400,
+                                        fontFamily: 'Poppins',
+                                      )
+                                  ),
+                                ],
+                              ),
+
+                            ]),
                             ElevatedButton(
                               onPressed: () {
                                 Navigator.push(
@@ -117,7 +142,20 @@ class ProfessionalListPage extends StatelessWidget {
                                   ),
                                 );
                               },
-                              child: const Text('Connect'),
+                              style: ElevatedButton.styleFrom(
+                                foregroundColor: Colors.white,
+                                backgroundColor: const Color(0xFF755DC1),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8.0),
+                                ),
+                              ),
+                              child: const Text('Connect',
+                                  style: TextStyle(
+                                    fontSize: 13.0,
+                                    fontWeight: FontWeight.w600,
+                                    fontFamily: 'Poppins',
+                                  )
+                              ),
                             ),
                           ],
                         ),

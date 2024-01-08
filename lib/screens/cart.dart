@@ -68,7 +68,7 @@ class Cart extends StatelessWidget {
           ),
         ],
       ),
-      bottomNavigationBar: bottomNavbar(context),
+      bottomNavigationBar: bottomNavbar(context, 3),
     );
   }
 }

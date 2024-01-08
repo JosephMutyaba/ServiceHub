@@ -146,8 +146,17 @@ class _EditProfilePageState extends State<UpdateProfileScreen> {
       appBar: AppBar(
         leading: IconButton(onPressed: () {
           Navigator.pop(context);
-        }, icon: const Icon(Icons.arrow_back_ios)),
-        title: Text("Edit Profile", style: Theme.of(context).textTheme.headlineMedium),
+          }, icon: const Icon(Icons.arrow_back_ios)),
+        title: Text("Edit Profile",
+            style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+              color: Colors.white,
+              fontSize: 25,
+              fontWeight: FontWeight.w600,
+              fontFamily: 'Poppins'
+            )
+        ),
+        backgroundColor: const Color(0xFF755DC1),
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -211,11 +220,18 @@ class _EditProfilePageState extends State<UpdateProfileScreen> {
                         decoration:  InputDecoration(
                             labelText: "FirstName",
                             floatingLabelStyle: TextStyle(
-                              color: Colors.deepPurple.shade900
+                              color: Colors.deepPurple.shade900,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w500
                             ),
                             prefixIcon: const Icon(Icons.person),
                           border: InputBorder.none
                         ),
+                        style: const TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.w500,
+                          fontFamily: 'Poppins'
+                        )
                       ),
                     ),
                     const SizedBox(height: 10),
@@ -234,11 +250,18 @@ class _EditProfilePageState extends State<UpdateProfileScreen> {
                         decoration: InputDecoration(
                             labelText: "LastName",
                             floatingLabelStyle: TextStyle(
-                              color: Colors.deepPurple.shade900
+                              color: Colors.deepPurple.shade900,
+                              fontWeight: FontWeight.w500,
+                              fontFamily: 'Poppins'
                             ),
                             prefixIcon: const Icon(Icons.person_outline),
                             border: InputBorder.none
                         ),
+                        style: const TextStyle(
+                            fontSize: 17,
+                            fontWeight: FontWeight.w500,
+                            fontFamily: 'Poppins'
+                        )
                       ),
                     ),
                     const SizedBox(height: 10),
@@ -263,11 +286,19 @@ class _EditProfilePageState extends State<UpdateProfileScreen> {
                               decoration:  InputDecoration(
                                   labelText: "Description",
                                   floatingLabelStyle: TextStyle(
-                                      color: Colors.deepPurple.shade900
+                                      color: Colors.deepPurple.shade900,
+                                      fontWeight: FontWeight.w500,
+                                      fontFamily: 'Poppins'
                                   ),
                                   prefixIcon: const Icon(Icons.description),
                                   border: InputBorder.none
                               ),
+                              textInputAction: TextInputAction.newline,
+                              style: const TextStyle(
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: 'Poppins'
+                              )
                             ),
                           ),
                           const SizedBox(height: 10),
@@ -289,12 +320,19 @@ class _EditProfilePageState extends State<UpdateProfileScreen> {
                               decoration:  InputDecoration(
                                   labelText: "Hourly Rate",
                                   floatingLabelStyle: TextStyle(
-                                      color: Colors.deepPurple.shade900
+                                      color: Colors.deepPurple.shade900,
+                                      fontWeight: FontWeight.w500,
+                                    fontFamily: 'Poppins'
                                   ),
                                   prefixText: "UGX ",
                                   prefixIcon: const Icon(Icons.monetization_on),
                                   border: InputBorder.none
                               ),
+                              style: const TextStyle(
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: 'Poppins'
+                              )
                             ),
                           ),
                           const SizedBox(height: 10)
@@ -317,11 +355,18 @@ class _EditProfilePageState extends State<UpdateProfileScreen> {
                         decoration:  InputDecoration(
                             labelText: "Phone",
                             floatingLabelStyle: TextStyle(
-                                color: Colors.deepPurple.shade900
+                                color: Colors.deepPurple.shade900,
+                                fontWeight: FontWeight.w500,
+                                fontFamily: 'Poppins'
                             ),
                             prefixIcon: const Icon(Icons.phone),
                             border: InputBorder.none
                         ),
+                        style: const TextStyle(
+                            fontSize: 17,
+                            fontWeight: FontWeight.w500,
+                            fontFamily: 'Poppins'
+                        )
                       ),
                     ),
                     const SizedBox(height: 10),
@@ -340,11 +385,18 @@ class _EditProfilePageState extends State<UpdateProfileScreen> {
                         decoration: InputDecoration(
                             labelText:"Address",
                             floatingLabelStyle: TextStyle(
-                              color: Colors.deepPurple.shade900
+                              color: Colors.deepPurple.shade900,
+                                  fontWeight: FontWeight.w500,
+                              fontFamily: 'Poppins'
                             ),
                             prefixIcon: const Icon(Icons.home),
                             border: InputBorder.none
                         ),
+                        style: const TextStyle(
+                            fontSize: 17,
+                            fontWeight: FontWeight.w500,
+                            fontFamily: 'Poppins'
+                        )
                       ),
                     ),
                     const SizedBox(height: 10),
@@ -378,41 +430,18 @@ class _EditProfilePageState extends State<UpdateProfileScreen> {
                           }
                         },
                         style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.deepPurple,
+                            backgroundColor: const Color(0xFF755DC1),
                             side: BorderSide.none,
                             shape: const StadiumBorder()),
-                        child: const Text("Save", style: TextStyle(color: Colors.white)),
+                        child: const Text("Save",
+                            style: TextStyle(color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                            fontFamily: 'Poppins'
+                            )),
                       ),
                     ),
                     const SizedBox(height: 30),
-
-                    // -- Created Date and Delete Button
-                    // Row(
-                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //   children: [
-                    //     const Text.rich(
-                    //       TextSpan(
-                    //         text: "tJoined",
-                    //         style: TextStyle(fontSize: 12),
-                    //         children: [
-                    //           TextSpan(
-                    //               text: "tJoinedAt",
-                    //               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12))
-                    //         ],
-                    //       ),
-                    //     ),
-                    //     ElevatedButton(
-                    //       onPressed: () {},
-                    //       style: ElevatedButton.styleFrom(
-                    //           backgroundColor: Colors.redAccent.withOpacity(0.1),
-                    //           elevation: 0,
-                    //           foregroundColor: Colors.red,
-                    //           shape: const StadiumBorder(),
-                    //           side: BorderSide.none),
-                    //       child: const Text("tDelete"),
-                    //     ),
-                    //   ],
-                    // )
                   ],
                 ),
               ),
