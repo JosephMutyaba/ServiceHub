@@ -22,7 +22,7 @@ class MyApp24 extends StatelessWidget {
           ),
           actions: [
             IconButton(
-              icon: const Icon(Icons.exit_to_app,
+              icon: const Icon(Icons.logout,
                   color: Colors.white),
               onPressed: () async {
                 await FirebaseAuth.instance.signOut();

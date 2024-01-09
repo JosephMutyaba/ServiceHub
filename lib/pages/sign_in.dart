@@ -24,30 +24,17 @@ class _homePageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormBuilderState>();
   bool _passwordVisible = false;
 
-
   // ignore: non_constant_identifier_names
   Future SignIn() async {
-    showDialog(
-      context: context,
-      builder: ((context) {
-        return const Center(child: CircularProgressIndicator());
-      }),
-    );
+    
 
     final authService = Provider.of<AuthService>(context, listen: false);
-    //use of state manager provider
-    try {
-      authService.signInWithEmailAndPassword(
-          _emailController.text.trim(), _passwordController.text.trim());
-    } catch (e) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(e.toString())));
-    }
+    authService.signInWithEmailAndPassword(
+          _emailController.text.trim(), _passwordController.text.trim(), context);
+    
 
-    //dismiss the circular progress indicator
-    // ignore: use_build_context_synchronously
-    Navigator.of(context).pop();
-    Utils.toast("Login Successful");
+    //Navigator.of(context).pop();
+    // Utils.toast("Login Successful");
   }
 
   @override
@@ -79,11 +66,10 @@ class _homePageState extends State<LoginPage> {
                       height: 457,
                     ),
                   ),
-
-                   SafeArea(
+                  SafeArea(
                       child: Text(
                     "Log In",
-                        style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                    style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                           color: const Color(0xFF755DC1),
                           fontFamily: 'Poppins',
                           fontWeight: FontWeight.w600,
@@ -105,7 +91,7 @@ class _homePageState extends State<LoginPage> {
                         color: const Color.fromARGB(255, 247, 248, 248),
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      child:  FormBuilderTextField(
+                      child: FormBuilderTextField(
                         validator: FormBuilderValidators.compose([
                           FormBuilderValidators.required(),
                           FormBuilderValidators.email(),
@@ -115,24 +101,24 @@ class _homePageState extends State<LoginPage> {
                         name: 'email',
                         controller: _emailController,
                         decoration: const InputDecoration(
-                          labelText: 'Email',
-                          hintText: 'Enter your email',
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            borderSide: BorderSide(
-                              width: 1,
-                              color: Color(0xFF837E93),
+                            labelText: 'Email',
+                            hintText: 'Enter your email',
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)),
+                              borderSide: BorderSide(
+                                width: 1,
+                                color: Color(0xFF837E93),
+                              ),
                             ),
-                          ),
                             focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(10)),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)),
                               borderSide: BorderSide(
                                 width: 1,
                                 color: Color(0xFF9F7BFF),
                               ),
-                            )
-                        ),
-
+                            )),
                         style: const TextStyle(
                           fontFamily: 'Poppins',
                           fontWeight: FontWeight.w500,
@@ -149,46 +135,48 @@ class _homePageState extends State<LoginPage> {
                         color: const Color.fromARGB(255, 247, 248, 248),
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      child:  FormBuilderTextField(
+                      child: FormBuilderTextField(
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         validator: FormBuilderValidators.compose([
-                          FormBuilderValidators.required(errorText: 'Enter your password'),
+                          FormBuilderValidators.required(
+                              errorText: 'Enter your password'),
                           FormBuilderValidators.minLength(8),
                         ]),
                         name: 'password',
                         controller: _passwordController,
                         obscureText: !_passwordVisible,
                         decoration: InputDecoration(
-                          labelText: 'Password',
-                          hintText: 'Enter you password',
-                          border: InputBorder.none,
-                          suffixIcon: IconButton(
-                            icon: Icon(
-                              _passwordVisible
-                                  ? Icons.visibility_off
-                                  : Icons.visibility,
+                            labelText: 'Password',
+                            hintText: 'Enter you password',
+                            border: InputBorder.none,
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                _passwordVisible
+                                    ? Icons.visibility_off
+                                    : Icons.visibility,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  _passwordVisible = !_passwordVisible;
+                                });
+                              },
                             ),
-                            onPressed: () {
-                              setState(() {
-                                _passwordVisible = !_passwordVisible;
-                              });
-                            },
-                          ),
                             enabledBorder: const OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(10)),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)),
                               borderSide: BorderSide(
                                 width: 1,
                                 color: Color(0xFF837E93),
                               ),
                             ),
                             focusedBorder: const OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(10)),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)),
                               borderSide: BorderSide(
                                 width: 1,
                                 color: Color(0xFF9F7BFF),
                               ),
-                            )
-                        ),
+                            )),
                         style: const TextStyle(
                           fontFamily: 'Poppins',
                           fontWeight: FontWeight.w500,
@@ -204,13 +192,12 @@ class _homePageState extends State<LoginPage> {
                       children: [
                         InkWell(
                           onTap: () {
-
                             Navigator.push(context,
                                 MaterialPageRoute(builder: (context) {
                               return const ResetPasswordPage();
                             }));
                           },
-                          child:  Text(
+                          child: Text(
                             "Forgot your password?",
                             style: TextStyle(
                               color: Colors.deepPurple.shade900,
@@ -226,7 +213,7 @@ class _homePageState extends State<LoginPage> {
                     height: 20,
                   ),
                   InkWell(
-                    onTap: (){
+                    onTap: () {
                       if (_formKey.currentState!.saveAndValidate()) {
                         if (kDebugMode) {
                           print(_formKey.currentState!.value);
@@ -252,7 +239,7 @@ class _homePageState extends State<LoginPage> {
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 20,
-                         fontFamily: 'Poppins',
+                          fontFamily: 'Poppins',
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -274,7 +261,7 @@ class _homePageState extends State<LoginPage> {
                       ),
                       GestureDetector(
                         onTap: widget.showRegisterPage,
-                        child:  Text(
+                        child: Text(
                           " Register here",
                           style: TextStyle(
                             color: Colors.deepPurple.shade900,

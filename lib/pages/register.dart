@@ -83,18 +83,18 @@ class _RegisterPageState extends State<RegisterPage> {
   Future register() async {
     if (passwordEqual()) {
       try {
-        showDialog(
-          context: context,
-          builder: ((context) {
-            return const Center(child: CircularProgressIndicator());
-          }),
-        );
+        // showDialog(
+        //   context: context,
+        //   builder: ((context) {
+        //     return const Center(child: CircularProgressIndicator());
+        //   }),
+        // );
 
         final authService = Provider.of<AuthService>(context, listen: false);
 
         User? signedUpUser = await authService.signUpWithEmailAndPassword(
           _passwordController.text.trim(),
-          _emailController.text.trim(),
+          _emailController.text.trim(), context
         );
 
         String imageUrl =
@@ -123,7 +123,7 @@ class _RegisterPageState extends State<RegisterPage> {
         );
 
         if (!mounted) return;
-        Navigator.of(context).pop();
+        //Navigator.of(context).pop();
         Utils.toast("Registration Successful");
       } on FirebaseAuthException catch (e) {
         // ignore: use_build_context_synchronously
