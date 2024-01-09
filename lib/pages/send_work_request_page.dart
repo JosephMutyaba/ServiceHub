@@ -54,75 +54,77 @@ class _SendWorkRequestPageState extends State<SendWorkRequestPage> {
         backgroundColor: const Color(0xff755dc1),
         iconTheme: const IconThemeData(color: Colors.white),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text('Describe the work:',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontFamily: 'Poppins',
-                  fontWeight: FontWeight.w600,
-                )
-            ),
-            TextField(controller: descriptionController,
-              maxLines: null,
-              keyboardType: TextInputType.multiline,
-              decoration: const InputDecoration(
-                hintText: 'Enter a description of the work',
-              ),
-              textInputAction: TextInputAction.newline,
-              style: const TextStyle(
-                fontSize: 16,
-                fontFamily: 'Poppins',
-                fontWeight: FontWeight.w500,
-              ),
-
-            ),
-            const SizedBox(height: 16),
-            const Text('Budget:',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontFamily: 'Poppins',
-                  fontWeight: FontWeight.w600,
-                ),),
-            TextField(controller: budgetController,
-              keyboardType: TextInputType.number,
-              decoration: const InputDecoration(
-                prefixText: 'UGX ',
-                hintText: 'Enter your budget',
-              ),
-              style: const TextStyle(
-                fontSize: 16,
-                fontFamily: 'Poppins',
-                fontWeight: FontWeight.w500,
-              )
-
-
-            ),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () {
-                // Step 3: Send the work request
-                 sendWorkRequest();
-              },
-              style: ElevatedButton.styleFrom(
-                foregroundColor: const Color(0xff755dc1),
-                backgroundColor: Colors.deepPurple[50],
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(50),
-                ),
-
-              ),
-              child: const Text('Send Request',
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text('Describe the work:',
                   style: TextStyle(
                     fontSize: 16,
                     fontFamily: 'Poppins',
                     fontWeight: FontWeight.w600,
                   )
-            ),
-            )],
+              ),
+              TextField(controller: descriptionController,
+                maxLines: null,
+                keyboardType: TextInputType.multiline,
+                decoration: const InputDecoration(
+                  hintText: 'Enter a description of the work',
+                ),
+                textInputAction: TextInputAction.newline,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontFamily: 'Poppins',
+                  fontWeight: FontWeight.w500,
+                ),
+      
+              ),
+              const SizedBox(height: 16),
+              const Text('Budget:',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.w600,
+                  ),),
+              TextField(controller: budgetController,
+                keyboardType: TextInputType.number,
+                decoration: const InputDecoration(
+                  prefixText: 'UGX ',
+                  hintText: 'Enter your budget',
+                ),
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontFamily: 'Poppins',
+                  fontWeight: FontWeight.w500,
+                )
+      
+      
+              ),
+              const SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: () {
+                  // Step 3: Send the work request
+                   sendWorkRequest();
+                },
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: const Color(0xff755dc1),
+                  backgroundColor: Colors.deepPurple[50],
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(50),
+                  ),
+      
+                ),
+                child: const Text('Send Request',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w600,
+                    )
+              ),
+              )],
+          ),
         ),
       ),
     );
