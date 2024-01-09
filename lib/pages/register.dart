@@ -399,7 +399,14 @@ class _RegisterPageState extends State<RegisterPage> {
                                 items: professions.map((profession) {
                                   return DropdownMenuItem(
                                     value: profession,
-                                    child: Text(profession),
+                                    child: Text(profession,
+                                      style: const TextStyle(
+                                        fontFamily: 'Poppins',
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 16,
+                                        color: Colors.black,
+                                      )
+                                    ),
                                   );
                                 }).toList(),
                                 onChanged: (value) {
