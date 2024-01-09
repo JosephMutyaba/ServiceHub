@@ -96,48 +96,100 @@ class _ChatPageState extends State<ChatPage> {
 
 
   //build message item
-  Widget _buildMessageItem(DocumentSnapshot document) {
-    Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+  // Widget _buildMessageItem(DocumentSnapshot document) {
+  //   Map<String, dynamic> data = document.data() as Map<String, dynamic>;
 
-    // message alignment
-    var alignment = (data['senderId']) == _firebaseAuth.currentUser!.uid
-        ? Alignment.bottomRight
-        : Alignment.centerLeft;
+  //   // message alignment
+  //   var alignment = (data['senderId']) == _firebaseAuth.currentUser!.uid
+  //       ? Alignment.centerRight
+  //       : Alignment.centerLeft;
 
-    return Padding(
-      padding: const EdgeInsets.all(2.0),
-      child: Container(      
-        alignment: alignment,
-        child: Column(
-          crossAxisAlignment:
-              (data['senderId'] == _firebaseAuth.currentUser!.uid)
-                  ? CrossAxisAlignment.end
-                  : CrossAxisAlignment.start,
-          children: [
-            //Text(data['senderEmail']),
-            Container(
-              decoration: BoxDecoration(
-                color: (data['senderId'] == _firebaseAuth.currentUser!.uid)
-                    ? const Color.fromARGB(255, 5, 113, 202)
-                    : Colors.green,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Text(
-                  data['message'],
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 15,
+  //   return Padding(
+  //     padding: const EdgeInsets.all(2.0),
+  //     child: Container(      
+  //       alignment: alignment,
+  //       child: Column(
+  //         crossAxisAlignment:
+  //             (data['senderId'] == _firebaseAuth.currentUser!.uid)
+  //                 ? CrossAxisAlignment.end
+  //                 : CrossAxisAlignment.start,
+  //         children: [
+  //           //Text(data['senderEmail']),
+  //           Container(
+  //             decoration: BoxDecoration(
+  //               color: (data['senderId'] == _firebaseAuth.currentUser!.uid)
+  //                   ? const Color.fromARGB(255, 5, 113, 202)
+  //                   : Colors.green,
+  //               borderRadius: BorderRadius.circular(10),
+  //             ),
+  //             child: Padding(
+  //               padding: const EdgeInsets.all(10.0),
+  //               child: Text(
+  //                 data['message'],
+  //                 style: const TextStyle(
+  //                   color: Colors.white,
+  //                   fontSize: 15,
+  //                 ),
+  //               ),
+  //             ),
+  //           ),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
+
+
+Widget _buildMessageItem(DocumentSnapshot document) {
+  Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+
+  // message alignment
+  var alignment = (data['senderId']) == _firebaseAuth.currentUser!.uid
+      ? Alignment.centerRight
+      : Alignment.centerLeft;
+
+  return Padding(
+    padding: const EdgeInsets.all(2.0),
+    child: Container(
+      alignment: alignment,
+      child: Column(
+        crossAxisAlignment:
+            (data['senderId'] == _firebaseAuth.currentUser!.uid)
+                ? CrossAxisAlignment.end
+                : CrossAxisAlignment.start,
+        children: [
+          //Text(data['senderEmail']),
+          Container(
+            constraints: BoxConstraints(
+              maxWidth: MediaQuery.of(context).size.width * 0.7, // Set a maximum width for the message container
+            ),
+            decoration: BoxDecoration(
+              color: (data['senderId'] == _firebaseAuth.currentUser!.uid)
+                  ? const Color.fromARGB(255, 5, 113, 202)
+                  : Colors.green,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Wrap(
+                children: [
+                  Text(
+                    data['message'],
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 15,
+                    ),
                   ),
-                ),
+                ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
-    );
-  }
+    ),
+  );
+}
+
 
   //build message input
   Widget _buildMessageInput() {

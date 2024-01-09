@@ -32,6 +32,8 @@ class _UserPageState extends State<UserPage> {
             tooltip: 'Logout',
             onPressed: () async {
               await FirebaseAuth.instance.signOut();
+              if(!mounted) return;
+                Navigator.of(context).popUntil((route) => route.isFirst);
             },
           )
         ],
