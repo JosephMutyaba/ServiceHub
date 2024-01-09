@@ -43,10 +43,12 @@ class _ProfessionalDetailsPageState extends State<ProfessionalDetailsPage> {
           '${widget.professionalData['fname']} ${widget.professionalData['lName']}',
             style: Theme.of(context).textTheme.headlineMedium?.copyWith(
               color: Colors.white,
-              fontWeight: FontWeight.bold,
+              fontWeight: FontWeight.w600,
+              fontSize: 23,
+              fontFamily: 'Poppins'
             )
         ),
-        backgroundColor: Colors.deepPurple.shade700,
+        backgroundColor: const Color(0xFF755DC1),
         iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: SingleChildScrollView(
@@ -120,24 +122,19 @@ class _ProfessionalDetailsPageState extends State<ProfessionalDetailsPage> {
                             children: [
                               Text(
                                 'Hourly Rate: ',
-                                style: safeGoogleFont(
-                                  'SF Pro Text',
-                                  fontSize: 27 * ffem,
-                                  fontWeight: FontWeight.w500,
-                                  height: 1.3463542461 * ffem / fem,
-                                  letterSpacing: -0.8029167056 * fem,
-                                  color: const Color(0xff2d0c57),
+                                style: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontSize: 22 * ffem,
+                                  fontWeight: FontWeight.w600,
+                                )
                                 ),
-                              ),
+
                               Text(
                                 'UGX ${widget.professionalData['hourlyRate']}',
-                                style: safeGoogleFont(
-                                  'SF Pro Text',
-                                  fontSize: 27 * ffem,
-                                  fontWeight: FontWeight.w400,
-                                  height: 1.3463542461 * ffem / fem,
-                                  letterSpacing: -0.8029167056 * fem,
-                                  color: const Color(0xff2d0c57),
+                                style: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontSize: 22 * ffem,
+                                  fontWeight: FontWeight.w500,
                                 ),
                               ),
                             ],
@@ -157,13 +154,10 @@ class _ProfessionalDetailsPageState extends State<ProfessionalDetailsPage> {
                             children: [
                               Text(
                                 'Description:',
-                                style: safeGoogleFont(
-                                  'SF Pro Text',
-                                  fontSize: 27 * ffem,
-                                  fontWeight: FontWeight.w500,
-                                  height: 1 * ffem / fem,
-                                  letterSpacing: -0.4099999964 * fem,
-                                  color: const Color(0xff2d0c57),
+                                style: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontSize: 22 * ffem,
+                                  fontWeight: FontWeight.w600,
                                 ),
                               ),
                               const SizedBox(
@@ -171,39 +165,33 @@ class _ProfessionalDetailsPageState extends State<ProfessionalDetailsPage> {
                               ),
                               Text(
                                 '${widget.professionalData['description']}',
-                                style: safeGoogleFont(
-                                  'SF Pro Text',
-                                  fontSize: 22 * ffem,
+                                style: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontSize: 20 * ffem,
                                   fontWeight: FontWeight.w400,
-                                  height: 1 * ffem / fem,
-                                  letterSpacing: -0.4099999964 * fem,
-                                  color: const Color(0xff2d0c57),
                                 ),
                               ),
                               const SizedBox(height: 8),
                               Row(
 
                                 children: [
+
                                   Text(
                                     'Likes: ',
-                                    style: safeGoogleFont(
-                                      'SF Pro Text',
-                                      fontSize: 27 * ffem,
-                                      fontWeight: FontWeight.w500,
-                                      height: 1 * ffem / fem,
-                                      letterSpacing: -0.4099999964 * fem,
-                                      color: const Color(0xff2d0c57),
+                                    style: TextStyle(
+                                      fontFamily: 'Poppins',
+                                      fontSize: 22 * ffem,
+                                      fontWeight: FontWeight.w600,
                                     ),
                                   ),
+                                  Icon(Icons.thumb_up_alt,color: Colors.deepPurple.shade700,),
+                                  const SizedBox(width: 10),
                                   Text(
                                     '$likes',
-                                    style: safeGoogleFont(
-                                      'SF Pro Text',
+                                    style: TextStyle(
+                                      fontFamily: 'Poppins',
                                       fontSize: 22 * ffem,
                                       fontWeight: FontWeight.w400,
-                                      height: 1 * ffem / fem,
-                                      letterSpacing: -0.4099999964 * fem,
-                                      color: const Color(0xff2d0c57),
                                     ),
                                   ),
                                 ],
@@ -272,7 +260,15 @@ class _ProfessionalDetailsPageState extends State<ProfessionalDetailsPage> {
 
                                     label: Text(!toggle
                                         ? 'Like'
-                                        : 'Unlike'), // Display Like or Unlike
+                                        : 'Unlike'),
+                                    style: ElevatedButton.styleFrom(
+                                      foregroundColor: const Color(0xff755dc1),
+                                      backgroundColor:Colors.deepPurple[50],
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(50),
+                                      ),
+                                    ),
                                   ),
                                 ],
                               ),
@@ -288,7 +284,22 @@ class _ProfessionalDetailsPageState extends State<ProfessionalDetailsPage> {
                                   );
                                 },
                                 icon: const Icon(Icons.work),
-                                label: const Text('Send Work Request'),
+                                label: const Text('Send Work Request',
+                                    style: TextStyle(
+                                        color: Colors.deepPurple,
+                                        fontWeight: FontWeight.w500,
+                                      fontSize: 15,
+                                        fontFamily: 'Poppins'
+                                    )
+
+                                ),
+                                style: ElevatedButton.styleFrom(
+                                  foregroundColor: const Color(0xff755dc1),
+                                  backgroundColor: Colors.deepPurple[50],
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(50),
+                                  ),
+                                ),
                               )
                             ],
                           ),

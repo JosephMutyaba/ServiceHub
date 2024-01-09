@@ -101,40 +101,52 @@ class Utils {
 }
 
 pickImage(ImageSource source) async {
-  final ImagePicker _picker = ImagePicker();
-  XFile? file = await _picker.pickImage(source: source);
+  final ImagePicker picker = ImagePicker();
+  XFile? file = await picker.pickImage(source: source);
   if(file != null) {
     return await file.readAsBytes();
   }
   return Utils.toast("No image selected");
 }
 
-BottomNavigationBar bottomNavbar(BuildContext context) {
+BottomNavigationBar bottomNavbar(BuildContext context, int selectedIndex) {
   return BottomNavigationBar(
     type: BottomNavigationBarType.fixed,
+    currentIndex: selectedIndex,
+    backgroundColor: Colors.white,
+    selectedItemColor: Colors.deepPurple,
+    unselectedItemColor: Colors.grey[600],
+    selectedLabelStyle: safeGoogleFont(
+      "Source Sans 3",
+      fontSize: 12,
+      fontWeight: FontWeight.w600,
+    ),
+    unselectedLabelStyle: safeGoogleFont(
+      "Source Sans 3",
+      fontSize: 12,
+      fontWeight: FontWeight.w600,
+    ),
+
     items: const <BottomNavigationBarItem>[
       BottomNavigationBarItem(
-        icon: Icon(Icons.home, color: Colors.deepPurple),
+        icon: Icon(Icons.home),
         label: 'Home',
       ),
 
       BottomNavigationBarItem(
-        icon: Icon(Icons.person, color: Colors.deepPurple),
+        icon: Icon(Icons.person),
         label: 'Profile',
       ),
       BottomNavigationBarItem(
-        icon: Icon(Icons.message_sharp, color: Colors.deepPurple),
+        icon: Icon(Icons.message_sharp),
         label: 'Chat',
       ),
       // BottomNavigationBarItem(
-      //   icon: Icon(Icons.shopping_cart, color: Colors.deepPurple),
+      //   icon: Icon(Icons.shopping_cart),
       //   label: 'Cart',
       // ),
     ],
-    currentIndex: 0,
-    selectedItemColor: Colors.deepPurple,
-    unselectedItemColor: Colors.grey, // Color for unselected items
-     // Set unselected label color
+
     onTap: (index) {
       if (index == 0) {
         Navigator.of(context).popUntil((route) => route.isFirst);
@@ -148,10 +160,10 @@ BottomNavigationBar bottomNavbar(BuildContext context) {
         }
        }
   // else if (index == 3) {
-      //   if (ModalRoute.of(context)?.settings.arguments is! Cart) {
-      //     Navigator.push(context, MaterialPageRoute(builder: (context) => const Cart()));
-      //   }
-      // }
+  //       if (ModalRoute.of(context)?.settings.arguments is! Cart) {
+  //         Navigator.push(context, MaterialPageRoute(builder: (context) => const Cart()));
+  //       }
+  //     }
     },
   );
 }

@@ -137,9 +137,9 @@ class _ProfilePageState extends State<ProfileScreen> {
             const SizedBox(width: 10,),
             OutlinedButton(onPressed: () {
               Navigator.pop(context);
-            }, child: const Text("No")
-            )],
-          actionsAlignment: MainAxisAlignment.center,
+                }, child: const Text("No")
+                )],
+              actionsAlignment: MainAxisAlignment.center,
 
         ));
   }
@@ -153,10 +153,12 @@ class _ProfilePageState extends State<ProfileScreen> {
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.headlineMedium?.copyWith(
               color: Colors.white,
-              fontWeight: FontWeight.bold,
+              fontWeight: FontWeight.w600,
+              fontFamily: 'Poppins',
+              fontSize: 23,
             )
         ),
-        backgroundColor: Colors.deepPurple.shade700,
+        backgroundColor: const Color(0xFF755DC1),
         iconTheme: const IconThemeData(color: Colors.white),
       ),
 
@@ -179,30 +181,17 @@ class _ProfilePageState extends State<ProfileScreen> {
                               : const AssetImage('assets/screens/profile.png') as ImageProvider<Object>,
                         )
                         ),
-
-                      // Positioned(
-                      //   bottom: 0,
-                      //   right: 0,
-                      //   child: Container(
-                      //     width: 35,
-                      //     height: 35,
-                      //     decoration: BoxDecoration(borderRadius: BorderRadius.circular(100),
-                      //         color: Colors.purple,
-                      //     ),
-                      //     child: const IconButton(
-                      //       icon:Icon(Icons.edit),
-                      //       onPressed: null,
-                      //       color: Colors.black,
-                      //       iconSize: 20,
-                      //     ),
-                      //   ),
-                      // ),
                     ],
                   ),
                   const SizedBox(height: 10),
                   Text(' ${_userData['fname']} ${_userData['lName']}',
                       style: Theme.of(context).textTheme.headlineMedium),
-                  Text('Email: ${_userData['email']}', style: Theme.of(context).textTheme.bodyMedium),
+                  Text('Email: ${_userData['email']}',
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: Colors.grey.shade700,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 16,
+                      )),
                   const SizedBox(height: 10),
 
                   /// -- BUTTON
@@ -213,8 +202,16 @@ class _ProfilePageState extends State<ProfileScreen> {
                           _editProfile();
                         },
                       style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.deepPurple, side: BorderSide.none, shape: const StadiumBorder()),
-                      child: const Text("Edit Profile", style: TextStyle(color: Colors.white)),
+                          backgroundColor: const Color(0xFF755DC1),
+                          side: BorderSide.none,
+                          shape: const StadiumBorder()),
+                      child: const Text("Edit Profile",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
+                              fontFamily: 'Poppins'
+                          )),
                     ),
                   ),
                   const SizedBox(height: 30),
@@ -242,7 +239,7 @@ class _ProfilePageState extends State<ProfileScreen> {
           ): const Center(
               child: CircularProgressIndicator(),
               ),
-        bottomNavigationBar: bottomNavbar(context)
+        bottomNavigationBar: bottomNavbar(context,1)
     );
   }
 }

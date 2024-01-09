@@ -15,7 +15,9 @@ class MyApp24 extends StatelessWidget {
           title:  Text('Profession Categories',
               style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                     color: Colors.white,
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 23.0,
+                fontFamily: 'Poppins'
               )
           ),
           actions: [
@@ -27,10 +29,10 @@ class MyApp24 extends StatelessWidget {
               },
             ),
           ],
-          backgroundColor: Colors.deepPurple.shade700,
+            backgroundColor: const Color(0xFF755DC1),
         ),
         body: ProfessionsGrid(),
-          bottomNavigationBar: bottomNavbar(context)
+          bottomNavigationBar: bottomNavbar(context,0)
 
       ),
     );
@@ -140,10 +142,11 @@ class ProfessionCard extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
                   profession,
-                  style: const TextStyle(
-                    fontSize: 18.0,
+                  style:  TextStyle(
+                    fontSize: 17.0,
                     fontWeight: FontWeight.w700,
-                    color: Color(0xff2d0c57),
+                    color: Colors.deepPurple.shade700,
+                    fontFamily: 'Poppins'
                   ),
                 ),
               ),

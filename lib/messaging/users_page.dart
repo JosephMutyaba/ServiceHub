@@ -21,7 +21,9 @@ class _UserPageState extends State<UserPage> {
         title: Text("Chats",
             style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                   color: Colors.white,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w600,
+                  fontFamily: 'Poppins',
+                  fontSize: 23,
             )
         ),
         actions: [
@@ -33,13 +35,13 @@ class _UserPageState extends State<UserPage> {
             },
           )
         ],
-        backgroundColor: Colors.deepPurple.shade700,
+        backgroundColor: const Color(0xFF755DC1),
         iconTheme: const IconThemeData(
           color: Colors.white,
         ),
       ),
       body: _userList(),
-      bottomNavigationBar: bottomNavbar(context),
+      bottomNavigationBar: bottomNavbar(context,2),
     );
     
   }
@@ -121,14 +123,17 @@ class _UserPageState extends State<UserPage> {
      return ListTile(
        visualDensity: VisualDensity.compact,
         onTap: navigateToChat,
-       title: Text("${data['fname']} ${data['lName']}",style: const TextStyle(
-                     fontSize: 20,
-
-                    fontWeight: FontWeight.bold,
-                   ),),
+       title: Text("${data['fname']} ${data['lName']}",
+         style: const TextStyle(
+                     fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                    fontFamily: 'Poppins',
+                   ),
+         selectionColor: Colors.deepPurple[50],
+       ),
        leading: CircleAvatar(
                  backgroundImage: NetworkImage(data["imageUrl"] ?? 'assets/images/screens/profile.png'),
-                 radius: 29.0,
+                 radius: 30.0,
                ),
      );
   }
