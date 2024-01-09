@@ -40,9 +40,15 @@ class _ChatPageState extends State<ChatPage> {
         title: Text(widget.receiverUserEmail,
             style: Theme.of(context).textTheme.headlineMedium?.copyWith(
               color: Colors.white,
-              fontWeight: FontWeight.bold,
-            )),
-        backgroundColor: Colors.deepPurple.shade700,
+              fontWeight: FontWeight.w500,
+              fontFamily: 'Poppins',
+              fontSize: 18,
+
+            ),
+
+          ),
+
+        backgroundColor: const Color(0xff755dc1),
         iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: Padding(
@@ -149,11 +155,13 @@ class _ChatPageState extends State<ChatPage> {
                 border: Border.all(color: Colors.deepPurple.shade100)
               ),
               child: TextField(
+                keyboardType: TextInputType.multiline,
                 controller: _messageController,
                 decoration:  const InputDecoration(
                   hintText: 'type message...',
                   border: InputBorder.none,
                 ),
+                textInputAction: TextInputAction.newline,
               ),
             ),
           ),

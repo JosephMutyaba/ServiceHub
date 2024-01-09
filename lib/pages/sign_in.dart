@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:myapp/auth/auth_service.dart';
 import 'package:myapp/auth/reset_pwd.dart';
@@ -35,10 +34,6 @@ class _homePageState extends State<LoginPage> {
       }),
     );
 
-    // await FirebaseAuth.instance.signInWithEmailAndPassword(
-    //   email: _emailController.text.trim(),
-    //   password: _passwordController.text.trim(),
-    // );
     final authService = Provider.of<AuthService>(context, listen: false);
     //use of state manager provider
     try {
@@ -68,13 +63,6 @@ class _homePageState extends State<LoginPage> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-         appBar: AppBar(
-          title:  Text("Login",
-            textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.headlineMedium,
-          ),
-
-        ),
         backgroundColor: const Color.fromARGB(255, 243, 239, 239),
         body: Center(
           child: FormBuilder(
@@ -83,25 +71,22 @@ class _homePageState extends State<LoginPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  // const Icon(
-                  //   Icons.android,
-                  //   size: 60,
-                  // ),
-                  Center(
+                  Padding(
+                    padding: const EdgeInsets.only(left: 15, top: 15),
                     child: Image.asset(
-                      "assets/screens/images/logo-no-background.png",
-                      height: 100,
-                      width: 300,
-                      scale: 0.5,
+                      "assets/screens/images/vector-1.png",
+                      width: 413,
+                      height: 457,
                     ),
                   ),
 
                    SafeArea(
                       child: Text(
-                    "Hello welcome!",
+                    "Log In",
                         style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                          color: Colors.deepPurple.shade900,
-                          fontWeight: FontWeight.bold,
+                          color: const Color(0xFF755DC1),
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.w600,
                         ),
 
                     // style: TextStyle(
@@ -130,8 +115,28 @@ class _homePageState extends State<LoginPage> {
                         name: 'email',
                         controller: _emailController,
                         decoration: const InputDecoration(
-                          hintText: 'Email',
-                          border: InputBorder.none,
+                          labelText: 'Email',
+                          hintText: 'Enter your email',
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            borderSide: BorderSide(
+                              width: 1,
+                              color: Color(0xFF837E93),
+                            ),
+                          ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(10)),
+                              borderSide: BorderSide(
+                                width: 1,
+                                color: Color(0xFF9F7BFF),
+                              ),
+                            )
+                        ),
+
+                        style: const TextStyle(
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.w500,
+                          fontSize: 18,
                         ),
                       ),
                     ),
@@ -154,7 +159,8 @@ class _homePageState extends State<LoginPage> {
                         controller: _passwordController,
                         obscureText: !_passwordVisible,
                         decoration: InputDecoration(
-                          hintText: 'Password',
+                          labelText: 'Password',
+                          hintText: 'Enter you password',
                           border: InputBorder.none,
                           suffixIcon: IconButton(
                             icon: Icon(
@@ -168,6 +174,25 @@ class _homePageState extends State<LoginPage> {
                               });
                             },
                           ),
+                            enabledBorder: const OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(10)),
+                              borderSide: BorderSide(
+                                width: 1,
+                                color: Color(0xFF837E93),
+                              ),
+                            ),
+                            focusedBorder: const OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(10)),
+                              borderSide: BorderSide(
+                                width: 1,
+                                color: Color(0xFF9F7BFF),
+                              ),
+                            )
+                        ),
+                        style: const TextStyle(
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.w500,
+                          fontSize: 18,
                         ),
                       ),
                     ),
@@ -177,8 +202,9 @@ class _homePageState extends State<LoginPage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        GestureDetector(
+                        InkWell(
                           onTap: () {
+
                             Navigator.push(context,
                                 MaterialPageRoute(builder: (context) {
                               return const ResetPasswordPage();
@@ -189,7 +215,7 @@ class _homePageState extends State<LoginPage> {
                             style: TextStyle(
                               color: Colors.deepPurple.shade900,
                               fontSize: 15,
-                              fontWeight: FontWeight.bold,
+                              fontWeight: FontWeight.w600,
                             ),
                           ),
                         ),
@@ -199,7 +225,7 @@ class _homePageState extends State<LoginPage> {
                   const SizedBox(
                     height: 20,
                   ),
-                  GestureDetector(
+                  InkWell(
                     onTap: (){
                       if (_formKey.currentState!.saveAndValidate()) {
                         if (kDebugMode) {
@@ -218,7 +244,7 @@ class _homePageState extends State<LoginPage> {
                       padding: const EdgeInsets.only(
                           left: 135, right: 135, top: 10, bottom: 10),
                       decoration: BoxDecoration(
-                        color: Colors.deepPurple.shade900,
+                        color: const Color(0xFF755DC1),
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: const Text(
@@ -226,7 +252,8 @@ class _homePageState extends State<LoginPage> {
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 20,
-                          // fontWeight: FontWeight.bold,
+                         fontFamily: 'Poppins',
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
                     ),
@@ -240,8 +267,9 @@ class _homePageState extends State<LoginPage> {
                       const Text(
                         "Have no account?",
                         style: TextStyle(
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.w500,
                           fontSize: 15,
+                          fontFamily: 'Poppins',
                         ),
                       ),
                       GestureDetector(
@@ -251,11 +279,15 @@ class _homePageState extends State<LoginPage> {
                           style: TextStyle(
                             color: Colors.deepPurple.shade900,
                             fontSize: 15,
-                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
                       ),
                     ],
+                  ),
+                  const SizedBox(
+                    height: 20,
                   ),
                 ],
               ),
