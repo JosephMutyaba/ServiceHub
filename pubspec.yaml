@@ -1,5 +1,5 @@
 name: myapp
-description: A exported flutter project from FUNCTION12
+description: Connects various service providers to clients.
 
 
 # The following line prevents the package from being accidentally published to
@@ -51,6 +51,9 @@ dependencies:
   provider: 
   flutter_svg: ^2.0.9
   flutter_launcher_icons: ^0.13.1
+  rename_app: ^1.3.1
+  change_app_package_name: ^1.1.0
+  flutter_native_splash: ^2.3.9
   
 
 dev_dependencies:
@@ -103,7 +106,16 @@ flutter:
   # see https://flutter.dev/custom-fonts/#from-packages
 flutter_launcher_icons:
   remove_alpha_ios: true
-  resize_behavior: cover
-  android: true
+  android: "launcher_icon"
   ios: true
-  image_path: "assets/screens/images/logo.png"
+  image_path: "assets/screens/icon.png"
+
+flutter_native_splash:
+    color: "#755DC1"
+    image: "assets/screens/icon.png"
+    android: true
+    ios: true
+
+    android_12:
+      image: "assets/screens/icon.png"
+      color: "#755DC1"
