@@ -38,7 +38,7 @@ Contributions are welcome! If you have ideas for improvements or new features, p
 ## Getting Started
 
 To get started with ServiceHub, follow these steps:
-1.Fork the repo to your account
+1. Fork the repo to your account
 2. Clone the repository: `git clone https://github.com/your-username/ServiceHub.git`
 3. Install dependencies: `flutter pub get`
 4. Run the app: `flutter run`
